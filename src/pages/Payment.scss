@@ -1,0 +1,166 @@
+.payment {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(../asserts/circle.png);
+    background-position: 50% 50%;
+    background-size: 900px 800px;
+    background-repeat: no-repeat;
+    &__wrapper {
+        margin: 0 15px;
+        padding: 10px;
+        font-size: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+.initial {
+    display: flex;
+
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    &__info {
+        span {
+            color: green;
+            text-decoration: underline;
+        }
+        margin-bottom: 20px;
+    }
+    &__variants {
+        margin-bottom: 20px;
+    }
+    &__button {
+        background-color: #062530;
+        border-radius: 15px;
+        button {
+            font-size: 20px;
+            line-height: 20px;
+            color: white;
+            padding: 10px;
+        }
+    }
+}
+.payitems {
+    h2 {
+        margin-bottom: 10px;
+    }
+    &__box {
+        display: flex;
+        font-size: 20px;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+    &__item {
+        box-shadow: 1px 1px 1px 1px black;
+        padding: 10px;
+        color: white;
+        font-weight: bold;
+        border-radius: 15px;
+    }
+    &__item-sber {
+        background-color: green;
+    }
+    &__item-tinkof {
+        background-color: yellow;
+        color: black;
+    }
+    &__item-yu {
+        background-color: rgb(47, 45, 188);
+    }
+    &__item-spb {
+        color: black;
+    }
+}
+
+.payloading {
+    display: flex;
+    gap: 5px;
+    flex-direction: column;
+    align-items: center;
+
+    &__text {
+        max-width: 400px;
+        text-align: center;
+    }
+}
+.succes {
+    display: block;
+    text-align: center;
+    &__text {
+        h2 {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        a {
+            text-decoration: underline;
+            color: black;
+        }
+    }
+}
+@media (max-width: 767px) {
+    .payment {
+        background-size: 700px 600px;
+        &__wrapper {
+            font-size: 20px;
+        }
+    }
+    .initial {
+        &__info {
+            margin-bottom: 10px;
+        }
+        &__variants {
+            margin-bottom: 10px;
+        }
+        &__button {
+            button {
+                font-size: 15px;
+                line-height: 15px;
+            }
+        }
+    }
+    .payloading {
+        &__text {
+            max-width: 350px;
+        }
+    }
+    .payitems {
+        &__box {
+            font-size: 15px;
+            gap: 5px;
+        }
+    }
+}
+
+@media (max-width: 360px) {
+    .payment {
+        background-size: 400px 350px;
+
+        &__wrapper {
+            font-size: 15px;
+        }
+    }
+    .payloading {
+        &__text {
+            max-width: 200px;
+        }
+    }
+    .payitems {
+        &__box {
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+        &__item {
+            min-width: 90px;
+            font-size: 10px;
+            text-align: center;
+        }
+    }
+}

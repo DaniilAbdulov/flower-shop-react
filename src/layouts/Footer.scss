@@ -1,0 +1,19 @@
+footer {
+    flex: 0 0 auto;
+}
+.footer {
+    height: 50px;
+    background-color: #060825;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__row {
+    }
+    &__links {
+        display: flex;
+        gap: 5px;
+    }
+    &__link {
+    }
+}

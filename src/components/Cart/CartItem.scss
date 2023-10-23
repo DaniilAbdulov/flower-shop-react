@@ -1,0 +1,108 @@
+.cart-item {
+    padding: 10px;
+    margin-bottom: 10px;
+    &__wrapper {
+        padding: 10px;
+        box-shadow: 0px 0px 1px 1px black;
+        border-radius: 15px;
+    }
+    &__row {
+        display: flex;
+        margin-bottom: 10px;
+        font-size: 25px;
+    }
+    &__image {
+        max-width: 400px;
+        margin-right: 10px;
+        img {
+            border-radius: 20px 0px 20px 0px;
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+    &__body {
+        display: flex;
+        flex-direction: column;
+        font-size: 25px;
+    }
+    &__avaibale {
+        margin-bottom: 10px;
+    }
+    &__icon {
+        text-align: right;
+        font-size: 20px;
+    }
+    &__price {
+        color: green;
+        font-weight: 700;
+        margin-bottom: 5px;
+    }
+    &__title {
+        flex: 1 1 auto;
+    }
+    &__counter {
+        margin: 0 auto;
+        border: 2px solid #060606;
+        border-radius: 10px;
+        padding: 5px 15px;
+        cursor: pointer;
+        span {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+    }
+}
+@media (max-width: 1024px) {
+    .cart-item {
+        &__image {
+            max-width: 250px;
+        }
+        &__body {
+            font-size: 20px;
+        }
+    }
+}
+@media (max-width: 683px) {
+    .cart-item {
+        &__image {
+            max-width: 300px;
+        }
+        &__body {
+            font-size: 25px;
+        }
+        &__counter {
+            font-size: 20px;
+        }
+    }
+}
+@media (max-width: 587px) {
+    .cart-item {
+        &__image {
+            max-width: 250px;
+        }
+        &__body {
+            font-size: 20px;
+        }
+        &__counter {
+            font-size: 18px;
+        }
+    }
+}
+@media (max-width: 500px) {
+    .cart-item {
+        &__row {
+            flex-direction: column;
+            align-items: center;
+        }
+        &__image {
+            max-width: 300px;
+            margin-bottom: 10px;
+        }
+        &__body {
+            font-size: 18px;
+        }
+        &__counter {
+            font-size: 14px;
+        }
+    }
+}
