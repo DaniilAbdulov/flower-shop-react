@@ -43,7 +43,7 @@ function Payment() {
                             </div>
                         </div>
                         <div className="initial__button">
-                            <button onClick={changeBlocks}>Оплатить</button>
+                            <button onClick={changeBlocks}>Оплатить!</button>
                         </div>
                     </div>
                     <div
