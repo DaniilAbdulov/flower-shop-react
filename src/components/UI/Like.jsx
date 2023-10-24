@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-function Like() {
-    const [isFavorite, setIsFavorite] = useState(false);
+function Like({ like }) {
+    const [isFavorite, setIsFavorite] = useState(like);
     function toggleFavorite() {
         setIsFavorite(!isFavorite);
     }

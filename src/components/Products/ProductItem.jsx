@@ -3,8 +3,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import "./ProductItem.scss";
 import Like from "../UI/Like";
 
-function ProductItem(props) {
-    console.log(props.value);
+function ProductItem() {
     return (
         <>
             <div className="product">
@@ -17,9 +16,7 @@ function ProductItem(props) {
                         alt="Flower"
                     />
                 </div>
-                <div className="product__title">
-                    {props.value ? `${props.value} букет №1` : "Букет номер 1"}
-                </div>
+                <div className="product__title">Букет номер 1</div>
 
                 <div className="product__values">
                     <div className="product__price">1000 ₽</div>
