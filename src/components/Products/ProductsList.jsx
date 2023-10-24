@@ -1,44 +1,21 @@
 import ProductItem from "./ProductItem";
 
-function ProductsList() {
+function ProductsList({ value }) {
     return (
-        <div className="asrt__cards">
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-            <ProductItem />
-        </div>
+        <>
+            <ProductItem value={value} />
+            <ProductItem value={value} />
+            <ProductItem value={value} />
+            <ProductItem value={value} />
+            <ProductItem value={value} />
+            <ProductItem value={value} />
+            <ProductItem value={value} />
+            <ProductItem value={value} />
+            <ProductItem value={value} />
+            <ProductItem value={value} />
+            <ProductItem value={value} />
+            <ProductItem value={value} />
+        </>
     );
 }
 export default ProductsList;

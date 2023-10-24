@@ -39,7 +39,9 @@ function Assortiment() {
                             </button>
                         ))}
                     </div>
-                    <ProductsList />
+                    <div className="asrt__cards">
+                        <ProductsList />
+                    </div>
                 </div>
             </div>
         </>

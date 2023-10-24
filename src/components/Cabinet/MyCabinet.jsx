@@ -11,6 +11,7 @@ function MyCabinet() {
     ];
     const handleButtonClick = (id) => {
         setActiveButton(id);
+        console.log(buttons[activeButton]);
     };
     return (
         <>
@@ -59,7 +60,13 @@ function MyCabinet() {
                             </button>
                         ))}
                     </div>
-                    <ProductsList />
+                    <div className="asrt__cards">
+                        {activeButton === 0 ? (
+                            <ProductsList value="Избранный" />
+                        ) : (
+                            <ProductsList value="Купленный" />
+                        )}
+                    </div>
                 </div>
             </div>
         </>
