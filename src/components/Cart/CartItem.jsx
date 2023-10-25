@@ -2,11 +2,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import "./CartItem.scss";
 import { useState } from "react";
-function CartItem() {
+function CartItem({ item }) {
+    const { id, price, title, description, img } = item;
+    console.log(item);
     const [count, setCount] = useState(1);
-    const [avaibale, setAvaibale] = useState(10);
+    const [available, setAvailable] = useState(item.available);
     function increment() {
-        if (avaibale > count) {
+        if (available > count) {
             setCount(count + 1);
         }
     }
@@ -15,25 +17,27 @@ function CartItem() {
             setCount(count - 1);
         }
     }
-
+    function deleteProductFromCart(productid) {
+        alert(`product width id ${productid} deleted from cart`);
+    }
     return (
         <>
             <div className="cart-item">
                 <div className="cart-item__wrapper">
                     <div className="cart-item__row">
                         <div className="cart-item__image">
-                            <img
-                                src="https://thypix.com/wp-content/uploads/beautiful-flower-bouquets-25.jpg"
-                                alt="flower"
-                            />
+                            <img src={img} alt="flower" />
                         </div>
                         <div className="cart-item__body">
-                            <div className="cart-item__price">1000</div>
+                            <div className="cart-item__price">{price} ₽</div>
                             <div className="cart-item__title">
-                                Lorem ipsum solid sdfsdf sdfsdfsd sdfsdfd
+                                <h2>{title}</h2>
                             </div>
-                            <div className="cart-item__avaibale">
-                                В наличии: {avaibale}
+                            <div className="cart-item__description">
+                                <h3>{description}</h3>
+                            </div>
+                            <div className="cart-item__available">
+                                В наличии: <span>{available}</span>
                             </div>
                             <div className="cart-item__counter">
                                 <FontAwesomeIcon
@@ -49,7 +53,10 @@ function CartItem() {
                         </div>
                     </div>
                     <div className="cart-item__icon">
-                        <FontAwesomeIcon icon={faTrash} />
+                        <FontAwesomeIcon
+                            icon={faTrash}
+                            onClick={() => deleteProductFromCart(id)}
+                        />
                     </div>
                 </div>
             </div>

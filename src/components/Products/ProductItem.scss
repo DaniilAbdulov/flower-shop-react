@@ -10,6 +10,7 @@
     border-radius: 15px;
     position: relative;
     margin: 5px;
+    min-height: 364px;
     &__like {
         position: absolute;
         right: 30px;
@@ -68,6 +69,7 @@
     .product {
         max-width: 200px;
         padding: 0 10px 10px;
+        min-height: 332px;
         &__like {
             right: 20px;
             top: 5px;
@@ -96,6 +98,7 @@
     .product {
         max-width: 150px;
         padding: 0 10px 10px;
+        min-height: 237px;
         &__like {
             right: 15px;
             top: 5px;

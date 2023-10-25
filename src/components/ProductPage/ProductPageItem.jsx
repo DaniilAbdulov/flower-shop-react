@@ -1,6 +1,10 @@
 import { NavLink } from "react-router-dom";
 function ProductPageItem({ product }) {
-    const { img, title, description, sold, price, available } = product;
+    const { id, img, title, description, sold, price, available } = product;
+    function addProductToCard() {
+        const idOfProduct = id;
+        alert(`Продукт с id ${idOfProduct} улетел в корзину`);
+    }
     return (
         <>
             <div className="ppbody__image">
@@ -21,9 +25,7 @@ function ProductPageItem({ product }) {
                     </p>
                 </div>
                 <div className="ppbody__button">
-                    <button>
-                        <NavLink to="/cart">В корзину</NavLink>
-                    </button>
+                    <button onClick={addProductToCard}>В корзину</button>
                 </div>
             </div>
         </>

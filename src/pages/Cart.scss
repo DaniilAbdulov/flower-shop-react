@@ -4,11 +4,11 @@
     padding: 0px 20px;
     &__body {
         margin-right: 10px;
-        flex: 1 0 70%;
+        flex: 1 0 60%;
     }
     &__list {
         overflow: auto;
-        max-height: 900px;
+        max-height: 100vh;
         margin-bottom: 20px;
     }
     &__result {

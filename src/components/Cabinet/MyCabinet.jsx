@@ -62,9 +62,9 @@ function MyCabinet() {
                     </div>
                     <div className="asrt__cards">
                         {activeButton === 0 ? (
-                            <ProductsList value="Избранный" />
+                            <ProductsList />
                         ) : (
-                            <ProductsList value="Купленный" />
+                            <ProductsList />
                         )}
                     </div>
                 </div>

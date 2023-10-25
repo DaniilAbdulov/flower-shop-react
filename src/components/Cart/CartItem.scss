@@ -10,10 +10,11 @@
         display: flex;
         margin-bottom: 10px;
         font-size: 25px;
+        justify-content: space-evenly;
     }
     &__image {
-        max-width: 400px;
         margin-right: 10px;
+        flex: 1 0 50%;
         img {
             border-radius: 20px 0px 20px 0px;
             width: 100%;
@@ -25,21 +26,33 @@
         flex-direction: column;
         font-size: 25px;
     }
-    &__avaibale {
+    &__available {
         margin-bottom: 10px;
+        span {
+            font-weight: bold;
+        }
     }
     &__icon {
         text-align: right;
         font-size: 20px;
+        cursor: pointer;
     }
     &__price {
         color: green;
         font-weight: 700;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
+        text-decoration: underline;
     }
     &__title {
+        margin-bottom: 10px;
+        font-weight: bold;
+        h2 {
+            text-align: left;
+        }
+    }
+    &__description {
         flex: 1 1 auto;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
     }
     &__counter {
         margin: 0 auto;
@@ -93,11 +106,12 @@
     .cart-item {
         &__row {
             flex-direction: column;
-            align-items: center;
         }
         &__image {
             max-width: 300px;
             margin-bottom: 10px;
+            margin-right: 0px;
+            align-self: center;
         }
         &__body {
             font-size: 18px;

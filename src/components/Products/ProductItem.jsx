@@ -18,7 +18,7 @@ function ProductItem(props) {
 
                 <div className="product__values">
                     <div className="product__price">{price} ₽</div>
-                    <NavLink to={`product/${id}`}>
+                    <NavLink to={`/product/${id}`}>
                         <button className="product__button">
                             <AiOutlineShoppingCart />
                         </button>

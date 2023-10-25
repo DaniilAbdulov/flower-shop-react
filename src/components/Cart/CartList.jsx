@@ -1,18 +1,14 @@
 import CartItem from "./CartItem";
+import data from "../../data/example";
 function CartList() {
     return (
         <>
             <ul className="cart__list">
-                <li>
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
-                    <CartItem />
-                </li>
+                {data.map((item) => (
+                    <li>
+                        <CartItem item={item} key={item.id} />
+                    </li>
+                ))}
             </ul>
         </>
     );
