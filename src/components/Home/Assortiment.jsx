@@ -2,20 +2,40 @@ import { useState } from "react";
 import ProductsList from "../Products/ProductsList";
 import BorderedFrame from "../UI/BorderedFrame";
 import "./Assortiment.scss";
+import data from "../../data/example";
 function Assortiment() {
     const [activeButton, setActiveButton] = useState(0);
-
-    const buttons = [
-        { id: 0, label: "Все" },
-        { id: 1, label: "Букеты" },
-        { id: 2, label: "Домашние цветы" },
-        { id: 3, label: "Уличные цветы" },
-        { id: 4, label: "Цветы" },
-    ];
+    const buttons = [{ id: 0, label: "Все" }];
+    function setNamesOfButtons(d) {
+        const set = new Set();
+        for (let i = 0; i < d.length; i++) {
+            set.add(data[i].category);
+        }
+        const categories = Array.from(set);
+        for (let i = 0; i < categories.length; i++) {
+            const newButton = {
+                id: i + 1,
+                label: `${categories[i]}`,
+            };
+            buttons.push(newButton);
+        }
+    }
+    //Нужно получить с сервера только названия категорий
+    setNamesOfButtons(data);
 
     const handleButtonClick = (id) => {
         setActiveButton(id);
     };
+
+    function filteredArray(data) {
+        return data.filter((item) => {
+            console.log(buttons[activeButton].label);
+
+            return item.category === buttons[activeButton].label;
+        });
+    }
+    let newArr = activeButton === 0 ? data : filteredArray(data);
+    console.log(newArr);
     return (
         <>
             <div className="wrapper">
@@ -40,7 +60,7 @@ function Assortiment() {
                         ))}
                     </div>
                     <div className="asrt__cards">
-                        <ProductsList />
+                        <ProductsList items={newArr} />
                     </div>
                 </div>
             </div>

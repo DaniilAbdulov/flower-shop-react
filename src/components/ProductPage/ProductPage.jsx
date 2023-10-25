@@ -1,20 +1,36 @@
-import ProductItem from "../Products/ProductItem";
 import "./ProductPage.scss";
-import MySwiper from "../UI/MySwiper";
 import ProductPageItem from "./ProductPageItem";
+import { useParams } from "react-router-dom";
+import ProductItem from "../Products/ProductItem";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/autoplay";
+import { FreeMode, Autoplay } from "swiper/modules";
+import data from "../../data/example";
 function ProductPage() {
+    const params = useParams();
+    const setOneProduct = (data) => {
+        for (let i = 0; i < data.length; i++) {
+            if (data[i].id === params.id) {
+                return data[i];
+            }
+        }
+    };
+    const product = setOneProduct(data);
+
     return (
         <div className="fc product-page" style={{ marginBottom: "0px" }}>
             <div className="fc__body ">
                 <div className="product-page__wrapper">
                     <div className="product-page__body ppbody">
-                        <ProductPageItem />
+                        <ProductPageItem product={product} />
                     </div>
                 </div>
 
                 <div className="advice">
                     <div className="advice__title">Советуем к покупке:</div>
-                    <MySwiper
+                    <Swiper
                         breakpoints={{
                             320: {
                                 slidesPerView: 2,
@@ -27,8 +43,23 @@ function ProductPage() {
                             },
                         }}
                         spaceBetween={10}
-                        value={<ProductItem />}
-                    ></MySwiper>
+                        centeredSlides={true}
+                        loop={true}
+                        autoplay={true}
+                        freeMode={true}
+                        speed={800}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        modules={[FreeMode, Autoplay]}
+                        className="mySwiper"
+                    >
+                        {data.map((item) => (
+                            <SwiperSlide>
+                                <ProductItem data={item} key={item.id} />
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
                 </div>
             </div>
         </div>

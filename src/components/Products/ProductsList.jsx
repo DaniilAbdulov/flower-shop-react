@@ -1,20 +1,11 @@
 import ProductItem from "./ProductItem";
 
-function ProductsList({ value }) {
+function ProductsList({ items }) {
     return (
         <>
-            <ProductItem value={value} />
-            <ProductItem value={value} />
-            <ProductItem value={value} />
-            <ProductItem value={value} />
-            <ProductItem value={value} />
-            <ProductItem value={value} />
-            <ProductItem value={value} />
-            <ProductItem value={value} />
-            <ProductItem value={value} />
-            <ProductItem value={value} />
-            <ProductItem value={value} />
-            <ProductItem value={value} />
+            {items.map((item) => (
+                <ProductItem data={item} key={item.id} />
+            ))}
         </>
     );
 }

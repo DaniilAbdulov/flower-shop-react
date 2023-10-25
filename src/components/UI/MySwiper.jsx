@@ -19,13 +19,7 @@ function MySwiper(props) {
                 }}
                 modules={[FreeMode, Autoplay]}
                 className="mySwiper"
-            >
-                <SwiperSlide>{props.value}</SwiperSlide>
-                <SwiperSlide>{props.value}</SwiperSlide>
-                <SwiperSlide>{props.value}</SwiperSlide>
-                <SwiperSlide>{props.value}</SwiperSlide>
-                <SwiperSlide>{props.value}</SwiperSlide>
-            </Swiper>
+            ></Swiper>
         </>
     );
 }

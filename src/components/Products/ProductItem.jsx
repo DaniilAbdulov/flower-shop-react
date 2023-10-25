@@ -3,24 +3,22 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import "./ProductItem.scss";
 import Like from "../UI/Like";
 
-function ProductItem() {
+function ProductItem(props) {
+    const { id, isFavorite, img, title, price } = props.data;
     return (
         <>
             <div className="product">
                 <div className="product__like">
-                    <Like />
+                    <Like like={isFavorite} />
                 </div>
                 <div className="product__image">
-                    <img
-                        src="https://thypix.com/wp-content/uploads/beautiful-flower-bouquets-25.jpg"
-                        alt="Flower"
-                    />
+                    <img src={img} alt="Flower" />
                 </div>
-                <div className="product__title">Букет номер 1</div>
+                <div className="product__title">{title}</div>
 
                 <div className="product__values">
-                    <div className="product__price">1000 ₽</div>
-                    <NavLink to="/product/id">
+                    <div className="product__price">{price} ₽</div>
+                    <NavLink to={`product/${id}`}>
                         <button className="product__button">
                             <AiOutlineShoppingCart />
                         </button>
