@@ -5,7 +5,6 @@ import "./App.scss";
 import Router from "./components/Router/Router";
 import MainLayout from "./layouts/MainLayout";
 import Footer from "./layouts/Footer";
-import Home from "./pages/Home";
 
 function App() {
     return (
