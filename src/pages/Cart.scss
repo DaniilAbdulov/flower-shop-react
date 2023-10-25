@@ -22,6 +22,9 @@
     .cart {
         flex-direction: column;
         position: relative;
+        &__body {
+            margin-right: 0px;
+        }
         &__result {
             position: sticky;
             bottom: 5px;
