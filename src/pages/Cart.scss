@@ -1,10 +1,10 @@
 .cart {
-    display: flex;
-    justify-content: center;
     padding: 0px 20px;
-    &__body {
-        margin-right: 10px;
-        flex: 1 0 60%;
+    &__row {
+        display: flex;
+    }
+    &__column {
+        flex: 0 1 50%;
     }
     &__list {
         overflow: auto;
@@ -20,9 +20,9 @@
 }
 @media (max-width: 683px) {
     .cart {
-        flex-direction: column;
         position: relative;
-        &__body {
+        &__row {
+            flex-direction: column;
             margin-right: 0px;
         }
         &__result {

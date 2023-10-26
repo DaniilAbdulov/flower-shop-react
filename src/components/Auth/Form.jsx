@@ -9,12 +9,12 @@ function Form() {
         setIsRegistration(!isRegistration);
     }
     return (
-        <>
+        <div className="form">
             {isRegistration && (
                 <Registration toggleTypeOfForm={toggleTypeOfForm} />
             )}
             {!isRegistration && <Login toggleTypeOfForm={toggleTypeOfForm} />}
-        </>
+        </div>
     );
 }
 

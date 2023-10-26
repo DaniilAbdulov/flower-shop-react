@@ -1,22 +1,6 @@
-.form {
-    padding: 10px 15px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    &__item {
-        display: flex;
-        flex-direction: column;
-    }
-}
 form {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     padding: 10px 15px;
     box-shadow: 1px 1px 1px 1px black;
-    min-width: 288px;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
@@ -45,5 +29,17 @@ form {
     p {
         margin-top: 10px;
         text-decoration: underline;
+    }
+}
+.form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    max-width: 350px;
+    &__item {
+        display: flex;
+        flex-direction: column;
     }
 }

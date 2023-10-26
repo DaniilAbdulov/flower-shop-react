@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useState } from "react";
 import {
     faVk,
     faInstagram,
@@ -6,8 +7,24 @@ import {
     faWhatsapp,
     faViber,
 } from "@fortawesome/free-brands-svg-icons";
+import "./Contact.scss";
 
 function Contacts() {
+    const [name, setName] = useState(null);
+    const [phone, setPhone] = useState(null);
+    const [message, setMessage] = useState(null);
+    function handleSubmitMessage(e) {
+        e.preventDefault();
+        const newMessage = {
+            name,
+            phone,
+            message,
+        };
+        console.log(newMessage);
+        setName("");
+        setPhone("");
+        setMessage("");
+    }
     return (
         <div className="wrapper">
             <div className="contact">
@@ -15,7 +32,8 @@ function Contacts() {
                     <div className="contact__column">
                         <div className="contact__text">
                             <h2>
-                                Для более подробной информации напишите нам !
+                                Для более подробной информации <br /> свяжитесь
+                                с нами
                             </h2>
                             <p>
                                 Отправьте нашему продавцу быстрое сообщение или
@@ -30,25 +48,105 @@ function Contacts() {
                         <div className="contact__social">
                             <ul>
                                 <li>
-                                    <FontAwesomeIcon icon={faVk} />
+                                    <a href="https://vk.com/" target="blank">
+                                        <FontAwesomeIcon
+                                            icon={faVk}
+                                            style={{ color: "#0072bc" }}
+                                        />
+                                    </a>
                                 </li>
                                 <li>
-                                    <FontAwesomeIcon icon={faInstagram} />
+                                    <a
+                                        href="https://www.instagram.com/"
+                                        target="blank"
+                                    >
+                                        <FontAwesomeIcon
+                                            icon={faInstagram}
+                                            style={{ color: "#E1306C" }}
+                                        />
+                                    </a>
                                 </li>
                                 <li>
-                                    <FontAwesomeIcon icon={faTelegram} />
+                                    <a
+                                        href="https://web.telegram.org/k/"
+                                        target="blank"
+                                    >
+                                        <FontAwesomeIcon
+                                            icon={faTelegram}
+                                            style={{ color: "#0088cc" }}
+                                        />
+                                    </a>
                                 </li>
                                 <li>
-                                    <FontAwesomeIcon icon={faWhatsapp} />
+                                    <a
+                                        href="https://www.whatsapp.com/"
+                                        target="blank"
+                                    >
+                                        <FontAwesomeIcon
+                                            icon={faWhatsapp}
+                                            style={{ color: "#43d854" }}
+                                        />
+                                    </a>
                                 </li>
                                 <li>
-                                    <FontAwesomeIcon icon={faViber} />
+                                    <a
+                                        href="https://www.viber.com/ru/"
+                                        target="blank"
+                                    >
+                                        <FontAwesomeIcon
+                                            icon={faViber}
+                                            style={{ color: "#7360F2" }}
+                                        />
+                                    </a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div className="contact__column">
-                        <div className="contact__form"></div>
+                        <div className="contact__form">
+                            <form onSubmit={handleSubmitMessage}>
+                                <h2>Отправьте нам сообщение</h2>
+                                <div className="form__item">
+                                    <label htmlFor="name">Ваше имя:</label>
+                                    <input
+                                        type="text"
+                                        id="name"
+                                        value={name}
+                                        onChange={(e) =>
+                                            setName(e.target.value)
+                                        }
+                                        required
+                                    />
+                                </div>
+                                <div className="form__item">
+                                    <label htmlFor="phone">
+                                        Номер телефона:
+                                    </label>
+                                    <input
+                                        type="phone"
+                                        id="phone"
+                                        value={phone}
+                                        onChange={(e) =>
+                                            setPhone(e.target.value)
+                                        }
+                                        required
+                                    />
+                                </div>
+                                <div className="form__item">
+                                    <label htmlFor="message">Сообщение:</label>
+                                    <input
+                                        type="text"
+                                        id="message"
+                                        value={message}
+                                        onChange={(e) =>
+                                            setMessage(e.target.value)
+                                        }
+                                        required
+                                    />
+                                </div>
+                                <button type="submit">Отправить</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>

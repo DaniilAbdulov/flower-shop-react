@@ -6,9 +6,7 @@ function Auth() {
             <div className="fc fc-auth">
                 <div className="fc__body">
                     <div className="wrapper">
-                        <div className="form">
-                            <Form />
-                        </div>
+                        <Form />
                     </div>
                 </div>
             </div>
