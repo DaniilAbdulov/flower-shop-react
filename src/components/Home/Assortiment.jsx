@@ -29,13 +29,10 @@ function Assortiment() {
 
     function filteredArray(data) {
         return data.filter((item) => {
-            console.log(buttons[activeButton].label);
-
             return item.category === buttons[activeButton].label;
         });
     }
     let newArr = activeButton === 0 ? data : filteredArray(data);
-    console.log(newArr);
     return (
         <>
             <div className="wrapper">

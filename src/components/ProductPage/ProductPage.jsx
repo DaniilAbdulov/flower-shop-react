@@ -55,8 +55,8 @@ function ProductPage() {
                         className="mySwiper"
                     >
                         {data.map((item) => (
-                            <SwiperSlide>
-                                <ProductItem data={item} key={item.id} />
+                            <SwiperSlide key={item.id}>
+                                <ProductItem data={item} />
                             </SwiperSlide>
                         ))}
                     </Swiper>

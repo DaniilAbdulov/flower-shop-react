@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ProductsList from "../Products/ProductsList";
 import "../Home/Assortiment.scss";
 import "./MyCabinet.scss";
+import data from "../../data/example";
 function MyCabinet() {
     const [activeButton, setActiveButton] = useState(0);
 
@@ -11,8 +12,14 @@ function MyCabinet() {
     ];
     const handleButtonClick = (id) => {
         setActiveButton(id);
-        console.log(buttons[activeButton]);
     };
+
+    function filteredArray(data) {
+        return data.filter((item) => {
+            return item.isFavorite;
+        });
+    }
+    let newArr = activeButton === 0 ? filteredArray(data) : data;
     return (
         <>
             <div className="cabinet">
@@ -61,11 +68,7 @@ function MyCabinet() {
                         ))}
                     </div>
                     <div className="asrt__cards">
-                        {activeButton === 0 ? (
-                            <ProductsList />
-                        ) : (
-                            <ProductsList />
-                        )}
+                        <ProductsList items={newArr} />
                     </div>
                 </div>
             </div>

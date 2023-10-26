@@ -20,19 +20,13 @@ function Advantages() {
                     </div>
                     <div className="advantages__cards">
                         {cards.map((card, index) => (
-                            <>
-                                <div
-                                    className="advantages__card c-card"
-                                    key={index}
-                                >
-                                    <div className="c-card__icon">
-                                        {card[0]}
-                                    </div>
-                                    <div className="c-card__title">
-                                        {card[1]}
-                                    </div>
-                                </div>
-                            </>
+                            <div
+                                className="advantages__card c-card"
+                                key={index}
+                            >
+                                <div className="c-card__icon">{card[0]}</div>
+                                <div className="c-card__title">{card[1]}</div>
+                            </div>
                         ))}
                     </div>
                     <div className="advantages__image-reverse">

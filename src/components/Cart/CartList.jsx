@@ -5,8 +5,8 @@ function CartList() {
         <>
             <ul className="cart__list">
                 {data.map((item) => (
-                    <li>
-                        <CartItem item={item} key={item.id} />
+                    <li key={item.id}>
+                        <CartItem item={item} />
                     </li>
                 ))}
             </ul>

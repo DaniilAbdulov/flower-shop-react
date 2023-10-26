@@ -16,7 +16,7 @@ function TrendItem({ value }) {
                 }}
             >
                 <div className="trend__like">
-                    <Like like={isFavorite} />
+                    <Like like={isFavorite} id={id} />
                 </div>
 
                 <NavLink to={`product/${id}`} className="trend__title">

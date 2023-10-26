@@ -9,7 +9,7 @@ function ProductItem(props) {
         <>
             <div className="product">
                 <div className="product__like">
-                    <Like like={isFavorite} />
+                    <Like like={isFavorite} id={id} />
                 </div>
                 <div className="product__image">
                     <img src={img} alt="Flower" />

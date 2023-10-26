@@ -4,7 +4,6 @@ import "./CartItem.scss";
 import { useState } from "react";
 function CartItem({ item }) {
     const { id, price, title, description, img } = item;
-    console.log(item);
     const [count, setCount] = useState(1);
     const [available, setAvailable] = useState(item.available);
     function increment() {
