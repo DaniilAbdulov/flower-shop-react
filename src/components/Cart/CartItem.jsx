@@ -5,7 +5,7 @@ import { useState } from "react";
 function CartItem({ item }) {
     const { id, price, title, description, img } = item;
     const [count, setCount] = useState(1);
-    const [available, setAvailable] = useState(item.available);
+    const [available] = useState(item.available);
     function increment() {
         if (available > count) {
             setCount(count + 1);
