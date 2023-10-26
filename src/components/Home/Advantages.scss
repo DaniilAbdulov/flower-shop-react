@@ -1,18 +1,3 @@
-$maxWidth: 1280;
-@mixin adaptiv-font($pcSize, $mobSize) {
-    $addSize: $pcSize - $mobSize;
-    $addMobSize: $addSize + $addSize * 0.7;
-    @media (max-width: 767px) {
-        font-size: calc(
-            #{$mobSize + px} + #{$addMobSize} * ((100vw - 320px) / #{$maxWidth})
-        );
-    }
-    @media (min-width: 767px) {
-        font-size: calc(
-            #{$mobSize + px} + #{$addMobSize} * (100vw / #{$maxWidth})
-        );
-    }
-}
 .advantages {
     cursor: pointer;
     &__wrapper {
@@ -42,11 +27,16 @@ $maxWidth: 1280;
     }
     &__cards {
         display: flex;
-        align-items: center;
-        gap: 30px;
+        align-items: stretch;
+
         margin-top: 30px;
         margin-bottom: 30px;
         padding: 0px 15px;
+    }
+    &__card {
+        flex: 0 1 25%;
+        margin-right: 10px;
+        margin-left: 10px;
     }
 }
 @media (max-width: 543px) {
@@ -73,11 +63,9 @@ $maxWidth: 1280;
     transition: all 0.3s ease-in;
     box-shadow: 0px 0px 1px 1px #060825;
     &__icon {
-        @include adaptiv-font(60, 30);
+        font-size: 70px;
     }
-    &__title {
-        @include adaptiv-font(16, 12);
-    }
+
     &:hover {
         background: white;
         color: #060825;
@@ -86,11 +74,6 @@ $maxWidth: 1280;
 @media (max-width: 543px) {
     .c-card {
         min-width: 170px;
-        &__icon {
-            @include adaptiv-font(100, 60);
-        }
-        &__title {
-            @include adaptiv-font(18, 12);
-        }
+        margin-bottom: 20px;
     }
 }
