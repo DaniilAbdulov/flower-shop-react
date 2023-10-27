@@ -28,7 +28,7 @@ function MyCabinet() {
                     <div className="user__info">
                         <div className="user__image">
                             <img
-                                src="https://avatars.dzeninfra.ru/get-zen_doc/1592246/pub_5e3c84113a37040237bf3a29_5e3c8f373ca31f61b1afe494/scale_1200"
+                                src="https://avatars.githubusercontent.com/u/118374108?v=4"
                                 alt="avatar"
                             />
                         </div>

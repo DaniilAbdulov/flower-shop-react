@@ -1,12 +1,17 @@
-import { NavLink } from "react-router-dom";
+import Like from "../UI/Like";
+
 function ProductPageItem({ product }) {
-    const { id, img, title, description, sold, price, available } = product;
+    const { id, img, title, description, sold, price, available, isFavorite } =
+        product;
     function addProductToCard() {
         const idOfProduct = id;
         alert(`Продукт с id ${idOfProduct} улетел в корзину`);
     }
     return (
         <>
+            <div className="ppbody__like">
+                <Like like={isFavorite} id={id} />
+            </div>
             <div className="ppbody__image">
                 <img src={img} alt="Flower" />
             </div>
