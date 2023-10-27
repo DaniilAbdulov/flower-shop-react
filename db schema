@@ -1,0 +1,61 @@
+
+product {
+	id int pk increments
+	title varchar
+	description varchar
+	price int
+	avaiable int
+	img varchar
+	category varchar
+	created_at datetime
+	updated_at datetime
+}
+
+favorites {
+	id int pk increments
+	user_id int > user.id
+	product_id int *> product.id
+}
+
+trends {
+	id int pk increments
+	product_id int > product.id
+}
+
+bought {
+	id int pk increments
+	product_id int *> product.id
+	user_id int > user.id
+	count int
+}
+
+advice {
+	id int pk increments
+	product_id int > product.id
+}
+
+user_cart {
+	id int pk increments
+	user_id int > user.id
+	product_id int > product.id
+	count int
+	product_price int
+}
+
+user {
+	id int pk increments unique
+	first_name varchar
+	last_name varchar
+	nickname varchar
+	email varchar
+	password varchar
+	created_at datetime
+	updated_at datetime
+}
+
+category {
+	id int pk increments
+	name varchar
+	product_id int > product.id
+}
+
