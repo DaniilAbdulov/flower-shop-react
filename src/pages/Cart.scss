@@ -1,54 +1,83 @@
 .cart {
     padding: 0px 20px;
+
+    h2 {
+        font-size: 25px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
     &__row {
         display: flex;
         gap: 15px;
     }
     &__column {
         flex: 0 1 50%;
-    }
-    &__list {
-        overflow: auto;
-        max-height: 100vh;
-        margin-bottom: 20px;
+        position: relative;
+        h2 {
+            font-size: 25px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        &-advice {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            width: 100%;
+        }
     }
     &__result {
+        margin-bottom: 20px;
         margin-top: 10px;
-        border-radius: 15px;
-        box-shadow: 0px 0px 2px 1px gray;
-        max-height: 200px;
+        &-desktop {
+            position: sticky;
+            top: 100px;
+        }
+        &-mobile {
+            display: none;
+        }
     }
 }
 @media (max-width: 683px) {
     .cart {
         position: relative;
+        &__column {
+            h2 {
+                font-size: 18px;
+            }
+        }
         &__row {
             flex-direction: column;
             margin-right: 0px;
         }
         &__result {
-            position: sticky;
-            bottom: 5px;
-            left: 50%;
-            transform: translateX(-4%);
+            &-desktop {
+                display: none;
+            }
+        }
+        &__result {
             background-color: white;
+            &-mobile {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: sticky;
+                bottom: 0;
+                left: 50%;
+            }
         }
     }
 }
 .cr {
-    font-size: 30px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-
-    &__title {
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
+    border: 3px solid black;
+    padding: 25px;
+    text-align: center;
+    font-size: 20px;
+    border-radius: 15px;
     &__items {
         font-size: 0.8em;
         flex: 1 1 auto;
+        margin-bottom: 20px;
     }
     &__item {
         margin-bottom: 15px;
@@ -60,7 +89,6 @@
         background-color: rgb(15, 15, 143);
         padding: 10px 20px;
         border-radius: 10px;
-        margin: 0 auto;
         color: white;
         font-size: 16px;
         text-align: center;
@@ -68,6 +96,8 @@
 }
 @media (max-width: 874px) {
     .cr {
+        width: 100%;
+        max-width: 400px;
         max-height: 150px;
         font-size: 22px;
         &__item {
@@ -81,9 +111,8 @@
 }
 @media (max-width: 683px) {
     .cr {
+        margin: 5px;
         font-size: 20px;
-        margin-bottom: 30px;
-        width: 95%;
         &__title {
             text-align: center;
         }

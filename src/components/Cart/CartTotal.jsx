@@ -16,8 +16,7 @@ function CartTotal() {
     }, []);
     return (
         <>
-            <div className="cart__result cr">
-                <div className="cr__title">Ваша корзина</div>
+            <div className="cr">
                 <div className="cr__items">
                     <div className="cr__item">
                         Итого: <span>{sum}</span>
