@@ -5,3 +5,10 @@
     max-width: 1200px;
     margin: 100px auto 0px;
 }
+.nodata {
+    text-align: center;
+    font-weight: bold;
+    &::first-letter {
+        text-transform: uppercase;
+    }
+}

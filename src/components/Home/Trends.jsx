@@ -10,40 +10,48 @@ import data from "../../data/example";
 function Trends() {
     return (
         <>
-            <div className="trends">
-                <div className="wrapper">
-                    <div className="trends__body">
+            <div className="wrapper">
+                <div className="trends">
+                    <div className="trends__label">
                         <BorderedFrame value="Тренды" />
-                        <Swiper
-                            breakpoints={{
-                                320: {
-                                    slidesPerView: 2,
-                                },
-                                502: {
-                                    slidesPerView: 3,
-                                },
-                            }}
-                            spaceBetween={20}
-                            centeredSlides={true}
-                            loop={true}
-                            autoplay={true}
-                            freeMode={true}
-                            speed={800}
-                            pagination={{
-                                clickable: true,
-                            }}
-                            modules={[FreeMode, Autoplay]}
-                            className="mySwiper"
-                        >
-                            {data.map((item) => {
-                                return (
-                                    <SwiperSlide key={item.id}>
-                                        <TrendItem value={item} />
-                                    </SwiperSlide>
-                                );
-                            })}
-                        </Swiper>
                     </div>
+                    {data.length > 0 ? (
+                        <div className="trends__swiper">
+                            <Swiper
+                                breakpoints={{
+                                    320: {
+                                        slidesPerView: 2,
+                                    },
+                                    502: {
+                                        slidesPerView: 3,
+                                    },
+                                }}
+                                spaceBetween={20}
+                                centeredSlides={true}
+                                loop={true}
+                                autoplay={true}
+                                freeMode={true}
+                                speed={800}
+                                pagination={{
+                                    clickable: true,
+                                }}
+                                modules={[FreeMode, Autoplay]}
+                                className="mySwiper"
+                            >
+                                {data.map((item) => {
+                                    return (
+                                        <SwiperSlide key={item.id}>
+                                            <TrendItem value={item} />
+                                        </SwiperSlide>
+                                    );
+                                })}
+                            </Swiper>
+                        </div>
+                    ) : (
+                        <div className="nodata">
+                            <p>Пока без трендов</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </>

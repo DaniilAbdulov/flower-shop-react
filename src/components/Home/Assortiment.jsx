@@ -35,30 +35,40 @@ function Assortiment() {
     let newArr = activeButton === 0 ? data : filteredArray(data);
     return (
         <>
-            <div className="wrapper">
+            <div className="wrapper" style={{ marginTop: "40px" }}>
                 <div className="asrt">
                     <BorderedFrame
                         value="Наш ассортимент"
                         style={{ marginBottom: "50px" }}
                     />
-                    <div className="asrt__buttons">
-                        {buttons.map((button) => (
-                            <button
-                                key={button.id}
-                                className={`asrt__btn ${
-                                    activeButton === button.id
-                                        ? "asrt__btn-active"
-                                        : ""
-                                }`}
-                                onClick={() => handleButtonClick(button.id)}
-                            >
-                                {button.label}
-                            </button>
-                        ))}
-                    </div>
-                    <div className="asrt__cards">
-                        <ProductsList items={newArr} />
-                    </div>
+                    {data.length > 0 ? (
+                        <>
+                            <div className="asrt__buttons">
+                                {buttons.map((button) => (
+                                    <button
+                                        key={button.id}
+                                        className={`asrt__btn ${
+                                            activeButton === button.id
+                                                ? "asrt__btn-active"
+                                                : ""
+                                        }`}
+                                        onClick={() =>
+                                            handleButtonClick(button.id)
+                                        }
+                                    >
+                                        {button.label}
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="asrt__cards">
+                                <ProductsList items={newArr} />
+                            </div>
+                        </>
+                    ) : (
+                        <div className="nodata">
+                            <p>ассортимент еще не загрузился</p>
+                        </div>
+                    )}
                 </div>
             </div>
         </>
