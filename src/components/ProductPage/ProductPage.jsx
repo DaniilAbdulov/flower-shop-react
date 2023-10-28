@@ -27,10 +27,10 @@ function ProductPage() {
                     <div
                         className="product-page__body ppbody"
                         style={{
-                            background: !product ? "white" : "transparent",
+                            background: product ? "white" : "transparent",
                         }}
                     >
-                        {!product ? (
+                        {product ? (
                             <>
                                 <ProductPageItem product={product} />
                             </>
@@ -46,7 +46,7 @@ function ProductPage() {
 
                 <div className="advice">
                     <div className="advice__title">Советуем к покупке:</div>
-                    {!data.length > 0 ? (
+                    {data.length > 0 ? (
                         <>
                             <Swiper
                                 breakpoints={{

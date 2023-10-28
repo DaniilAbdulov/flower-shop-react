@@ -253,5 +253,5 @@ const data = [
         img: "https://via.placeholder.com/600/e924e6",
     },
 ];
-// const data = [];
+const ata = [];
 export default data;

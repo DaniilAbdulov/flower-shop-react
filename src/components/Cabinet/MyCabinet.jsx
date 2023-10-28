@@ -25,7 +25,7 @@ function MyCabinet() {
         <>
             <div className="cabinet">
                 <h2>Личный кабинет</h2>
-                {!data.length > 0 ? (
+                {data.length > 0 ? (
                     <>
                         <div className="cabinet__user user">
                             <div className="user__info">
@@ -85,7 +85,7 @@ function MyCabinet() {
                             </button>
                         ))}
                     </div>
-                    {!data.length > 0 ? (
+                    {data.length > 0 ? (
                         <>
                             <div className="asrt__cards">
                                 <ProductsList items={newArr} />

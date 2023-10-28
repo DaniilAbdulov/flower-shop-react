@@ -23,6 +23,9 @@
         padding: 10px;
         line-height: 20px;
         margin-bottom: 10px;
+        &::first-letter {
+            text-transform: uppercase;
+        }
     }
 }
 @media (max-width: 1023px) {

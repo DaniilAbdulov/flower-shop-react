@@ -42,7 +42,7 @@ function Assortiment() {
                         value="Наш ассортимент"
                         style={{ marginBottom: "50px" }}
                     />
-                    {!data.length > 0 ? (
+                    {data.length > 0 ? (
                         <>
                             <div className="asrt__buttons">
                                 {buttons.map((button) => (

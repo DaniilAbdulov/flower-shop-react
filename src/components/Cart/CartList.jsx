@@ -4,7 +4,7 @@ import Loader from "../UI/Loader";
 function CartList() {
     return (
         <>
-            {!data.length > 0 ? (
+            {data.length > 0 ? (
                 <>
                     <ul className="cart__list">
                         {data.map((item) => (

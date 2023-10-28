@@ -19,14 +19,14 @@ function CartTotal() {
             <div className="cr">
                 <div className="cr__items">
                     <div className="cr__item">
-                        Итого: <span>{!data ? sum : 0}</span>
+                        Итого: <span>{data ? sum : 0}</span>
                     </div>
                     <div className="cr__item">
-                        Товаров ({!data ? totalCount : 0})
-                        <span>{!data ? sum : 0}</span>
+                        Товаров ({data ? totalCount : 0})
+                        <span>{data ? sum : 0}</span>
                     </div>
                 </div>
-                {!data ? (
+                {data ? (
                     <>
                         <NavLink className="cr__button" to="/payment">
                             Перейти к оформлению

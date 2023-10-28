@@ -23,7 +23,7 @@ function Cart() {
                 </div>
                 <h2>Вы смотрели</h2>
                 <div className="cart__column-advice">
-                    {!data ? (
+                    {data.length > 0 ? (
                         <>
                             <ProductsList items={data} />
                         </>
@@ -37,7 +37,7 @@ function Cart() {
                 </div>
                 <h2>Советуем к покупке</h2>
                 <div className="cart__column-advice">
-                    {!data ? (
+                    {data.length > 0 ? (
                         <>
                             <ProductsList items={data} />
                         </>
