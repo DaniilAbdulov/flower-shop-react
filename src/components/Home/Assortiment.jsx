@@ -3,6 +3,7 @@ import ProductsList from "../Products/ProductsList";
 import BorderedFrame from "../UI/BorderedFrame";
 import "./Assortiment.scss";
 import data from "../../data/example";
+import Loader from "../UI/Loader";
 function Assortiment() {
     const [activeButton, setActiveButton] = useState(0);
     const buttons = [{ id: 0, label: "Все" }];
@@ -41,7 +42,7 @@ function Assortiment() {
                         value="Наш ассортимент"
                         style={{ marginBottom: "50px" }}
                     />
-                    {data.length > 0 ? (
+                    {!data.length > 0 ? (
                         <>
                             <div className="asrt__buttons">
                                 {buttons.map((button) => (
@@ -65,8 +66,8 @@ function Assortiment() {
                             </div>
                         </>
                     ) : (
-                        <div className="nodata">
-                            <p>ассортимент еще не загрузился</p>
+                        <div className="loader">
+                            <Loader />
                         </div>
                     )}
                 </div>

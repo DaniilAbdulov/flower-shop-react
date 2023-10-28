@@ -3,6 +3,7 @@ import CartList from "../components/Cart/CartList";
 import CartTotal from "../components/Cart/CartTotal";
 import data from "../data/example";
 import ProductsList from "../components/Products/ProductsList";
+import Loader from "../components/UI/Loader";
 function Cart() {
     return (
         <div className="wrapper">
@@ -22,11 +23,31 @@ function Cart() {
                 </div>
                 <h2>Вы смотрели</h2>
                 <div className="cart__column-advice">
-                    <ProductsList items={data} />
+                    {!data ? (
+                        <>
+                            <ProductsList items={data} />
+                        </>
+                    ) : (
+                        <>
+                            <div className="loader">
+                                <Loader />
+                            </div>
+                        </>
+                    )}
                 </div>
                 <h2>Советуем к покупке</h2>
                 <div className="cart__column-advice">
-                    <ProductsList items={data} />
+                    {!data ? (
+                        <>
+                            <ProductsList items={data} />
+                        </>
+                    ) : (
+                        <>
+                            <div className="loader">
+                                <Loader />
+                            </div>
+                        </>
+                    )}
                 </div>
                 <div className="cart__result cart__result-mobile">
                     <CartTotal />
