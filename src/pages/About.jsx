@@ -1,5 +1,17 @@
+import { useState } from "react";
 import "./About.scss";
+import Loader from "../components/UI/Loader";
 function About() {
+    const [imgIsLoading, setImgIsLoading] = useState(false);
+    const image = new Image();
+    image.onload = () => {
+        setImgIsLoading(true);
+    };
+    image.onerror = () => {
+        console.log("Произошла ошибка при загрузке изображения.");
+    };
+    image.src =
+        "https://eus-www.sway-cdn.com/s/9WdfXuGcIa7wG2VR/images/oTe5OYoPwIPm4A?quality=1280&allowAnimation=true";
     return (
         <div className="wrapper">
             <div className="about">
@@ -42,10 +54,23 @@ function About() {
                     </div>
                     <div className="about__column">
                         <div className="about__image">
-                            <img
-                                src="https://eus-www.sway-cdn.com/s/9WdfXuGcIa7wG2VR/images/oTe5OYoPwIPm4A?quality=1280&allowAnimation=true"
-                                alt="Flower shop"
-                            />
+                            {imgIsLoading ? (
+                                <>
+                                    <img
+                                        src="https://eus-www.sway-cdn.com/s/9WdfXuGcIa7wG2VR/images/oTe5OYoPwIPm4A?quality=1280&allowAnimation=true"
+                                        alt="Flower shop"
+                                    />
+                                </>
+                            ) : (
+                                <>
+                                    <div
+                                        className="loader"
+                                        style={{ width: "100%" }}
+                                    >
+                                        <Loader />
+                                    </div>
+                                </>
+                            )}
                         </div>
                         <div className="about__addres">
                             <a
