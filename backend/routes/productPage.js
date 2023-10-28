@@ -13,9 +13,8 @@ const setOneProduct = (data, productId) => {
 router.get("/:id", (req, res) => {
     const id = req.params.id;
     const product = setOneProduct(data, id);
-    setTimeout(() => {
-        res.json(product);
-    }, 0);
+
+    res.json(product);
 });
 
 module.exports = router;
