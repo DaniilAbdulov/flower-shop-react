@@ -1,4 +1,5 @@
 import "./ProductPage.scss";
+import axios from "axios";
 import ProductPageItem from "./ProductPageItem";
 import { useParams } from "react-router-dom";
 import ProductItem from "../Products/ProductItem";
@@ -9,17 +10,26 @@ import "swiper/css/autoplay";
 import { FreeMode, Autoplay } from "swiper/modules";
 import data from "../../data/example";
 import Loader from "../UI/Loader";
+import { useEffect, useState } from "react";
 function ProductPage() {
+    const [product, setProduct] = useState(null);
     const params = useParams();
-    const setOneProduct = (data) => {
-        for (let i = 0; i < data.length; i++) {
-            if (data[i].id === params.id) {
-                return data[i];
+    const productId = params.id;
+    useEffect(() => {
+        async function fetchProduct() {
+            try {
+                const response = await axios.get(
+                    `http://localhost:4000/api/product/${productId}`
+                );
+                console.log(response.data);
+                setProduct(response.data);
+            } catch (error) {
+                console.error(error);
             }
         }
-    };
-    const product = setOneProduct(data);
 
+        fetchProduct();
+    }, [productId]);
     return (
         <div className="fc product-page" style={{ marginBottom: "0px" }}>
             <div className="fc__body ">
