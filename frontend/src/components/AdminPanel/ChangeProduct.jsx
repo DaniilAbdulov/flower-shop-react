@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import data from "../../data/example";
 function ChangeProduct({ setVisible, product }) {
+    const id = product.data.id;
     const [title, setTitle] = useState(product.data.title);
     const [description, setDescription] = useState(product.data.description);
     const [price, setPrice] = useState(product.data.price);
@@ -28,8 +29,8 @@ function ChangeProduct({ setVisible, product }) {
         if (category === "Выберите категорию") {
             alert("Выберите категорию товара");
         } else {
-            const newProduct = {
-                id: Date.now(),
+            const changedProduct = {
+                id,
                 title,
                 description,
                 price: Number(price),
@@ -39,7 +40,7 @@ function ChangeProduct({ setVisible, product }) {
                 img,
                 category,
             };
-            console.log(newProduct);
+            console.log(changedProduct);
             setVisible(false);
             setTitle("");
             setDescription("");
