@@ -30,6 +30,7 @@ function ChangeProduct() {
     });
     return (
         <div>
+            <h2>Изменение товаров</h2>
             <div className="change-product__search">
                 <label htmlFor="searcg">Поиск продукта</label>
                 <input

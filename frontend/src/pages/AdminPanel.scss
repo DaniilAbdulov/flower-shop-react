@@ -25,8 +25,11 @@
         margin-bottom: 20px;
     }
     &__change-product {
-        border: 1px solid black;
-        padding: 5px 15px;
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
     }
 }
 
@@ -34,6 +37,11 @@
 .add-buttons {
     display: flex;
     gap: 10px;
+}
+.add-checkbox {
+    input {
+        cursor: pointer;
+    }
 }
 .change-product {
     &__search {

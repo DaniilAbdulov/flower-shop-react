@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import data from "../../data/example";
-function AddProduct() {
+function AddProduct({ setVisible, buttonName }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
@@ -8,28 +8,47 @@ function AddProduct() {
     const [isTrend, setIsTrend] = useState(false);
     const [isAdvice, setIsAdvice] = useState(false);
     const [img, setImg] = useState("");
+    const [categories, setCategories] = useState([]);
+    const [category, setCategory] = useState("");
+    useEffect(() => {
+        showMeData(data);
+    }, []);
 
+    function showMeData(data) {
+        const mySet = new Set();
+        mySet.add("Выберите категорию");
+        data.map((item) => {
+            mySet.add(item.category);
+            return null;
+        });
+        setCategories(Array.from(mySet));
+    }
     function handleSubmit(e) {
         e.preventDefault();
-        const newProduct = {
-            id: Date.now(),
-            title,
-            description,
-            price,
-            avaiable,
-            isTrend,
-            isAdvice,
-            img,
-        };
-        console.log(newProduct);
-        data.push(newProduct);
-        setTitle("");
-        setDescription("");
-        setPrice("");
-        setAvaiable("");
-        setIsTrend(false);
-        setIsAdvice(false);
-        setImg("");
+        if (category === "Выберите категорию") {
+            alert("Выберите категорию товара");
+        } else {
+            const newProduct = {
+                id: Date.now(),
+                title,
+                description,
+                price: Number(price),
+                avaiable: Number(avaiable),
+                isTrend,
+                isAdvice,
+                img,
+                category,
+            };
+            console.log(newProduct);
+            setVisible(false);
+            setTitle("");
+            setDescription("");
+            setPrice("");
+            setAvaiable("");
+            setIsTrend(false);
+            setIsAdvice(false);
+            setImg("");
+        }
     }
     return (
         <>
@@ -91,6 +110,18 @@ function AddProduct() {
                         onChange={(e) => setImg(e.target.value)}
                         required
                     />
+                    <select
+                        name="category"
+                        id="category"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                    >
+                        {categories.map((item) => (
+                            <option value={item} key={item}>
+                                {item}
+                            </option>
+                        ))}
+                    </select>
                     <div className="add-buttons">
                         <button type="submit">Добавить</button>
                         <button type="reset">Очистить форму</button>

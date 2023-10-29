@@ -1,9 +1,16 @@
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import "./MiniItem.scss";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 function MiniItem(props) {
     const { id, title, img, price, available } = props.data;
+    function handleDeleteProduct() {
+        let result = window.confirm("Вы действительно хотите удалить товар ?");
+        if (result) {
+            alert(`Product with id ${id} deleted`);
+        } else {
+            return;
+        }
+    }
     return (
         <>
             <div className="mini-item">
@@ -22,8 +29,16 @@ function MiniItem(props) {
                             </p>
                         </div>
                         <div className="mini-item__buttons">
-                            <FontAwesomeIcon icon={faPenToSquare} />
-                            <FontAwesomeIcon icon={faTrash} />
+                            <FontAwesomeIcon
+                                icon={faPenToSquare}
+                                style={{ cursor: "pointer" }}
+                            />
+                            <FontAwesomeIcon
+                                icon={faTrash}
+                                className="delete-icon"
+                                onClick={() => handleDeleteProduct(id)}
+                                style={{ cursor: "pointer" }}
+                            />
                         </div>
                     </div>
                 </div>

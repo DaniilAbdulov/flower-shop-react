@@ -10,10 +10,12 @@ form {
         text-align: center;
     }
     input,
-    label {
+    label,
+    select {
         margin-bottom: 10px;
     }
-    input {
+    input,
+    select {
         border: 2px solid black;
         padding: 2px 5px;
         border-radius: 10px;
