@@ -11,11 +11,16 @@ form {
     }
     input,
     label,
-    select {
+    select,
+    textarea {
         margin-bottom: 10px;
     }
+    textarea {
+        min-height: 70px;
+    }
     input,
-    select {
+    select,
+    textarea {
         border: 2px solid black;
         padding: 2px 5px;
         border-radius: 10px;

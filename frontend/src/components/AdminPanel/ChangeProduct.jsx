@@ -64,7 +64,7 @@ function ChangeProduct({ setVisible, product }) {
                         required
                     />
                     <label htmlFor="description">Описание:</label>
-                    <input
+                    <textarea
                         type="text"
                         id="description"
                         value={description}

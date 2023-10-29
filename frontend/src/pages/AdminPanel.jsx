@@ -5,10 +5,12 @@ import ProductsListForChange from "../components/AdminPanel/ProductsListForChang
 import { useState } from "react";
 import MyDialog from "../components/UI/MyDialog";
 import AddCategory from "../components/AdminPanel/AddCategory";
+import Statistic from "../components/AdminPanel/Statistic";
 
 function AdminPanel() {
     const [showAddProduct, setShowAddProduct] = useState(false);
     const [showAddCategory, setShowAddCategory] = useState(false);
+    const [showStatistic, setShowStatistic] = useState(false);
 
     return (
         <div className="wrapper">
@@ -20,6 +22,9 @@ function AdminPanel() {
                     </button>
                     <button onClick={() => setShowAddCategory(true)}>
                         Добавить категорию
+                    </button>
+                    <button onClick={() => setShowStatistic(true)}>
+                        Посмотреть статистику
                     </button>
                 </div>
                 <div className="panel__item">
@@ -37,6 +42,12 @@ function AdminPanel() {
                         setVisible={setShowAddCategory}
                     >
                         <AddCategory setVisible={setShowAddCategory} />
+                    </MyDialog>
+                    <MyDialog
+                        visible={showStatistic}
+                        setVisible={setShowStatistic}
+                    >
+                        <Statistic setVisible={setShowStatistic} />
                     </MyDialog>
                 </div>
                 <div className="panel__change-product">
