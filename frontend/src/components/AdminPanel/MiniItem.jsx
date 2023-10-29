@@ -1,13 +1,12 @@
-import { useState } from "react";
-import FormOfProduct from "./FormOfProduct";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import "./MiniItem.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MyDialog from "../UI/MyDialog";
+import ChangeProduct from "./ChangeProduct";
+import { useState } from "react";
 function MiniItem(props) {
-    const product = props.data;
     const { id, title, img, price, available } = props.data;
-    const [showFormOfProductId, setShowFormOfProductId] = useState(false);
+    const [showEditWindow, setShowEditWindow] = useState(false);
     function handleDeleteProduct() {
         let result = window.confirm("Вы действительно хотите удалить товар ?");
         if (result) {
@@ -37,26 +36,26 @@ function MiniItem(props) {
                             <FontAwesomeIcon
                                 icon={faPenToSquare}
                                 style={{ cursor: "pointer" }}
-                                onClick={() => setShowFormOfProductId(true)}
+                                onClick={() => setShowEditWindow(true)}
                             />
-                            <MyDialog
-                                visible={showFormOfProductId}
-                                setVisible={setShowFormOfProductId}
-                            >
-                                <FormOfProduct
-                                    setVisible={setShowFormOfProductId}
-                                    buttonName="Изменить"
-                                />
-                            </MyDialog>
                             <FontAwesomeIcon
                                 icon={faTrash}
                                 className="delete-icon"
-                                onClick={() => handleDeleteProduct(id)}
+                                onClick={handleDeleteProduct}
                                 style={{ cursor: "pointer" }}
                             />
                         </div>
                     </div>
                 </div>
+                <MyDialog
+                    visible={showEditWindow}
+                    setVisible={setShowEditWindow}
+                >
+                    <ChangeProduct
+                        setVisible={setShowEditWindow}
+                        product={props}
+                    />
+                </MyDialog>
             </div>
         </>
     );

@@ -1,7 +1,7 @@
 import FormOfProduct from "../components/AdminPanel/FormOfProduct";
 import "./AdminPanel.scss";
 
-import ChangeProduct from "../components/AdminPanel/ChangeProduct";
+import ProductsListForChange from "../components/AdminPanel/ProductsListForChange";
 import { useState } from "react";
 import MyDialog from "../components/UI/MyDialog";
 import AddCategory from "../components/AdminPanel/AddCategory";
@@ -40,7 +40,7 @@ function AdminPanel() {
                     </MyDialog>
                 </div>
                 <div className="panel__change-product">
-                    <ChangeProduct />
+                    <ProductsListForChange />
                 </div>
             </div>
         </div>

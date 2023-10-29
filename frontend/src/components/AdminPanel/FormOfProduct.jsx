@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import data from "../../data/example";
-function AddProduct({ setVisible, buttonName }) {
+function FormOfProduct({ setVisible, buttonName }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
@@ -131,4 +131,4 @@ function AddProduct({ setVisible, buttonName }) {
         </>
     );
 }
-export default AddProduct;
+export default FormOfProduct;

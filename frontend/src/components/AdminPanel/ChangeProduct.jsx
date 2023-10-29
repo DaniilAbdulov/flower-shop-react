@@ -1,64 +1,134 @@
 import { useState, useEffect } from "react";
 import data from "../../data/example";
-import MiniItem from "./MiniItem";
-
-function ChangeProduct() {
+function ChangeProduct({ setVisible, product }) {
+    const [title, setTitle] = useState(product.data.title);
+    const [description, setDescription] = useState(product.data.description);
+    const [price, setPrice] = useState(product.data.price);
+    const [avaiable, setAvaiable] = useState(product.data.available);
+    const [isTrend, setIsTrend] = useState(product.data.isTrend);
+    const [isAdvice, setIsAdvice] = useState(product.data.isAdvice);
+    const [img, setImg] = useState(product.data.img);
     const [categories, setCategories] = useState([]);
-    const [searchValue, setSearchValue] = useState("");
-    const [products, setProducts] = useState(data);
-    const [selectedProduct, setSelectedProduct] = useState("Все");
+    const [category, setCategory] = useState(product.data.category);
     useEffect(() => {
         showMeData(data);
     }, []);
 
     function showMeData(data) {
         const mySet = new Set();
-        mySet.add("Все");
+        mySet.add("Выберите категорию");
         data.map((item) => {
             mySet.add(item.category);
             return null;
         });
         setCategories(Array.from(mySet));
     }
-    const sortedProducts = products.filter((product) => {
-        const mathesTitle = product.title
-            .toLowerCase()
-            .includes(searchValue.toLowerCase());
-        const mathesCategory =
-            selectedProduct === "Все" || product.category === selectedProduct;
-        return mathesTitle && mathesCategory;
-    });
+    function handleSubmit(e) {
+        e.preventDefault();
+        if (category === "Выберите категорию") {
+            alert("Выберите категорию товара");
+        } else {
+            const newProduct = {
+                id: Date.now(),
+                title,
+                description,
+                price: Number(price),
+                avaiable: Number(avaiable),
+                isTrend,
+                isAdvice,
+                img,
+                category,
+            };
+            console.log(newProduct);
+            setVisible(false);
+            setTitle("");
+            setDescription("");
+            setPrice("");
+            setAvaiable("");
+            setIsTrend(false);
+            setIsAdvice(false);
+            setImg("");
+        }
+    }
     return (
-        <div>
-            <h2>Изменение товаров</h2>
-            <div className="change-product__search">
-                <label htmlFor="searcg">Поиск продукта</label>
-                <input
-                    type="text"
-                    name="search"
-                    id="search"
-                    value={searchValue}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                />
-                <select
-                    name="category"
-                    id="category"
-                    value={selectedProduct}
-                    onChange={(e) => setSelectedProduct(e.target.value)}
-                >
-                    {categories.map((item) => (
-                        <option value={item} key={item}>
-                            {item}
-                        </option>
-                    ))}
-                </select>
+        <>
+            <div className="form__add">
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="title">Название товара:</label>
+                    <input
+                        type="text"
+                        id="title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        required
+                    />
+                    <label htmlFor="description">Описание:</label>
+                    <input
+                        type="text"
+                        id="description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        required
+                    />
+                    <label htmlFor="price">Цена:</label>
+                    <input
+                        type="number"
+                        id="price"
+                        value={price}
+                        onChange={(e) => setPrice(e.target.value)}
+                        required
+                    />
+                    <label htmlFor="avaiable">В наличии:</label>
+                    <input
+                        type="number"
+                        id="avaiable"
+                        value={avaiable}
+                        onChange={(e) => setAvaiable(e.target.value)}
+                        required
+                    />
+                    <div className="add-checkbox">
+                        <label htmlFor="trend">Тренд ?</label>
+                        <input
+                            type="checkbox"
+                            checked={isTrend}
+                            onChange={(e) => setIsTrend(e.target.checked)}
+                        />
+                    </div>
+                    <div className="add-checkbox">
+                        <label htmlFor="advice">Советовать к покупке ?</label>
+                        <input
+                            type="checkbox"
+                            checked={isAdvice}
+                            onChange={(e) => setIsAdvice(e.target.checked)}
+                        />
+                    </div>
+                    <label htmlFor="img">Сслыка на изображение:</label>
+                    <input
+                        type="text"
+                        id="img"
+                        value={img}
+                        onChange={(e) => setImg(e.target.value)}
+                        required
+                    />
+                    <select
+                        name="category"
+                        id="category"
+                        value={category}
+                        onChange={(e) => setCategory(e.target.value)}
+                    >
+                        {categories.map((item) => (
+                            <option value={item} key={item}>
+                                {item}
+                            </option>
+                        ))}
+                    </select>
+                    <div className="add-buttons">
+                        <button type="submit">Изменить</button>
+                        <button type="reset">Очистить форму</button>
+                    </div>
+                </form>
             </div>
-            <div className="change-product__list">
-                {sortedProducts.map((item) => (
-                    <MiniItem data={item} key={item.id} />
-                ))}
-            </div>
-        </div>
+        </>
     );
 }
 export default ChangeProduct;
