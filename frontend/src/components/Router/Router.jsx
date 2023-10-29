@@ -8,6 +8,7 @@ import Payment from "../../pages/Payment";
 import ProductPage from "../ProductPage/ProductPage";
 import Cabinet from "../../pages/Cabinet";
 import Auth from "../../pages/Auth";
+import AdminPanel from "../../pages/AdminPanel";
 function Router() {
     return (
         <div>
@@ -21,6 +22,7 @@ function Router() {
                 <Route path="payment" element={<Payment />} />
                 <Route path="cabinet" element={<Cabinet />} />
                 <Route path="auth" element={<Auth />} />
+                <Route path="admin" element={<AdminPanel />} />
 
                 <Route path="*" element={<h2>Page not found</h2>} />
                 {/* </Route> */}

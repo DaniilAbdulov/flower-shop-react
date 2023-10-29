@@ -1,0 +1,34 @@
+.mini-item {
+    max-width: 200px;
+    margin: 5px;
+    border: 1px solid black;
+    padding: 5px;
+    &__row {
+        display: flex;
+        gap: 5px;
+    }
+    &__img {
+        flex: 0 1 50%;
+        img {
+            width: 100%;
+            object-fit: cover;
+        }
+    }
+    &__body {
+        flex: 0 1 50%;
+        display: flex;
+        flex-direction: column;
+        padding: 5px 0px;
+    }
+    &__title {
+        flex: 1 1 auto;
+        font-weight: bold;
+    }
+    &__values {
+        margin-bottom: 5px;
+    }
+    &__buttons {
+        display: flex;
+        gap: 5px;
+    }
+}

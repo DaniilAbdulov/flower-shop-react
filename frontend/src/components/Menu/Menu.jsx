@@ -7,12 +7,14 @@ import "./Menu.scss";
 function Menu() {
     const [cartCount, setCartCount] = useState(0);
     const [isAuth, setIsAuth] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
     const links = [
         { to: "/", title: "Home" },
         { to: "/about", title: "About us" },
         { to: "/contacts", title: "Contacts" },
         { to: "/cabinet", title: "D" },
         { to: !isAuth ? "/auth" : "/", title: !isAuth ? "LogIn" : "Log Out" },
+        { to: !isAdmin ? "/admin" : "/", title: !isAdmin ? "Admin panel" : "" },
     ];
     const [visible, setVisible] = useState(true);
     const [device, setDevice] = useState("mobile");
