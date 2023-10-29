@@ -10,11 +10,15 @@
         margin-bottom: 20px;
     }
     &__buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
         button {
             margin-right: 10px;
             border: 1px solid black;
             padding: 10px;
             border-radius: 10px;
+            margin-bottom: 10px;
         }
         margin-bottom: 20px;
     }
