@@ -123,7 +123,7 @@ function AddProduct({ setVisible, buttonName }) {
                         ))}
                     </select>
                     <div className="add-buttons">
-                        <button type="submit">Добавить</button>
+                        <button type="submit">{buttonName}</button>
                         <button type="reset">Очистить форму</button>
                     </div>
                 </form>
