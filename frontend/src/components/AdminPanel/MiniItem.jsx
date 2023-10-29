@@ -5,7 +5,7 @@ import MyDialog from "../UI/MyDialog";
 import ChangeProduct from "./ChangeProduct";
 import { useState } from "react";
 function MiniItem(props) {
-    const { id, title, img, price, available } = props.data;
+    const { id, title, img, price, avaiable } = props.data;
     const [showEditWindow, setShowEditWindow] = useState(false);
     function handleDeleteProduct() {
         let result = window.confirm("Вы действительно хотите удалить товар ?");
@@ -29,7 +29,7 @@ function MiniItem(props) {
                                 {price} <span>руб.</span>
                             </p>
                             <p>
-                                {available} <span>шт.</span>
+                                {avaiable} <span>шт.</span>
                             </p>
                         </div>
                         <div className="mini-item__buttons">

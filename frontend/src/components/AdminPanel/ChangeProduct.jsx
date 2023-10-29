@@ -4,7 +4,7 @@ function ChangeProduct({ setVisible, product }) {
     const [title, setTitle] = useState(product.data.title);
     const [description, setDescription] = useState(product.data.description);
     const [price, setPrice] = useState(product.data.price);
-    const [avaiable, setAvaiable] = useState(product.data.available);
+    const [avaiable, setAvaiable] = useState(product.data.avaiable);
     const [isTrend, setIsTrend] = useState(product.data.isTrend);
     const [isAdvice, setIsAdvice] = useState(product.data.isAdvice);
     const [img, setImg] = useState(product.data.img);

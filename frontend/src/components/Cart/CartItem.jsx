@@ -5,9 +5,9 @@ import { useState } from "react";
 function CartItem({ item }) {
     const { id, price, title, description, img } = item;
     const [count, setCount] = useState(1);
-    const [available] = useState(item.available);
+    const [avaiable] = useState(item.avaiable);
     function increment() {
-        if (available > count) {
+        if (avaiable > count) {
             setCount(count + 1);
         }
     }
@@ -35,8 +35,8 @@ function CartItem({ item }) {
                             <div className="cart-item__description">
                                 <h3>{description}</h3>
                             </div>
-                            <div className="cart-item__available">
-                                В наличии: <span>{available}</span>
+                            <div className="cart-item__avaiable">
+                                В наличии: <span>{avaiable}</span>
                             </div>
                             <div className="cart-item__counter">
                                 <FontAwesomeIcon
