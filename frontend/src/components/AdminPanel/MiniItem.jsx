@@ -1,8 +1,13 @@
+import { useState } from "react";
+import FormOfProduct from "./FormOfProduct";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import "./MiniItem.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import MyDialog from "../UI/MyDialog";
 function MiniItem(props) {
+    const product = props.data;
     const { id, title, img, price, available } = props.data;
+    const [showFormOfProductId, setShowFormOfProductId] = useState(false);
     function handleDeleteProduct() {
         let result = window.confirm("Вы действительно хотите удалить товар ?");
         if (result) {
@@ -32,7 +37,17 @@ function MiniItem(props) {
                             <FontAwesomeIcon
                                 icon={faPenToSquare}
                                 style={{ cursor: "pointer" }}
+                                onClick={() => setShowFormOfProductId(true)}
                             />
+                            <MyDialog
+                                visible={showFormOfProductId}
+                                setVisible={setShowFormOfProductId}
+                            >
+                                <FormOfProduct
+                                    setVisible={setShowFormOfProductId}
+                                    buttonName="Изменить"
+                                />
+                            </MyDialog>
                             <FontAwesomeIcon
                                 icon={faTrash}
                                 className="delete-icon"

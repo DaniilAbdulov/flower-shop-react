@@ -1,4 +1,4 @@
-import AddProduct from "../components/AdminPanel/AddProduct";
+import FormOfProduct from "../components/AdminPanel/FormOfProduct";
 import "./AdminPanel.scss";
 
 import ChangeProduct from "../components/AdminPanel/ChangeProduct";
@@ -27,7 +27,7 @@ function AdminPanel() {
                         visible={showAddProduct}
                         setVisible={setShowAddProduct}
                     >
-                        <AddProduct
+                        <FormOfProduct
                             setVisible={setShowAddProduct}
                             buttonName="Добавить"
                         />
