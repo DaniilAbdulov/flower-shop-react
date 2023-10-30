@@ -1,16 +1,25 @@
 import { useState } from "react";
-
+import axios from "axios";
+import { API_URL } from "../../config";
 function Login(props) {
     const toggleForm = props.toggleTypeOfForm;
     const [nickName, setNickName] = useState("");
     const [password, setPassword] = useState("");
+    const logInUser = async (candidat) => {
+        try {
+            const res = await axios.post(`${API_URL}/user/login`, candidat);
+            console.log(res.data);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     const handleSubmitLogin = (e) => {
         e.preventDefault();
         const candidat = {
             nickName,
             password,
         };
-        console.log(candidat);
+        logInUser(candidat);
         setNickName("");
         setPassword("");
     };

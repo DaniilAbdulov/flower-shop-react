@@ -1,15 +1,16 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const generateJwt = (id, email, role) => {
-    return jwt.sign({ id, email, role }, process.env.SECRET_KEY, {
+const generateJwt = (id, nickName, email) => {
+    return jwt.sign({ id, nickName, email }, process.env.SECRET_KEY, {
         expiresIn: "24h",
     });
 };
 
 class UserController {
     async registration(req, res, next) {
-        const { email, password, role } = req.body;
+        console.log(req.body);
+        const { id, firstName, lastName, nickName, email, password } = req.body;
         if (!email || !password) {
             return "Некорректный email или password";
         }
@@ -20,12 +21,13 @@ class UserController {
         const hashPassword = await bcrypt.hash(password, 5);
         // const user = await User.create({email, role, password: hashPassword})
         // const basket = await Basket.create({userId: user.id})
-        const token = generateJwt(user.id, user.email, user.role);
-        return res.json({ token });
+        const token = generateJwt(id, nickName, email);
+        // return res.json({ token });
+        return res.json(token);
     }
 
     async login(req, res, next) {
-        const { email, password } = req.body;
+        const { nickName, password } = req.body;
         // const user = await User.findOne({ where: { email } });
         // if (!user) {
         //     return next(ApiError.internal("Пользователь не найден"));
@@ -34,7 +36,10 @@ class UserController {
         // if (!comparePassword) {
         //     return next(ApiError.internal("Указан неверный пароль"));
         // }
-        const token = generateJwt(user.id, user.email, user.role);
+
+        // const token = generateJwt(id, nickName, email);
+        const token = generateJwt(Date.now(), nickName, "m@m");
+
         return res.json({ token });
     }
 
