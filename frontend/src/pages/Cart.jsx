@@ -21,20 +21,6 @@ function Cart() {
                         </div>
                     </div>
                 </div>
-                <h2>Вы смотрели</h2>
-                <div className="cart__column-advice">
-                    {data.length > 0 ? (
-                        <>
-                            <ProductsList items={data} />
-                        </>
-                    ) : (
-                        <>
-                            <div className="loader">
-                                <Loader />
-                            </div>
-                        </>
-                    )}
-                </div>
                 <h2>Советуем к покупке</h2>
                 <div className="cart__column-advice">
                     {data.length > 0 ? (

@@ -6,7 +6,7 @@ import data from "../../data/example";
 import Loader from "../UI/Loader";
 function Assortiment() {
     const [activeButton, setActiveButton] = useState(0);
-    const buttons = [{ id: 0, label: "Все" }];
+    const buttons = [];
     function setNamesOfButtons(d) {
         const set = new Set();
         for (let i = 0; i < d.length; i++) {
@@ -15,7 +15,7 @@ function Assortiment() {
         const categories = Array.from(set);
         for (let i = 0; i < categories.length; i++) {
             const newButton = {
-                id: i + 1,
+                id: i,
                 label: `${categories[i]}`,
             };
             buttons.push(newButton);
@@ -33,7 +33,7 @@ function Assortiment() {
             return item.category === buttons[activeButton].label;
         });
     }
-    let newArr = activeButton === 0 ? data : filteredArray(data);
+    let newArr = filteredArray(data);
     return (
         <>
             <div className="wrapper" style={{ marginTop: "40px" }}>

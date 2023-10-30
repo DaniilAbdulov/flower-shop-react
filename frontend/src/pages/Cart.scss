@@ -46,6 +46,10 @@
             h2 {
                 font-size: 18px;
             }
+            &-list {
+                max-width: 500px;
+                margin: 0 auto;
+            }
         }
         &__row {
             flex-direction: column;
