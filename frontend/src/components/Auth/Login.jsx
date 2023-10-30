@@ -9,6 +9,7 @@ function Login(props) {
         try {
             const res = await axios.post(`${API_URL}/user/login`, candidat);
             console.log(res.data);
+            localStorage.setItem("bgtrackerjwt", res.data.token);
         } catch (error) {
             console.log(error);
         }

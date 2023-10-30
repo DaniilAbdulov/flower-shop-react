@@ -16,6 +16,7 @@ function Registration(props) {
                 candidat
             );
             console.log(res.data);
+            localStorage.setItem("bgtrackerjwt", res.data);
         } catch (error) {}
     };
     const handleSubmitRegistration = (e) => {
