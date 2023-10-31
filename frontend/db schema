@@ -1,49 +1,22 @@
 
-product {
-	id int pk increments
-	title varchar
-	description varchar
-	price int
-	avaiable int
-	img varchar
-	category varchar
-	created_at datetime
-	updated_at datetime
-}
-
 favorites {
 	id int pk increments
 	user_id int > user.id
-	product_id int *> product.id
+	product_id int >* product.id
 }
 
 trends {
 	id int pk increments
-	product_id int > product.id
-}
-
-bought {
-	id int pk increments
-	product_id int *> product.id
-	user_id int > user.id
-	count int
+	product_id int >* product.id
 }
 
 advice {
 	id int pk increments
-	product_id int > product.id
-}
-
-user_cart {
-	id int pk increments
-	user_id int > user.id
-	product_id int > product.id
-	count int
-	product_price int
+	product_id int >* product.id
 }
 
 user {
-	id int pk increments unique
+	id int pk increments unique >* orders.user_id
 	first_name varchar
 	last_name varchar
 	nickname varchar
@@ -51,11 +24,47 @@ user {
 	password varchar
 	created_at datetime
 	updated_at datetime
+	role enum def(USER)
 }
 
 category {
-	id int pk increments
+	id int pk increments >* product.category_id
 	name varchar
-	product_id int > product.id
+}
+
+product {
+	id int pk increments >* cart.product_id
+	title varchar
+	description varchar
+	price int
+	available int
+	img varchar
+	category_id int
+	
+}
+
+orders {
+	id integer pk increments
+	user_id integer
+	date_order timestamp
+	status_order_id integer >* status_orders.id
+	total_price integer
+}
+
+status_orders {
+	id integer pk increments
+	status varchar
+}
+
+carts_users {
+	user_id integer pk increments *> user.id
+	product_id integer *> product.id
+	count smallint
+}
+
+orders_products {
+	order_id integer pk increments *> orders.id
+	product_id integer *> product.id
+	count smallint
 }
 
