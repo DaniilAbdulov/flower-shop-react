@@ -1,86 +1,45 @@
-import { NavLink } from "react-router-dom";
-
-import "./Payment.scss";
-import { ClipLoader } from "react-spinners";
 import { useState } from "react";
-
+import PaymentOrder from "../components/Payment/PaymentOrder";
+import "./Payment.scss";
+import FinalPay from "../components/Payment/FinalPay";
+import PaySuccess from "../components/Payment/PaySuccess";
+import Loader from "../components/UI/Loader";
 function Payment() {
-    const [block, setBlock] = useState("initial");
-    function changeBlocks() {
-        setBlock("payloading");
-        setTimeout(() => {
-            setBlock("succes");
-        }, 5000);
+    const [stage, setStage] = useState("review");
+    function changeStage(value) {
+        setStage(value);
     }
     return (
-        <>
-            <div className="payment">
-                <div className="payment__wrapper">
+        <div>
+            <div className="wrapper">
+                <div className="payment">
                     <div
-                        className="initial"
-                        style={{
-                            display: block === "initial" ? "flex" : "none",
-                        }}
+                        className={`payment__wrapper ${
+                            stage === "createOrder"
+                                ? "payment__wrapper-pending"
+                                : ""
+                        } `}
                     >
-                        <div className="initial__info">
-                            Сумма покупки: <span>30000</span>
-                        </div>
-                        <div className="initial__variants payitems">
-                            <h2>Выберите способ оплаты</h2>
-                            <div className="payitems__box">
-                                <div className="payitems__item payitems__item-sber">
-                                    SberPay
-                                </div>
-                                <div className="payitems__item payitems__item-tinkof">
-                                    Tinkoff
-                                </div>
-                                <div className="payitems__item payitems__item-yu">
-                                    Ю Money
-                                </div>
-                                <div className="payitems__item payitems__item-spb">
-                                    СПБ
-                                </div>
-                            </div>
-                        </div>
-                        <div className="initial__button">
-                            <button onClick={changeBlocks}>Оплатить!</button>
-                        </div>
-                    </div>
-                    <div
-                        className="payloading"
-                        style={{
-                            display: block === "payloading" ? "flex" : "none",
-                        }}
-                    >
-                        <div className="payloading__text">
-                            <p>Происходит оплата...</p>
-                        </div>
-                        <div className="payloading__loader">
-                            <ClipLoader />
-                        </div>
-                        <div className="payloading__text">
-                            <p>
-                                Оплата фиктивна, так как логику по оплате
-                                необходимо будет настроить при реальном
-                                использовании магазина
-                            </p>
-                        </div>
-                    </div>
-                    <div
-                        className="succes"
-                        style={{
-                            display: block === "succes" ? "block" : "none",
-                        }}
-                    >
-                        <div className="succes__text">
-                            <h2>Поздравляю !</h2>
-                            <p>Оплата прошла успешно</p>
-                            <NavLink to="/"> Снова к покупкам </NavLink>
-                        </div>
+                        {stage === "review" && (
+                            <PaymentOrder setNewStage={changeStage} />
+                        )}
+                        {stage === "createOrder" && (
+                            <>
+                                <h2>Создаем заказ</h2>
+                                <Loader
+                                    setNewStage={changeStage}
+                                    stageNow="createOrder"
+                                />
+                            </>
+                        )}
+                        {stage === "payClicked" && (
+                            <FinalPay setNewStage={changeStage} />
+                        )}
+                        {stage === "paySuccess" && <PaySuccess />}
                     </div>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
 export default Payment;
