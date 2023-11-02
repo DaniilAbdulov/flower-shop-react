@@ -6,9 +6,10 @@
     &__row {
         display: flex;
         justify-content: space-between;
+        align-items: center;
+        align-items: flex-start;
     }
     &__body {
-        flex: 0 1 50%;
         margin-right: 5px;
     }
     &__text {
@@ -31,22 +32,20 @@
     }
     &__images {
         display: flex;
+        flex: 0 1 80%;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        gap: 2px;
     }
     &__img {
-        flex: 0 1 50%;
         max-width: 100px;
-        margin: 5px;
-
+        &:last-child {
+            margin-right: 0px;
+        }
         img {
+            border-radius: 5px;
             width: 100%;
             object-fit: cover;
-        }
-    }
-}
-@media (max-width: 456px) {
-    .order {
-        &__row {
-            flex-wrap: wrap;
         }
     }
 }

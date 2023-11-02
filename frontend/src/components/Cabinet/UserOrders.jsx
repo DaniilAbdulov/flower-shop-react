@@ -13,6 +13,12 @@ function UserOrders() {
                 "https://via.placeholder.com/600/5e12c6",
                 "https://via.placeholder.com/600/5e12c6",
                 "https://via.placeholder.com/600/5e12c6",
+                "https://via.placeholder.com/600/5e12c6",
+                "https://via.placeholder.com/600/5e12c6",
+                "https://via.placeholder.com/600/5e12c6",
+                "https://via.placeholder.com/600/5e12c6",
+                "https://via.placeholder.com/600/5e12c6",
+                "https://via.placeholder.com/600/5e12c6",
             ],
         },
         {
@@ -40,7 +46,11 @@ function UserOrders() {
             date_order: new Date(),
             id: 5,
             status: "Получен",
-            product_img: ["https://via.placeholder.com/600/5e12c6"],
+            product_img: [
+                "https://via.placeholder.com/600/5e12c6",
+                "https://via.placeholder.com/600/5e12c6",
+                "https://via.placeholder.com/600/5e12c6",
+            ],
         },
     ];
     return (
