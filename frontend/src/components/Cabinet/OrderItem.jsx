@@ -37,13 +37,13 @@ function OrderItem({ order, images }) {
                             </div>
                         </div>
                     </div>
-                    <div className="order__images">
+                    <ul className="order__images">
                         {images.map((item, index) => (
-                            <div className="order__img" key={index}>
+                            <li className="order__img" key={index}>
                                 <img src={item} alt="" />
-                            </div>
+                            </li>
                         ))}
-                    </div>
+                    </ul>
                 </div>
             </div>
         </div>

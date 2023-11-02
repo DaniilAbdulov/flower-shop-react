@@ -10,6 +10,9 @@ function UserOrders() {
                 "https://via.placeholder.com/600/5e12c6",
                 "https://via.placeholder.com/600/5e12c6",
                 "https://via.placeholder.com/600/5e12c6",
+                "https://via.placeholder.com/600/5e12c6",
+                "https://via.placeholder.com/600/5e12c6",
+                "https://via.placeholder.com/600/5e12c6",
             ],
         },
         {
