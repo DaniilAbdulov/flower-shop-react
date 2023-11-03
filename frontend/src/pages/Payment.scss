@@ -23,16 +23,17 @@
     &__wrapper {
     }
     &__images {
+        padding: 10px;
         display: flex;
         flex-wrap: wrap;
         gap: 10px;
         justify-content: center;
         margin-bottom: 20px;
         max-height: 300px;
-        overflow-x: scroll;
+        overflow-y: auto;
     }
     &__image {
-        max-width: 100px;
+        max-width: 150px;
         img {
             width: 100%;
             object-fit: cover;
@@ -44,6 +45,7 @@
         }
     }
     &__methods {
+        cursor: pointer;
         margin-bottom: 10px;
         border-bottom: 1px solid gray;
         padding-bottom: 10px;
@@ -72,7 +74,7 @@
         flex-direction: column;
         background-color: #060825;
         color: white;
-
+        cursor: pointer;
         padding: 5px 10px;
         border-radius: 5px;
         span {

@@ -7,11 +7,15 @@ function CartList() {
             {data.length > 0 ? (
                 <>
                     <ul className="cart__list">
-                        {data.map((item) => (
-                            <li key={item.id}>
-                                <CartItem item={item} />
-                            </li>
-                        ))}
+                        {data.map((item, index) => {
+                            if (index < 1) {
+                                return (
+                                    <li key={item.id}>
+                                        <CartItem item={item} />
+                                    </li>
+                                );
+                            }
+                        })}
                     </ul>
                 </>
             ) : (

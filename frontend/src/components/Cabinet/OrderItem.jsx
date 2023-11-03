@@ -1,6 +1,6 @@
+import { NavLink } from "react-router-dom";
 import "./OrderItem.scss";
-function OrderItem({ order, images }) {
-    const { date_order, id, status } = order;
+function OrderItem({ order }) {
     const months = [
         "Января",
         "Февраля",
@@ -20,7 +20,7 @@ function OrderItem({ order, images }) {
         const month = months[d.getMonth()];
         return `${date} ${month}`;
     }
-    const new_date_order = getData(date_order);
+    const new_date_order = getData(order.date_order);
     return (
         <div>
             <div className="order">
@@ -28,17 +28,19 @@ function OrderItem({ order, images }) {
                     <div className="order__body">
                         <div className="order__text">
                             <h2>Заказ от {new_date_order}</h2>
-                            <p>{id}</p>
+                            <NavLink to={`/order/${order.id}`}>
+                                {order.id}
+                            </NavLink>
                         </div>
                         <div className="order__text">
                             <h2>Статус заказа</h2>
                             <div className="order__text-status">
-                                <span>{status}</span>
+                                <span>{order.status}</span>
                             </div>
                         </div>
                     </div>
                     <ul className="order__images">
-                        {images.map((item, index) => (
+                        {order.product_img.map((item, index) => (
                             <li className="order__img" key={index}>
                                 <img src={item} alt="" />
                             </li>

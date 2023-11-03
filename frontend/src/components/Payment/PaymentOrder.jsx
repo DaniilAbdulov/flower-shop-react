@@ -16,7 +16,7 @@ function PaymentOrder({ setNewStage }) {
             <div className="po__wrapper">
                 <div className="po__images">
                     {data.map((item, index) => {
-                        if (index < 20) {
+                        if (index < 1) {
                             return (
                                 <div className="po__image" key={item.img}>
                                     <img src={item.img} alt="" />

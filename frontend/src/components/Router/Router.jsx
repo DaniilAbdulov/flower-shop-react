@@ -9,6 +9,7 @@ import ProductPage from "../ProductPage/ProductPage";
 import Cabinet from "../../pages/Cabinet";
 import Auth from "../../pages/Auth";
 import AdminPanel from "../../pages/AdminPanel";
+import Order from "../../pages/Order";
 function Router() {
     return (
         <div>
@@ -23,6 +24,7 @@ function Router() {
                 <Route path="cabinet" element={<Cabinet />} />
                 <Route path="auth" element={<Auth />} />
                 <Route path="admin" element={<AdminPanel />} />
+                <Route path="order/:id" element={<Order />} />
 
                 <Route path="*" element={<h2>Page not found</h2>} />
                 {/* </Route> */}
