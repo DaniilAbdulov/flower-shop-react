@@ -23,29 +23,38 @@ function OrderItem({ order }) {
     const new_date_order = getData(order.date_order);
     return (
         <div>
-            <div className="order">
-                <div className="order__row">
-                    <div className="order__body">
-                        <div className="order__text">
+            <div className="order-item">
+                <div className="order-item__row">
+                    <div className="order-item__body">
+                        <div className="order-item__text">
                             <h2>Заказ от {new_date_order}</h2>
                             <NavLink to={`/order/${order.id}`}>
                                 № {order.id}
                             </NavLink>
                         </div>
-                        <div className="order__text">
+                        <div className="order-item__text">
                             <h2>Статус заказа</h2>
                             <div className="order__text-status">
-                                <span>{order.status}</span>
+                                <span
+                                    style={{
+                                        backgroundColor:
+                                            order.status === "Создан"
+                                                ? "#0000FF"
+                                                : "#aca6a6",
+                                    }}
+                                >
+                                    {order.status}
+                                </span>
                             </div>
                         </div>
                     </div>
-                    <ul className="order__images">
-                        {order.product_img.map((item, index) => (
-                            <li className="order__img" key={index}>
-                                <img src={item} alt="" />
-                            </li>
+                    <div className="order__image-wrapper">
+                        {order.product_img.map((photo, index) => (
+                            <div className="order__image-container" key={index}>
+                                <img src={photo} alt="Изображение" />
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 </div>
             </div>
         </div>
