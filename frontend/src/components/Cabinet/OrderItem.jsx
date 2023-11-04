@@ -29,7 +29,7 @@ function OrderItem({ order }) {
                         <div className="order__text">
                             <h2>Заказ от {new_date_order}</h2>
                             <NavLink to={`/order/${order.id}`}>
-                                {order.id}
+                                № {order.id}
                             </NavLink>
                         </div>
                         <div className="order__text">
