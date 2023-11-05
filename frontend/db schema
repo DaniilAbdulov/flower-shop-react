@@ -1,70 +1,140 @@
+-- users {
+-- id int pk increments unique >* orders.users_id
+-- first_name varchar
+-- last_name varchar
+-- nickname varchar
+-- email varchar
+-- password varchar
+-- created_at datetime
+-- updated_at datetime
+-- role enum def(USER)
+-- }
+-- category {
 
-favorites {
-	id int pk increments
-	user_id int > user.id
-	product_id int >* product.id
-}
+-- id int pk increments >* product.category_id
+-- name varchar
+-- }
+-- product {
 
-trends {
-	id int pk increments
-	product_id int >* product.id
-}
+-- id int pk increments >* cart.product_id
+-- title varchar
+-- description varchar
+-- price int
+-- available int
+-- img varchar
+-- category_id int
+-- }
+-- status_orders {
 
-advice {
-	id int pk increments
-	product_id int >* product.id
-}
+-- id integer pk increments
+-- status varchar
+-- }
+-- favorites {
 
-user {
-	id int pk increments unique >* orders.user_id
-	first_name varchar
-	last_name varchar
-	nickname varchar
-	email varchar
-	password varchar
-	created_at datetime
-	updated_at datetime
-	role enum def(USER)
-}
+-- id int pk increments
+-- users_id int > users.id
+-- product_id int >* product.id
+-- }
+-- trends {
 
-category {
-	id int pk increments >* product.category_id
-	name varchar
-}
+-- id int pk increments
+-- product_id int >* product.id
+-- }
+-- advice {
 
-product {
-	id int pk increments >* cart.product_id
-	title varchar
-	description varchar
-	price int
-	available int
-	img varchar
-	category_id int
-	
-}
+-- id int pk increments
+-- product_id int >* product.id
+-- }
+-- orders {
 
-orders {
-	id integer pk increments
-	user_id integer
-	date_order timestamp
-	status_order_id integer >* status_orders.id
-	total_price integer
-}
+-- id integer pk increments
+-- users_id integer
+-- date_order timestamp
+-- status_order_id integer def(Создан) >* status_orders.id
+-- total_price integer
+-- }
+-- carts_users {
 
-status_orders {
-	id integer pk increments
-	status varchar
-}
+-- users_id integer pk increments *> users.id
+-- product_id integer *> product.id
+-- count smallint
+-- }
+-- orders_products {
 
-carts_users {
-	user_id integer pk increments *> user.id
-	product_id integer *> product.id
-	count smallint
-}
+-- order_id integer pk increments *> orders.id
+-- product_id integer *> product.id
+-- count smallint
+-- }
 
-orders_products {
-	order_id integer pk increments *> orders.id
-	product_id integer *> product.id
-	count smallint
-}
+CREATE TABLE users ( id SERIAL PRIMARY KEY, first_name VARCHAR, last_name VARCHAR, nickname VARCHAR, email VARCHAR, password VARCHAR, created_at TIMESTAMPTZ, updated_at TIMESTAMPTZ, role VARCHAR DEFAULT 'USER' );
+CREATE TABLE category ( id SERIAL PRIMARY KEY, name VARCHAR );
+CREATE TABLE product ( id SERIAL PRIMARY KEY, title VARCHAR, description VARCHAR, price INT, available INT, img VARCHAR, category_id INTEGER );
+CREATE TABLE status_orders ( id SERIAL PRIMARY KEY, status VARCHAR );
+CREATE TABLE favorites ( id SERIAL PRIMARY KEY, users_id INTEGER REFERENCES users(id), product_id INTEGER REFERENCES product(id) );
+CREATE TABLE trends ( id SERIAL PRIMARY KEY, product_id INTEGER REFERENCES product(id) );
+CREATE TABLE advice ( id SERIAL PRIMARY KEY, product_id INTEGER REFERENCES product(id) );
+CREATE TABLE orders ( id SERIAL PRIMARY KEY, users_id INTEGER REFERENCES users(id), date_order TIMESTAMPTZ, status_order_id INTEGER REFERENCES status_orders(id), total_price INTEGER );
+CREATE TABLE carts_users ( users_id INTEGER REFERENCES users(id), product_id INTEGER REFERENCES product(id), count SMALLINT, PRIMARY KEY (users_id, product_id) );
+CREATE TABLE orders_products ( order_id INTEGER REFERENCES orders(id), product_id INTEGER REFERENCES product(id), count SMALLINT, PRIMARY KEY (order_id, product_id) );
 
+insert into users (id, first_name, last_name, nickname, email, password, created_at, updated_at, role) values (1, 'Theodor', 'Waterland', 'mwaterland0', 'mwaterland0@hatena.ne.jp', 'nE5{zsMsm+a\/m/', '7/4/2023', '5/9/2023', 'USER');
+insert into users (id, first_name, last_name, nickname, email, password, created_at, updated_at, role) values (2, 'Jacklin', 'Marney', 'vmarney1', 'vmarney1@prlog.org', 'gY3@OQ6i>2)cM', '1/2/2023', '4/5/2023', 'USER');
+insert into users (id, first_name, last_name, nickname, email, password, created_at, updated_at, role) values (3, 'Aviva', 'Alf', 'galf2', 'galf2@utexas.edu', 'nR1|m(Mg>y%+"`', '9/5/2023', '12/6/2022', 'USER');
+insert into users (id, first_name, last_name, nickname, email, password, created_at, updated_at, role) values (4, 'Uriah', 'Dovinson', 'ldovinson3', 'ldovinson3@craigslist.org', 'yP5_@,2,E}?`KtPs', '9/2/2023', '1/2/2023', 'USER');
+insert into users (id, first_name, last_name, nickname, email, password, created_at, updated_at, role) values (5, 'Brade', 'O''Cannan', 'tocannan4', 'tocannan4@booking.com', 'fB3{py039', '10/5/2023', '3/3/2023', 'USER');
+insert into users (id, first_name, last_name, nickname, email, password, created_at, updated_at, role) values (6, 'Heddi', 'Barca', 'lbarca5', 'lbarca5@meetup.com', 'pR8!Q67PtfUK#a0+', '11/4/2023', '1/5/2023', 'USER');
+insert into users (id, first_name, last_name, nickname, email, password, created_at, updated_at, role) values (7, 'Edgar', 'Haggerty', 'dhaggerty6', 'dhaggerty6@redcross.org', 'tJ6|eqtTJB~mmN*r', '8/6/2023', '5/7/2023', 'USER');
+insert into users (id, first_name, last_name, nickname, email, password, created_at, updated_at, role) values (8, 'Nissa', 'Schooley', 'sschooley7', 'sschooley7@angelfire.com', 'rE1~pp<F9!k', '7/7/2023', '12/6/2022', 'USER');
+insert into users (id, first_name, last_name, nickname, email, password, created_at, updated_at, role) values (9, 'Tammi', 'Andrzejewski', 'tandrzejewski8', 'tandrzejewski8@seattletimes.com', 'tB0(FQ&d(._?K3', '12/6/2022', '11/6/2022', 'USER');
+insert into users (id, first_name, last_name, nickname, email, password, created_at, updated_at, role) values (10, 'Rhodie', 'Morilla', 'ymorilla9', 'ymorilla9@huffingtonpost.com', 'zW3/$CS>a''uWj', '12/2/2022', '11/4/2022', 'USER');
+
+insert into product (id, title, description, price, available, img, category_id) values (50, 'Cacatua galerita', 'a pede posuere nonummy integer non velit donec', 7232, 12, 'https://via.placeholder.com/600/24f355', 1);
+insert into product (id, title, description, price, available, img, category_id) values (49, 'Lorythaixoides concolor', 'vulputate elementum nullam varius nulla', 8540, 22, 'https://via.placeholder.com/600/24f355', 2);
+insert into product (id, title, description, price, available, img, category_id) values (48, 'Buteo regalis', 'ac neque duis bibendum morbi non quam', 9770, 4, 'https://via.placeholder.com/600/24f355', 3);
+insert into product (id, title, description, price, available, img, category_id) values (47, 'Panthera tigris', 'pede ac diam cras pellentesque volutpat', 9133, 10, 'https://via.placeholder.com/600/24f355', 4);
+insert into product (id, title, description, price, available, img, category_id) values (46, 'Trichoglossus haematodus moluccanus', 'fusce posuere felis sed', 7567, 4, 'https://via.placeholder.com/600/24f355', 4);
+insert into product (id, title, description, price, available, img, category_id) values (45, 'Vulpes cinereoargenteus', 'vulputate nonummy maecenas tincidunt lacus at velit vivamus vel', 1241, 22, 'https://via.placeholder.com/600/24f355', 3);
+insert into product (id, title, description, price, available, img, category_id) values (44, 'Myotis lucifugus', 'turpis integer aliquet massa id lobortis convallis tortor', 2934, 21, 'https://via.placeholder.com/600/24f355', 2);
+insert into product (id, title, description, price, available, img, category_id) values (43, 'Connochaetus taurinus', 'eleifend luctus ultricies eu nibh', 9401, 4, 'https://via.placeholder.com/600/d32776', 1);
+insert into product (id, title, description, price, available, img, category_id) values (42, 'Pteropus rufus', 'facilisi cras non velit nec nisi vulputate', 6071, 27, 'https://via.placeholder.com/600/d32776', 1);
+insert into product (id, title, description, price, available, img, category_id) values (41, 'Columba livia', 'eu interdum eu tincidunt in leo maecenas pulvinar', 1268, 8, 'https://via.placeholder.com/600/24f355', 2);
+insert into product (id, title, description, price, available, img, category_id) values (40, 'Gymnorhina tibicen', 'lorem ipsum dolor sit amet consectetuer adipiscing elit', 7062, 19, 'https://via.placeholder.com/600/24f355', 3);
+insert into product (id, title, description, price, available, img, category_id) values (39, 'Ara chloroptera', 'faucibus orci luctus et ultrices posuere', 6454, 18, 'https://via.placeholder.com/600/24f355', 4);
+insert into product (id, title, description, price, available, img, category_id) values (38, 'Geococcyx californianus', 'tincidunt nulla mollis molestie lorem quisque ut', 4651, 5, 'https://via.placeholder.com/600/d32776', 4);
+insert into product (id, title, description, price, available, img, category_id) values (37, 'Hystrix indica', 'aliquam non mauris morbi non lectus aliquam', 9915, 28, 'https://via.placeholder.com/600/24f355', 3);
+insert into product (id, title, description, price, available, img, category_id) values (36, 'Chlamydosaurus kingii', 'eleifend luctus ultricies eu nibh quisque id justo sit amet', 1885, 11, 'https://via.placeholder.com/600/d32776', 2);
+insert into product (id, title, description, price, available, img, category_id) values (35, 'Corythornis cristata', 'erat id mauris vulputate elementum nullam', 3191, 26, 'https://via.placeholder.com/600/24f355', 1);
+insert into product (id, title, description, price, available, img, category_id) values (34, 'Crotalus cerastes', 'pharetra magna ac consequat metus sapien ut', 341, 30, 'https://via.placeholder.com/600/24f355', 1);
+insert into product (id, title, description, price, available, img, category_id) values (33, 'Trachyphonus vaillantii', 'duis consequat dui nec nisi volutpat eleifend donec', 302, 22, 'https://via.placeholder.com/600/d32776', 2);
+insert into product (id, title, description, price, available, img, category_id) values (32, 'Varanus sp.', 'nec nisi volutpat', 4952, 10, 'https://via.placeholder.com/600/d32776', 3);
+insert into product (id, title, description, price, available, img, category_id) values (31, 'Anser caerulescens', 'dui vel nisl duis ac nibh fusce lacus', 3170, 20, 'https://via.placeholder.com/600/d32776', 4);
+insert into product (id, title, description, price, available, img, category_id) values (1, 'Gopherus agassizii', 'lobortis vel dapibus at diam', 8067, 27, 'https://via.placeholder.com/600/d32776', 4);
+insert into product (id, title, description, price, available, img, category_id) values (2, 'Madoqua kirkii', 'sagittis sapien cum sociis natoque penatibus et', 6618, 21, 'https://via.placeholder.com/600/24f355', 3);
+insert into product (id, title, description, price, available, img, category_id) values (3, 'Porphyrio porphyrio', 'elementum pellentesque quisque porta', 4427, 16, 'https://via.placeholder.com/600/24f355', 2);
+insert into product (id, title, description, price, available, img, category_id) values (4, 'Sarkidornis melanotos', 'odio donec vitae nisi nam ultrices libero', 3521, 23, 'https://via.placeholder.com/600/24f355', 1);
+insert into product (id, title, description, price, available, img, category_id) values (5, 'Ammospermophilus nelsoni', 'primis in faucibus orci luctus', 6221, 4, 'https://via.placeholder.com/600/24f355', 1);
+insert into product (id, title, description, price, available, img, category_id) values (6, 'unavailable', 'a suscipit nulla elit ac nulla sed vel enim', 4446, 4, 'https://via.placeholder.com/600/d32776', 2);
+insert into product (id, title, description, price, available, img, category_id) values (7, 'Terathopius ecaudatus', 'vitae ipsum aliquam', 1015, 28, 'https://via.placeholder.com/600/d32776', 3);
+insert into product (id, title, description, price, available, img, category_id) values (8, 'Naja haje', 'ultrices erat tortor sollicitudin mi sit amet', 5009, 3, 'https://via.placeholder.com/600/24f355', 4);
+insert into product (id, title, description, price, available, img, category_id) values (9, 'Rhea americana', 'volutpat in congue etiam justo etiam pretium', 2510, 15, 'https://via.placeholder.com/600/d32776', 1);
+insert into product (id, title, description, price, available, img, category_id) values (10, 'Nannopterum harrisi', 'lacus morbi sem mauris laoreet ut rhoncus aliquet', 472, 7, 'https://via.placeholder.com/600/24f355', 2);
+insert into product (id, title, description, price, available, img, category_id) values (11, 'Laniarius ferrugineus', 'magnis dis parturient montes', 9827, 27, 'https://via.placeholder.com/600/d32776', 3);
+insert into product (id, title, description, price, available, img, category_id) values (12, 'Acanthaster planci', 'ipsum primis in faucibus orci', 1176, 10, 'https://via.placeholder.com/600/d32776', 4);
+insert into product (id, title, description, price, available, img, category_id) values (13, 'Phalacrocorax carbo', 'in congue etiam justo etiam pretium iaculis justo in hac', 542, 17, 'https://via.placeholder.com/600/24f355', 1);
+insert into product (id, title, description, price, available, img, category_id) values (14, 'Cochlearius cochlearius', 'nunc commodo placerat praesent blandit nam nulla', 3350, 19, 'https://via.placeholder.com/600/24f355', 2);
+insert into product (id, title, description, price, available, img, category_id) values (15, 'Tamiasciurus hudsonicus', 'dignissim vestibulum vestibulum ante ipsum', 2539, 2, 'https://via.placeholder.com/600/24f355', 3);
+insert into product (id, title, description, price, available, img, category_id) values (16, 'Cebus apella', 'porttitor pede justo eu massa donec dapibus duis at', 4170, 16, 'https://via.placeholder.com/600/24f355', 4);
+insert into product (id, title, description, price, available, img, category_id) values (17, 'Boa constrictor mexicana', 'leo rhoncus sed vestibulum', 9378, 30, 'https://via.placeholder.com/600/24f355', 1);
+insert into product (id, title, description, price, available, img, category_id) values (18, 'Ardea golieth', 'sem mauris laoreet', 8751, 28, 'https://via.placeholder.com/600/24f355', 2);
+insert into product (id, title, description, price, available, img, category_id) values (19, 'Tockus erythrorhyncus', 'morbi quis tortor id nulla ultrices', 2197, 9, 'https://via.placeholder.com/600/d32776', 3);
+insert into product (id, title, description, price, available, img, category_id) values (20, 'Plegadis ridgwayi', 'curae mauris viverra', 6070, 14, 'https://via.placeholder.com/600/24f355', 4);
+insert into product (id, title, description, price, available, img, category_id) values (21, 'Boa constrictor mexicana', 'ultrices phasellus id sapien in sapien iaculis congue vivamus', 9123, 24, 'https://via.placeholder.com/600/24f355', 1);
+insert into product (id, title, description, price, available, img, category_id) values (22, 'Parus atricapillus', 'lacus morbi sem mauris laoreet ut rhoncus aliquet pulvinar', 6102, 5, 'https://via.placeholder.com/600/d32776', 2);
+insert into product (id, title, description, price, available, img, category_id) values (23, 'Lasiodora parahybana', 'libero nam dui proin leo odio porttitor id consequat', 5567, 30, 'https://via.placeholder.com/600/24f355', 3);
+insert into product (id, title, description, price, available, img, category_id) values (24, 'Morelia spilotes variegata', 'sollicitudin vitae consectetuer eget rutrum at lorem integer tincidunt', 4617, 2, 'https://via.placeholder.com/600/24f355', 4);
+insert into product (id, title, description, price, available, img, category_id) values (25, 'Nesomimus trifasciatus', 'cursus vestibulum proin eu mi nulla ac enim', 9643, 28, 'https://via.placeholder.com/600/d32776', 1);
+insert into product (id, title, description, price, available, img, category_id) values (26, 'Climacteris melanura', 'elementum nullam varius nulla facilisi', 6343, 9, 'https://via.placeholder.com/600/24f355', 2);
+insert into product (id, title, description, price, available, img, category_id) values (27, 'Speothos vanaticus', 'parturient montes nascetur', 6611, 7, 'https://via.placeholder.com/600/d32776', 3);
+insert into product (id, title, description, price, available, img, category_id) values (28, 'Microcebus murinus', 'lobortis ligula sit amet', 1398, 5, 'https://via.placeholder.com/600/d32776', 4);
+insert into product (id, title, description, price, available, img, category_id) values (29, 'Anser caerulescens', 'magnis dis parturient montes', 2824, 14, 'https://via.placeholder.com/600/d32776', 1);
+insert into product (id, title, description, price, available, img, category_id) values (30, 'Lamprotornis sp.', 'integer ac neque duis bibendum morbi', 4066, 30, 'https://via.placeholder.com/600/24f355', 2);
