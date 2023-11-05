@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const pool = require("../db");
 const generateJwt = (id, nickName, email) => {
     return jwt.sign({ id, nickName, email }, process.env.SECRET_KEY, {
         expiresIn: "24h",
@@ -44,6 +44,13 @@ class UserController {
 
     async check(req, res, next) {
         const token = generateJwt(req.user.id, req.user.email, req.user.role);
+        // pool.query("SELECT * FROM users WHERE user.first_name = 'Daniil'", (err, result) => {
+        //     if (err) {
+        //         console.error("Ошибка выполнения запроса", err);
+        //     } else {
+        //         console.log("Результат запроса:", result);
+        //     }
+        // });
         return res.json({ token });
     }
 }
