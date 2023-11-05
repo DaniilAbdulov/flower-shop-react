@@ -5,7 +5,6 @@ function Order() {
     const params = useParams();
     const orderId = params.id;
     const order = orders.filter((item) => item.id == orderId)[0];
-    console.log(order);
     let cancelationValues = false;
     const months = [
         "Января",
@@ -43,7 +42,6 @@ function Order() {
     }
     const new_date_order = getData(order.date_order);
     const buttonValue = getButton();
-    console.log(buttonValue);
     function handlePayButton() {
         alert(`Настрой логику перехода на страницу оплаты`);
     }

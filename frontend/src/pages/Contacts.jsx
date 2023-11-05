@@ -10,9 +10,9 @@ import {
 import "./Contact.scss";
 
 function Contacts() {
-    const [name, setName] = useState(null);
-    const [phone, setPhone] = useState(null);
-    const [message, setMessage] = useState(null);
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [message, setMessage] = useState("");
     function handleSubmitMessage(e) {
         e.preventDefault();
         const newMessage = {
