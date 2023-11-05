@@ -91,6 +91,9 @@ function Order() {
                         </p>
                         <p>user@yandex.ru</p>
                     </div>
+                    <div className="order__total-price order__user">
+                        <h2>Сумма: 18000</h2>
+                    </div>
                     <button onClick={handlePayButton} className="order__button">
                         {buttonValue}
                     </button>
@@ -123,6 +126,7 @@ order
         lastName,
         email,
     }
+    total_price: int
 }
 
 
