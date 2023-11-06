@@ -3,18 +3,24 @@ import { NavLink } from "react-router-dom";
 import { FaBars } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import "./Menu.scss";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    logOutUser,
+    selectIsAdmin,
+    selectIsAuth,
+} from "../../redux/slices/userSlice";
 
 function Menu() {
     const [cartCount, setCartCount] = useState(0);
-    const [isAuth, setIsAuth] = useState(false);
-    const [isAdmin, setIsAdmin] = useState(false);
+    const isAdmin = useSelector(selectIsAdmin);
+    const isAuth = useSelector(selectIsAuth);
     const links = [
         { to: "/", title: "Home" },
         { to: "/about", title: "About us" },
         { to: "/contacts", title: "Contacts" },
         { to: "/cabinet", title: "D" },
         { to: !isAuth ? "/auth" : "/", title: !isAuth ? "LogIn" : "Log Out" },
-        { to: !isAdmin ? "/admin" : "/", title: !isAdmin ? "Admin panel" : "" },
+        { to: !isAdmin ? "/" : "/admin", title: !isAdmin ? "" : "Admin panel" },
     ];
     const [visible, setVisible] = useState(true);
     const [device, setDevice] = useState("mobile");
@@ -24,6 +30,10 @@ function Menu() {
         } else {
             setVisible(true);
         }
+    }
+    const dispatch = useDispatch();
+    function logOutUserHandler() {
+        dispatch(logOutUser());
     }
     useEffect(() => {
         const windowInnerWidth = window.innerWidth;
@@ -91,6 +101,9 @@ function Menu() {
                                     onClick={() => {
                                         if (device === "mobile") {
                                             setVisible(false);
+                                        }
+                                        if (link.title === "Log Out") {
+                                            logOutUserHandler();
                                         }
                                     }}
                                 >

@@ -10,7 +10,10 @@ import Cabinet from "../../pages/Cabinet";
 import Auth from "../../pages/Auth";
 import AdminPanel from "../../pages/AdminPanel";
 import Order from "../../pages/Order";
+import { useSelector } from "react-redux";
+import { selectIsAdmin } from "../../redux/slices/userSlice";
 function Router() {
+    const isAdmin = useSelector(selectIsAdmin);
     return (
         <div>
             <Routes>
@@ -23,7 +26,11 @@ function Router() {
                 <Route path="payment" element={<Payment />} />
                 <Route path="cabinet" element={<Cabinet />} />
                 <Route path="auth" element={<Auth />} />
-                <Route path="admin" element={<AdminPanel />} />
+                {isAdmin && (
+                    <>
+                        <Route path="admin" element={<AdminPanel />} />
+                    </>
+                )}
                 <Route path="order/:id" element={<Order />} />
 
                 <Route path="*" element={<h2>Page not found</h2>} />

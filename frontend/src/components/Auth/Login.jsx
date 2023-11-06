@@ -1,26 +1,19 @@
 import { useState } from "react";
-import axios from "axios";
-import { API_URL } from "../../config";
+import { useDispatch } from "react-redux";
+import { fetchLogin } from "../../redux/slices/userSlice";
+
 function Login(props) {
     const toggleForm = props.toggleTypeOfForm;
     const [nickName, setNickName] = useState("");
     const [password, setPassword] = useState("");
-    const logInUser = async (candidat) => {
-        try {
-            const res = await axios.post(`${API_URL}/user/login`, candidat);
-            console.log(res.data);
-            localStorage.setItem("bgtrackerjwt", res.data.token);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    const dispatch = useDispatch();
     const handleSubmitLogin = (e) => {
         e.preventDefault();
         const candidat = {
             nickName,
             password,
         };
-        logInUser(candidat);
+        dispatch(fetchLogin(candidat));
         setNickName("");
         setPassword("");
     };

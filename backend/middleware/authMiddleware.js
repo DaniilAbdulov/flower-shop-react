@@ -1,8 +1,6 @@
 const jwt = require("jsonwebtoken");
 const pool = require("../db");
 module.exports = function (req, res, next) {
-    console.log("Я ЗДЕЕЕЕСЬ !!!!");
-
     if (req.method === "OPTIONS") {
         next();
     }

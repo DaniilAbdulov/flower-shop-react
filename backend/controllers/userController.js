@@ -25,7 +25,9 @@ class UserController {
         return res.json(token);
     }
     async login(req, res, next) {
+        res.json({ message: "маршрут работает" });
         try {
+            console.log(req);
             const { nickName, password } = req.body;
             const findUser = await pool.query(
                 "SELECT * FROM users WHERE nickname = $1",
@@ -43,7 +45,7 @@ class UserController {
                 console.log("Неверный пароль");
                 return res.status(404).json({ message: "Неверный пароль" });
             }
-            const token = generateJwt(Date.now(), nickName, user.email);
+            const token = generateJwt(user.id, nickName, user.role);
             return res.json({ token, user });
         } catch (error) {
             console.log(error);
@@ -64,15 +66,16 @@ class UserController {
     // const token = generateJwt(id, nickName, email);
 
     async check(req, res, next) {
-        const token = generateJwt(req.user.id, req.user.email, req.user.role);
-        // pool.query("SELECT * FROM users WHERE user.first_name = 'Daniil'", (err, result) => {
-        //     if (err) {
-        //         console.error("Ошибка выполнения запроса", err);
-        //     } else {
-        //         console.log("Результат запроса:", result);
-        //     }
-        // });
-        return res.json({ token });
+        const findUser = await pool.query("SELECT * FROM users WHERE id = $1", [
+            req.user.id,
+        ]);
+        if (!findUser.rowCount) {
+            console.log("Нет такого пользователя");
+            return res.status(404).json({ message: "Нет такого пользователя" });
+        }
+        const user = findUser.rows[0];
+        const token = generateJwt(user.id, user.email, user.role);
+        return res.json({ token, user });
     }
 }
 

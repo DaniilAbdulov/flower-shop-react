@@ -7,6 +7,7 @@ const initialState = {
     isLoading: false,
     isAdmin: false,
     isUser: false,
+    isAuth: false,
 };
 
 const initializeAxiosHeaders = (token) => {
@@ -33,27 +34,31 @@ export const fetchCurrentUser = createAsyncThunk(
         }
     }
 );
+export const fetchLogin = createAsyncThunk(
+    "user/login",
+    async (candidat, thunkAPI) => {
+        try {
+            const res = await axios.get(`${API_URL}/user/login`, candidat);
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.message));
+            throw error;
+        }
+    }
+);
 
 const userSlice = createSlice({
     name: "user",
     initialState: initialState,
     reducers: {
-        // addBook: (state, action) => {
-        //     state.books.push(action.payload);
-        // },
-        // deleteBook: (state, action) => {
-        //     return {
-        //         ...state,
-        //         books: state.filter((book) => book.id !== action.payload),
-        //     };
-        // },
-        // toggleFavorite: (state, action) => {
-        //     return state.books.forEach((book) => {
-        //         if (book.id === action.payload) {
-        //             book.isFavorite = !book.isFavorite;
-        //         }
-        //     });
-        // },
+        logOutUser: (state) => {
+            state.user = {};
+            state.isAdmin = false;
+            state.isUser = false;
+            state.isAuth = false;
+            localStorage.removeItem("bgtrackerjwt");
+            initializeAxiosHeaders(null);
+        },
     },
     extraReducers: {
         [fetchCurrentUser.pending]: (state) => {
@@ -61,26 +66,58 @@ const userSlice = createSlice({
         },
         [fetchCurrentUser.fulfilled]: (state, action) => {
             state.isLoading = false;
-            console.log(action.payload);
-            // if (action.payload.title && action.payload.author) {
-            //     const book = {
-            //         id: Date.now(),
-            //         title: action.payload.title,
-            //         author: action.payload.author,
-            //         isFavorite: false,
-            //     };
-            //     state.books.push(book);
-            // }
+            if (!action.payload) {
+                console.log("Пользователь не авторизован");
+            } else {
+                const { token, user } = action.payload;
+                localStorage.setItem("bgtrackerjwt", token);
+                initializeAxiosHeaders(token);
+                state.user = user;
+                state.isAuth = true;
+                if (user.role !== "ADMIN") {
+                    state.isUser = true;
+                } else {
+                    state.isAdmin = true;
+                }
+            }
         },
         [fetchCurrentUser.rejected]: (state) => {
+            state.isLoading = false;
+        },
+        [fetchLogin.pending]: (state) => {
+            state.isLoading = true;
+        },
+        [fetchLogin.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            if (!action.payload) {
+                console.log("П");
+            } else {
+                const { token, user } = action.payload;
+                localStorage.setItem("bgtrackerjwt", token);
+                initializeAxiosHeaders(token);
+                state.user = user;
+                state.isAuth = true;
+                if (user.role !== "ADMIN") {
+                    state.isUser = true;
+                } else {
+                    state.isAdmin = true;
+                }
+            }
+        },
+        [fetchLogin.rejected]: (state) => {
             state.isLoading = false;
         },
     },
 });
 
-export const { addBook, deleteBook, toggleFavorite } = userSlice.actions;
+export const { logOutUser } = userSlice.actions;
 export const selectUser = (state) => state.user.user;
 export const selectIsAdmin = (state) => state.user.isAdmin;
 export const selectIsUser = (state) => state.user.isUser;
+export const selectIsAuth = (state) => state.user.isAuth;
 
 export default userSlice.reducer;
+
+// const isAdmin = useSelector(selectIsAdmin);
+// const isUser = useSelector(selectIsUser);
+// const isAuth = useSelector(selectIsAuth);
