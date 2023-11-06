@@ -38,7 +38,22 @@ export const fetchLogin = createAsyncThunk(
     "user/login",
     async (candidat, thunkAPI) => {
         try {
-            const res = await axios.get(`${API_URL}/user/login`, candidat);
+            const res = await axios.post(`${API_URL}/user/login`, candidat);
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.message));
+            throw error;
+        }
+    }
+);
+export const fetchSignUp = createAsyncThunk(
+    "user/signup",
+    async (newCandidat, thunkAPI) => {
+        try {
+            const res = await axios.post(
+                `${API_URL}/user/registration`,
+                newCandidat
+            );
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.message));
@@ -90,7 +105,7 @@ const userSlice = createSlice({
         [fetchLogin.fulfilled]: (state, action) => {
             state.isLoading = false;
             if (!action.payload) {
-                console.log("П");
+                console.log("Ошибка в action.payload");
             } else {
                 const { token, user } = action.payload;
                 localStorage.setItem("bgtrackerjwt", token);
@@ -105,6 +120,29 @@ const userSlice = createSlice({
             }
         },
         [fetchLogin.rejected]: (state) => {
+            state.isLoading = false;
+        },
+        [fetchSignUp.pending]: (state) => {
+            state.isLoading = true;
+        },
+        [fetchSignUp.fulfilled]: (state, action) => {
+            state.isLoading = false;
+            if (!action.payload) {
+                console.log("Ошибка в action.payload");
+            } else {
+                const { token, user } = action.payload;
+                localStorage.setItem("bgtrackerjwt", token);
+                initializeAxiosHeaders(token);
+                state.user = user;
+                state.isAuth = true;
+                if (user.role !== "ADMIN") {
+                    state.isUser = true;
+                } else {
+                    state.isAdmin = true;
+                }
+            }
+        },
+        [fetchSignUp.rejected]: (state) => {
             state.isLoading = false;
         },
     },

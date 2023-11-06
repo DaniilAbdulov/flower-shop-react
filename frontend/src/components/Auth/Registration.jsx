@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
-import { API_URL } from "../../config";
+import { useDispatch } from "react-redux";
+import { fetchSignUp } from "../../redux/slices/userSlice";
 function Registration(props) {
     const toggleForm = props.toggleTypeOfForm;
     const [firstName, setFirstName] = useState("");
@@ -9,28 +9,18 @@ function Registration(props) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [passwordAgain, setPasswordAgain] = useState("");
-    const signUpUser = async (candidat) => {
-        try {
-            const res = await axios.post(
-                `${API_URL}/user/registration`,
-                candidat
-            );
-            console.log(res.data);
-            localStorage.setItem("bgtrackerjwt", res.data);
-        } catch (error) {}
-    };
+    const dispatch = useDispatch();
     const handleSubmitRegistration = (e) => {
         e.preventDefault();
         if (password === passwordAgain) {
             const newCandidat = {
-                id: Date.now(),
                 firstName,
                 lastName,
                 nickName,
                 email,
                 password,
             };
-            signUpUser(newCandidat);
+            dispatch(fetchSignUp(newCandidat));
             setFirstName("");
             setLastName("");
             setNickName("");

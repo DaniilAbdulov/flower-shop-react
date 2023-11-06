@@ -1,6 +1,5 @@
-const jwt = require("jsonwebtoken");
-const pool = require("../db");
-module.exports = function (req, res, next) {
+import jwt from "jsonwebtoken";
+export function authMiddleware(req, res, next) {
     if (req.method === "OPTIONS") {
         next();
     }
@@ -15,4 +14,4 @@ module.exports = function (req, res, next) {
     } catch (e) {
         res.status(401).json({ message: "Не авторизован" });
     }
-};
+}
