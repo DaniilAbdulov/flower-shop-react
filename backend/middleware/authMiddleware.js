@@ -2,16 +2,7 @@ const jwt = require("jsonwebtoken");
 const pool = require("../db");
 module.exports = function (req, res, next) {
     console.log("Я ЗДЕЕЕЕСЬ !!!!");
-    pool.query(
-        "SELECT * FROM users WHERE first_name = 'Daniil'",
-        (err, result) => {
-            if (err) {
-                console.error("Ошибка выполнения запроса", err);
-            } else {
-                console.log("Результат запроса:", result.rows);
-            }
-        }
-    );
+
     if (req.method === "OPTIONS") {
         next();
     }

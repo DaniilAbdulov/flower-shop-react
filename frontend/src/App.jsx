@@ -1,38 +1,19 @@
 import { BrowserRouter } from "react-router-dom";
 import { useEffect } from "react";
-import axios from "axios";
-
+import { useDispatch, useSelector } from "react-redux";
 import "./App.scss";
-
+import { fetchCurrentUser } from "./redux/slices/userSlice";
 import Router from "./components/Router/Router";
 import MainLayout from "./layouts/MainLayout";
 import Footer from "./layouts/Footer";
-import { API_URL } from "./config";
-
+import { selectIsAdmin } from "./redux/slices/userSlice";
 function App() {
-    const initializeAxiosHeaders = (token) => {
-        if (token) {
-            axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-        } else {
-            delete axios.defaults.headers.common.Authorization;
-        }
-    };
+    const dispatch = useDispatch();
     useEffect(() => {
-        const initialLoad = async () => {
-            const token = localStorage.getItem("bgtrackerjwt");
-            initializeAxiosHeaders(token);
-            if (token) {
-                try {
-                    const res = await axios.get(`${API_URL}/user/auth`);
-                    console.log(res);
-                } catch (error) {
-                    // Handle error
-                }
-            }
-        };
-        initialLoad();
+        dispatch(fetchCurrentUser());
     }, []);
-
+    const isAdmin = useSelector(selectIsAdmin);
+    console.log(isAdmin);
     return (
         <BrowserRouter>
             <MainLayout />

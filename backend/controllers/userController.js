@@ -24,23 +24,44 @@ class UserController {
         const token = generateJwt(id, nickName, email);
         return res.json(token);
     }
-
     async login(req, res, next) {
-        const { nickName, password } = req.body;
-        // const user = await User.findOne({ where: { email } });
-        // if (!user) {
-        //     return next(ApiError.internal("Пользователь не найден"));
-        // }
-        // let comparePassword = bcrypt.compareSync(password, user.password);
-        // if (!comparePassword) {
-        //     return next(ApiError.internal("Указан неверный пароль"));
-        // }
-
-        // const token = generateJwt(id, nickName, email);
-        const token = generateJwt(Date.now(), nickName, "m@m");
-
-        return res.json({ token });
+        try {
+            const { nickName, password } = req.body;
+            const findUser = await pool.query(
+                "SELECT * FROM users WHERE nickname = $1",
+                [nickName]
+            );
+            if (!findUser.rowCount) {
+                console.log("Нет такого пользователя");
+                return res
+                    .status(404)
+                    .json({ message: "Нет такого пользователя" });
+            }
+            const user = findUser.rows[0];
+            let comparePassword = password === user.password;
+            if (!comparePassword) {
+                console.log("Неверный пароль");
+                return res.status(404).json({ message: "Неверный пароль" });
+            }
+            const token = generateJwt(Date.now(), nickName, user.email);
+            return res.json({ token, user });
+        } catch (error) {
+            console.log(error);
+            return res
+                .status(500)
+                .json({ message: "Внутренняя ошибка сервера" });
+        }
     }
+    // const user = await User.findOne({ where: { email } });
+    // if (!user) {
+    //     return next(ApiError.internal("Пользователь не найден"));
+    // }
+    // let comparePassword = bcrypt.compareSync(password, user.password);
+    // if (!comparePassword) {
+    //     return next(ApiError.internal("Указан неверный пароль"));
+    // }
+
+    // const token = generateJwt(id, nickName, email);
 
     async check(req, res, next) {
         const token = generateJwt(req.user.id, req.user.email, req.user.role);
