@@ -132,6 +132,7 @@ export const selectIsAdmin = (state) => state.user.isAdmin;
 export const selectIsUser = (state) => state.user.isUser;
 export const selectIsAuth = (state) => state.user.isAuth;
 export const selectFirstSymbols = (state) => state.user.userFirstLastName;
+export const selectIsLoading = (state) => state.user.isLoading;
 
 export default userSlice.reducer;
 

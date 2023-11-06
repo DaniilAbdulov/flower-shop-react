@@ -18,7 +18,7 @@ function Login(props) {
         setPassword("");
     };
     return (
-        <>
+        <div>
             <form onSubmit={handleSubmitLogin}>
                 <h2>Заполните форму авторизации</h2>
                 <div className="form__item">
@@ -44,7 +44,7 @@ function Login(props) {
                 <button type="submit">Отправить</button>
                 <p onClick={toggleForm}>Нет аккаунта ?</p>
             </form>
-        </>
+        </div>
     );
 }
 export default Login;

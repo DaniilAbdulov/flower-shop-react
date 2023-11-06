@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Contacts from "../../pages/Contacts";
 import About from "../../pages/About";
-// import MainLayout from "../../layouts/MainLayout";
 import Home from "../../pages/Home";
 import Cart from "../../pages/Cart";
 import Payment from "../../pages/Payment";
@@ -14,11 +13,9 @@ import { useSelector } from "react-redux";
 import { selectIsAdmin } from "../../redux/slices/userSlice";
 function Router() {
     const isAdmin = useSelector(selectIsAdmin);
-
     return (
         <div>
             <Routes>
-                {/* <Route path="/" element={<MainLayout />}> */}
                 <Route path="/" element={<Home />} />
                 <Route path="about" element={<About />} />
                 <Route path="contacts" element={<Contacts />} />
@@ -33,9 +30,7 @@ function Router() {
                     </>
                 )}
                 <Route path="order/:id" element={<Order />} />
-
                 <Route path="*" element={<h2>Page not found</h2>} />
-                {/* </Route> */}
             </Routes>
         </div>
     );
