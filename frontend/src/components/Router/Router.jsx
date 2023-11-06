@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { selectIsAdmin } from "../../redux/slices/userSlice";
 function Router() {
     const isAdmin = useSelector(selectIsAdmin);
+
     return (
         <div>
             <Routes>

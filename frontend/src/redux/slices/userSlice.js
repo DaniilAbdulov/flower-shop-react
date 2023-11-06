@@ -75,76 +75,46 @@ const userSlice = createSlice({
             initializeAxiosHeaders(null);
         },
     },
-    extraReducers: {
-        [fetchCurrentUser.pending]: (state) => {
+    extraReducers: (builder) => {
+        const handleApiCall = (state) => {
             state.isLoading = true;
-        },
-        [fetchCurrentUser.fulfilled]: (state, action) => {
+        };
+
+        const handleApiSuccess = (state, action) => {
             state.isLoading = false;
-            if (!action.payload) {
-                console.log("Пользователь не авторизован");
-            } else {
-                const { token, user } = action.payload;
-                localStorage.setItem("bgtrackerjwt", token);
-                initializeAxiosHeaders(token);
-                state.user = user;
-                state.isAuth = true;
-                if (user.role !== "ADMIN") {
-                    state.isUser = true;
-                } else {
-                    state.isAdmin = true;
-                }
-            }
-        },
-        [fetchCurrentUser.rejected]: (state) => {
-            state.isLoading = false;
-        },
-        [fetchLogin.pending]: (state) => {
-            state.isLoading = true;
-        },
-        [fetchLogin.fulfilled]: (state, action) => {
-            state.isLoading = false;
+
             if (!action.payload) {
                 console.log("Ошибка в action.payload");
-            } else {
-                const { token, user } = action.payload;
-                localStorage.setItem("bgtrackerjwt", token);
-                initializeAxiosHeaders(token);
-                state.user = user;
-                state.isAuth = true;
-                if (user.role !== "ADMIN") {
-                    state.isUser = true;
-                } else {
-                    state.isAdmin = true;
-                }
+                return;
             }
-        },
-        [fetchLogin.rejected]: (state) => {
-            state.isLoading = false;
-        },
-        [fetchSignUp.pending]: (state) => {
-            state.isLoading = true;
-        },
-        [fetchSignUp.fulfilled]: (state, action) => {
-            state.isLoading = false;
-            if (!action.payload) {
-                console.log("Ошибка в action.payload");
+
+            const { token, user } = action.payload;
+            localStorage.setItem("bgtrackerjwt", token);
+            initializeAxiosHeaders(token);
+            state.user = user;
+            state.isAuth = true;
+
+            if (user.role !== "ADMIN") {
+                state.isUser = true;
             } else {
-                const { token, user } = action.payload;
-                localStorage.setItem("bgtrackerjwt", token);
-                initializeAxiosHeaders(token);
-                state.user = user;
-                state.isAuth = true;
-                if (user.role !== "ADMIN") {
-                    state.isUser = true;
-                } else {
-                    state.isAdmin = true;
-                }
+                state.isAdmin = true;
             }
-        },
-        [fetchSignUp.rejected]: (state) => {
+        };
+
+        const handleApiError = (state) => {
             state.isLoading = false;
-        },
+        };
+
+        builder
+            .addCase(fetchCurrentUser.pending, handleApiCall)
+            .addCase(fetchCurrentUser.fulfilled, handleApiSuccess)
+            .addCase(fetchCurrentUser.rejected, handleApiError)
+            .addCase(fetchLogin.pending, handleApiCall)
+            .addCase(fetchLogin.fulfilled, handleApiSuccess)
+            .addCase(fetchLogin.rejected, handleApiError)
+            .addCase(fetchSignUp.pending, handleApiCall)
+            .addCase(fetchSignUp.fulfilled, handleApiSuccess)
+            .addCase(fetchSignUp.rejected, handleApiError);
     },
 });
 
