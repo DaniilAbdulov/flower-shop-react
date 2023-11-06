@@ -8,17 +8,19 @@ import {
     logOutUser,
     selectIsAdmin,
     selectIsAuth,
+    selectFirstSymbols,
 } from "../../redux/slices/userSlice";
 
 function Menu() {
     const [cartCount, setCartCount] = useState(0);
     const isAdmin = useSelector(selectIsAdmin);
     const isAuth = useSelector(selectIsAuth);
+    const firstSymbols = useSelector(selectFirstSymbols);
     const links = [
         { to: "/", title: "Home" },
         { to: "/about", title: "About us" },
         { to: "/contacts", title: "Contacts" },
-        { to: "/cabinet", title: "D" },
+        { to: "/cabinet", title: firstSymbols ? `${firstSymbols}` : `Cabinet` },
         { to: !isAuth ? "/auth" : "/", title: !isAuth ? "LogIn" : "Log Out" },
         { to: !isAdmin ? "/" : "/admin", title: !isAdmin ? "" : "Admin panel" },
     ];
@@ -35,6 +37,7 @@ function Menu() {
     function logOutUserHandler() {
         dispatch(logOutUser());
     }
+
     useEffect(() => {
         const windowInnerWidth = window.innerWidth;
         if (windowInnerWidth > 580) {

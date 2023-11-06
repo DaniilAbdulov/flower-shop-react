@@ -8,7 +8,12 @@ const initialState = {
     isAdmin: false,
     isUser: false,
     isAuth: false,
+    userFirstLastName: "",
 };
+
+function getFirstSymbol(val) {
+    return Array.from(val)[0];
+}
 
 const initializeAxiosHeaders = (token) => {
     if (token) {
@@ -71,6 +76,7 @@ const userSlice = createSlice({
             state.isAdmin = false;
             state.isUser = false;
             state.isAuth = false;
+            state.userFirstLastName = "";
             localStorage.removeItem("bgtrackerjwt");
             initializeAxiosHeaders(null);
         },
@@ -93,7 +99,9 @@ const userSlice = createSlice({
             initializeAxiosHeaders(token);
             state.user = user;
             state.isAuth = true;
-
+            state.userFirstLastName = `${getFirstSymbol(
+                user.first_name
+            )}${getFirstSymbol(user.last_name)}`;
             if (user.role !== "ADMIN") {
                 state.isUser = true;
             } else {
@@ -118,11 +126,12 @@ const userSlice = createSlice({
     },
 });
 
-export const { logOutUser } = userSlice.actions;
+export const { logOutUser, userFirstLastName } = userSlice.actions;
 export const selectUser = (state) => state.user.user;
 export const selectIsAdmin = (state) => state.user.isAdmin;
 export const selectIsUser = (state) => state.user.isUser;
 export const selectIsAuth = (state) => state.user.isAuth;
+export const selectFirstSymbols = (state) => state.user.userFirstLastName;
 
 export default userSlice.reducer;
 
