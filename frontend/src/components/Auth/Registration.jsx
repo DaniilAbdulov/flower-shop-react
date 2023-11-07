@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchSignUp } from "../../redux/slices/userSlice";
+import { setError } from "../../redux/slices/errorSlice";
 function Registration(props) {
     const toggleForm = props.toggleTypeOfForm;
     const [firstName, setFirstName] = useState("");
@@ -28,7 +29,7 @@ function Registration(props) {
             setPassword("");
             setPasswordAgain("");
         } else {
-            alert("Password is not correct");
+            dispatch(setError("Password is not correct"));
         }
     };
     return (

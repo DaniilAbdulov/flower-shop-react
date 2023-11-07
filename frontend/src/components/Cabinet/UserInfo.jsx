@@ -1,20 +1,52 @@
-import data from "../../data/example";
+import { useSelector } from "react-redux";
 import Loader from "../UI/Loader";
+import { selectUser } from "../../redux/slices/userSlice";
+import no_photo from "../../asserts/no_photo.webp";
+import { useState } from "react";
+
 function UserInfo() {
+    const [imgIsLoading, setImgIsLoading] = useState(false);
+    const user = useSelector(selectUser);
+    console.log(user);
+    const { first_name, last_name, user_img, created_at } = user;
+    const date = new Date(created_at);
+    const options = {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+    };
+    const ruDate = new Intl.DateTimeFormat("ru", options).format(date);
+
+    const image = new Image();
+    image.onload = () => {
+        setImgIsLoading(true);
+    };
+    image.onerror = () => {
+        console.log("Произошла ошибка при загрузке изображения.");
+    };
+    image.src = user_img;
+
     return (
         <div>
-            {data.length > 0 ? (
+            {user ? (
                 <>
                     <div className="cabinet__user user">
                         <div className="user__info">
                             <div className="user__image">
-                                <img
-                                    src="https://avatars.githubusercontent.com/u/118374108?v=4"
-                                    alt="avatar"
-                                />
+                                {imgIsLoading ? (
+                                    <img
+                                        src={user_img ? user_img : no_photo}
+                                        alt="avatar"
+                                    />
+                                ) : (
+                                    <Loader />
+                                )}
                             </div>
                             <div className="user__name">
-                                <p>Daniil Abdulov</p>
+                                <h2>
+                                    {first_name} {last_name}
+                                </h2>
+                                <p>Дата регистрации: {ruDate}</p>
                             </div>
                         </div>
                         <div className="user__stats us">

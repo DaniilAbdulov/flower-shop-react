@@ -72,24 +72,23 @@ class UserController {
             );
             if (!findUser.rowCount) {
                 console.log("Нет такого пользователя");
-                return res
-                    .status(404)
-                    .json({ message: "Нет такого пользователя" });
+                res.status(404).json({ message: "Нет такого пользователя" });
+                return;
             }
             const user = findUser.rows[0];
             let comparePassword = password === user.password;
             // let comparePassword = bcrypt.compareSync(password, user.password);
             if (!comparePassword) {
                 console.log("Неверный пароль");
-                return res.status(404).json({ message: "Неверный пароль" });
+                res.status(404).json({ message: "Неверный пароль" });
+                return;
             }
             const token = generateJwt(user.id, nickName, user.role);
             return res.json({ token, user });
         } catch (error) {
             console.log(error);
-            return res
-                .status(500)
-                .json({ message: "Внутренняя ошибка сервера" });
+            res.status(500).json({ message: "Внутренняя ошибка сервера" });
+            return;
         }
     }
     async check(req, res, next) {

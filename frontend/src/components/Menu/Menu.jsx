@@ -10,7 +10,8 @@ import {
     selectIsAuth,
     selectFirstSymbols,
 } from "../../redux/slices/userSlice";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
 function Menu() {
     const [cartCount, setCartCount] = useState(0);
     const isAdmin = useSelector(selectIsAdmin);
@@ -94,24 +95,38 @@ function Menu() {
                     >
                         {links.map((link) => (
                             <li key={link.title}>
-                                <NavLink
-                                    to={link.to}
-                                    className={
-                                        device === "mobile"
-                                            ? "menu__link-mobile"
-                                            : "menu__link"
-                                    }
-                                    onClick={() => {
-                                        if (device === "mobile") {
-                                            setVisible(false);
-                                        }
-                                        if (link.title === "Log Out") {
-                                            logOutUserHandler();
-                                        }
-                                    }}
-                                >
-                                    {link.title}
-                                </NavLink>
+                                {link.title !== "Log Out" && (
+                                    <>
+                                        <NavLink
+                                            to={link.to}
+                                            className={
+                                                device === "mobile"
+                                                    ? "menu__link-mobile"
+                                                    : "menu__link"
+                                            }
+                                            onClick={() => {
+                                                if (device === "mobile") {
+                                                    setVisible(false);
+                                                }
+                                            }}
+                                        >
+                                            {link.title}
+                                        </NavLink>
+                                    </>
+                                )}
+                                {link.title === "Log Out" && (
+                                    <>
+                                        <FontAwesomeIcon
+                                            icon={faRightFromBracket}
+                                            style={{
+                                                cursor: "pointer",
+                                                color: "white",
+                                                fontSize: "20px",
+                                            }}
+                                            onClick={() => logOutUserHandler()}
+                                        />
+                                    </>
+                                )}
                             </li>
                         ))}
                     </ul>

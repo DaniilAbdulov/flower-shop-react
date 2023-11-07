@@ -16,7 +16,7 @@
     }
 }
 .home {
-    background: url(../asserts/background-for-home-page.png) 0 0 / cover
+    background: url(../asserts/background-for-home-page.webp) 0 0 / cover
         no-repeat;
 
     padding: 10px 0px;
@@ -48,7 +48,7 @@
 }
 @media (max-width: 767px) {
     .home {
-        background: url(../asserts/background-for-home-page-mobile.png) 0 0 /
+        background: url(../asserts/background-for-home-page-mobile.webp) 0 0 /
             cover no-repeat;
     }
 }

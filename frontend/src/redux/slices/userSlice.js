@@ -33,7 +33,7 @@ export const fetchCurrentUser = createAsyncThunk(
                 const res = await axios.get(`${API_URL}/user/auth`);
                 return res.data;
             } catch (error) {
-                thunkAPI.dispatch(setError(error.message));
+                thunkAPI.dispatch(setError(error.response.data.message));
                 throw error;
             }
         }
@@ -46,7 +46,7 @@ export const fetchLogin = createAsyncThunk(
             const res = await axios.post(`${API_URL}/user/login`, candidat);
             return res.data;
         } catch (error) {
-            thunkAPI.dispatch(setError(error.message));
+            thunkAPI.dispatch(setError(error.response.data.message));
             throw error;
         }
     }
@@ -61,7 +61,7 @@ export const fetchSignUp = createAsyncThunk(
             );
             return res.data;
         } catch (error) {
-            thunkAPI.dispatch(setError(error.message));
+            thunkAPI.dispatch(setError(error.response.data.message));
             throw error;
         }
     }
@@ -139,3 +139,4 @@ export default userSlice.reducer;
 // const isAdmin = useSelector(selectIsAdmin);
 // const isUser = useSelector(selectIsUser);
 // const isAuth = useSelector(selectIsAuth);
+// const user = useSelector(selectUser);

@@ -6,6 +6,7 @@ import { fetchCurrentUser } from "./redux/slices/userSlice";
 import Router from "./components/Router/Router";
 import MainLayout from "./layouts/MainLayout";
 import Footer from "./layouts/Footer";
+import Error from "./components/Error/Error";
 function App() {
     const dispatch = useDispatch();
     useEffect(() => {
@@ -19,6 +20,7 @@ function App() {
                 <Router />
             </div>
             <Footer />
+            <Error />
         </BrowserRouter>
     );
 }

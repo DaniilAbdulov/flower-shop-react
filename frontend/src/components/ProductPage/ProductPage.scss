@@ -1,5 +1,5 @@
 .product-page {
-    background: url(../../asserts/background-for-home-page.png) 0 0 / cover
+    background: url(../../asserts/background-for-home-page.webp) 0 0 / cover
         no-repeat;
     &__wrapper {
         margin-top: 100px;
@@ -87,7 +87,7 @@
 }
 @media (max-width: 580px) {
     .product-page {
-        background: url(../../asserts/background-for-home-page-mobile.png) 0 0 /
+        background: url(../../asserts/background-for-home-page-mobile.webp) 0 0 /
             cover no-repeat;
     }
 }
