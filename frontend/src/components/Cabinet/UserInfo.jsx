@@ -24,7 +24,7 @@ function UserInfo() {
     image.onerror = () => {
         console.log("Произошла ошибка при загрузке изображения.");
     };
-    image.src = user_img;
+    image.src = user_img ? user_img : no_photo;
 
     return (
         <div>
@@ -46,21 +46,22 @@ function UserInfo() {
                                 <h2>
                                     {first_name} {last_name}
                                 </h2>
+                                <p>abdulov.dany@yandex.ru</p>
                                 <p>Дата регистрации: {ruDate}</p>
                             </div>
                         </div>
                         <div className="user__stats us">
                             <div className="us__item">
-                                <p>Сумма покупок</p>
-                                <p>1 200 000</p>
+                                <p1>Сумма покупок</p1>
+                                <p2>1 200 000</p2>
                             </div>
                             <div className="us__item">
-                                <p>Товаров в избранном</p>
-                                <p>12</p>
+                                <p1>В избранном</p1>
+                                <p2>12</p2>
                             </div>
                             <div className="us__item">
-                                <p>Товаров куплено</p>
-                                <p>12</p>
+                                <p1>Заказов</p1>
+                                <p2>12</p2>
                             </div>
                         </div>
                     </div>
@@ -83,3 +84,7 @@ function UserInfo() {
     );
 }
 export default UserInfo;
+//select count(id),sum(total_price) from orders where users_id = 9 group by users_id
+//Получение кол-ва заказов и суммы заказов
+//select count(product_id) from favorites where users_id = 9 group by users_id
+//товаров в избранном
