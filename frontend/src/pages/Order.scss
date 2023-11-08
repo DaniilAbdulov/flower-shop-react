@@ -52,6 +52,9 @@
         max-width: 150px;
         margin: 5px;
         position: relative;
+        cursor: pointer;
+        transition: scale 0.3s ease-in;
+        scale: 1;
         img {
             border-radius: 10px;
             width: 100%;
@@ -66,6 +69,9 @@
             position: absolute;
             bottom: 5px;
             left: 5px;
+        }
+        &:hover {
+            scale: 1.05;
         }
     }
     &__user {

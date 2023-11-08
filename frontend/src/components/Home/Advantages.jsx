@@ -4,6 +4,7 @@ import { PiFlowerLotusThin } from "react-icons/pi";
 import { GiFlowers } from "react-icons/gi";
 import { IoCarSportOutline } from "react-icons/io5";
 import { AiOutlineDollarCircle } from "react-icons/ai";
+
 function Advantages() {
     const cards = [
         [<PiFlowerLotusThin />, "Красивые композиции"],
@@ -11,6 +12,7 @@ function Advantages() {
         [<IoCarSportOutline />, "Быстрая доставка"],
         [<AiOutlineDollarCircle />, "Доступные цены"],
     ];
+
     return (
         <div className="">
             <div className=" advantages">
@@ -29,6 +31,7 @@ function Advantages() {
                             </div>
                         ))}
                     </div>
+
                     <div className="advantages__image-reverse">
                         <img src={roses} alt="roses" />
                     </div>
