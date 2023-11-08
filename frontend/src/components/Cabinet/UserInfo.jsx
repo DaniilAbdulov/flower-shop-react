@@ -7,8 +7,7 @@ import { useState } from "react";
 function UserInfo() {
     const [imgIsLoading, setImgIsLoading] = useState(false);
     const user = useSelector(selectUser);
-    console.log(user);
-    const { first_name, last_name, user_img, created_at } = user;
+    const { first_name, last_name, user_img, created_at, email } = user;
     const date = new Date(created_at);
     const options = {
         year: "numeric",
@@ -46,22 +45,22 @@ function UserInfo() {
                                 <h2>
                                     {first_name} {last_name}
                                 </h2>
-                                <p>abdulov.dany@yandex.ru</p>
+                                <p>{email}</p>
                                 <p>Дата регистрации: {ruDate}</p>
                             </div>
                         </div>
                         <div className="user__stats us">
                             <div className="us__item">
-                                <p1>Сумма покупок</p1>
-                                <p2>1 200 000</p2>
+                                <p>Сумма покупок</p>
+                                <span>1 200 000</span>
                             </div>
                             <div className="us__item">
-                                <p1>В избранном</p1>
-                                <p2>12</p2>
+                                <p>В избранном</p>
+                                <span>12</span>
                             </div>
                             <div className="us__item">
-                                <p1>Заказов</p1>
-                                <p2>12</p2>
+                                <p>Заказов</p>
+                                <span>12</span>
                             </div>
                         </div>
                     </div>

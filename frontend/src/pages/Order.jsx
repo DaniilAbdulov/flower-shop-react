@@ -81,6 +81,7 @@ function Order() {
                         {order.product_img.map((photo, index) => (
                             <div className="order__image-container" key={index}>
                                 <img src={photo} alt="Изображение" />
+                                <p>x200</p>
                             </div>
                         ))}
                     </div>
