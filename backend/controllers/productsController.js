@@ -2,7 +2,7 @@ import pool from "../db.js";
 
 class ProductsController {
     async getAllProducts(req, res, next) {
-        console.log(req.body);
+        console.log(req);
         res.json({ message: "Server is work" });
         // try {
 

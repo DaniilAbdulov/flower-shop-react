@@ -12,18 +12,18 @@ const initialState = {
     isLoading: false,
 };
 
-export const fetchCurrentUser = createAsyncThunk(
-    "user/currentUser",
-    async (thunkAPI) => {
-        try {
-            const res = await axios.get(`${API_URL}/user/auth`);
-            return res.data;
-        } catch (error) {
-            thunkAPI.dispatch(setError(error.response.data.message));
-            throw error;
-        }
-    }
-);
+// export const fetchCurrentUser = createAsyncThunk(
+//     "user/currentUser",
+//     async (thunkAPI) => {
+//         try {
+//             const res = await axios.get(`${API_URL}/user/auth`);
+//             return res.data;
+//         } catch (error) {
+//             thunkAPI.dispatch(setError(error.response.data.message));
+//             throw error;
+//         }
+//     }
+// );
 // export const fetchLogin = createAsyncThunk(
 //     "user/login",
 //     async (url, thunkAPI) => {
@@ -38,7 +38,7 @@ export const fetchCurrentUser = createAsyncThunk(
 // );
 export const fetchAllProducts = createAsyncThunk(
     "products/getAllProducts",
-    async (url, thunkAPI) => {
+    async (thunkAPI) => {
         try {
             const res = await axios.get(`${API_URL}/products/getAllProducts`);
             return res.data;
