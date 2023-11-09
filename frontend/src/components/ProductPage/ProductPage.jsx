@@ -1,5 +1,13 @@
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../../redux/slices/userSlice";
+import {
+    fetchAdvicedProducts,
+    fetchSingleProduct,
+    selectIsAdvice,
+    selectSingleProduct,
+} from "../../redux/slices/productsSlice";
 import "./ProductPage.scss";
-import axios from "axios";
 import ProductPageItem from "./ProductPageItem";
 import { useParams } from "react-router-dom";
 import ProductItem from "../Products/ProductItem";
@@ -8,28 +16,18 @@ import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/autoplay";
 import { FreeMode, Autoplay } from "swiper/modules";
-import data from "../../data/example";
 import Loader from "../UI/Loader";
-import { useEffect, useState } from "react";
 function ProductPage() {
-    const [product, setProduct] = useState(null);
     const params = useParams();
     const productId = params.id;
+    const dispatch = useDispatch();
+    const user = useSelector(selectUser);
+    const advicedProducts = useSelector(selectIsAdvice);
+    const product = useSelector(selectSingleProduct);
     useEffect(() => {
-        async function fetchProduct() {
-            try {
-                const response = await axios.get(
-                    `http://localhost:4000/api/product/${productId}`
-                );
-                console.log(response.data);
-                setProduct(response.data);
-            } catch (error) {
-                console.error(error);
-            }
-        }
-
-        fetchProduct();
-    }, [productId]);
+        dispatch(fetchAdvicedProducts(user));
+        dispatch(fetchSingleProduct(productId));
+    }, [dispatch, productId, user]);
     return (
         <div className="fc product-page" style={{ marginBottom: "0px" }}>
             <div className="fc__body ">
@@ -56,7 +54,7 @@ function ProductPage() {
 
                 <div className="advice">
                     <div className="advice__title">Советуем к покупке:</div>
-                    {data.length > 0 ? (
+                    {advicedProducts.length > 0 ? (
                         <>
                             <Swiper
                                 breakpoints={{
@@ -82,7 +80,7 @@ function ProductPage() {
                                 modules={[FreeMode, Autoplay]}
                                 className="mySwiper"
                             >
-                                {data.map((item) => (
+                                {advicedProducts.map((item) => (
                                     <SwiperSlide key={item.id}>
                                         <ProductItem data={item} />
                                     </SwiperSlide>

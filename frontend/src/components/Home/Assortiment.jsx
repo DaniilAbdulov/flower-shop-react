@@ -1,16 +1,18 @@
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { selectAllProducts } from "../../redux/slices/productsSlice";
 import ProductsList from "../Products/ProductsList";
 import BorderedFrame from "../UI/BorderedFrame";
 import "./Assortiment.scss";
-import data from "../../data/example";
 import Loader from "../UI/Loader";
 function Assortiment() {
     const [activeButton, setActiveButton] = useState(0);
+    const allProducts = useSelector(selectAllProducts);
     const buttons = [];
     function setNamesOfButtons(d) {
         const set = new Set();
         for (let i = 0; i < d.length; i++) {
-            set.add(data[i].category);
+            set.add(allProducts[i].category);
         }
         const categories = Array.from(set);
         for (let i = 0; i < categories.length; i++) {
@@ -21,19 +23,18 @@ function Assortiment() {
             buttons.push(newButton);
         }
     }
-    //Нужно получить с сервера только названия категорий
-    setNamesOfButtons(data);
+    setNamesOfButtons(allProducts);
 
     const handleButtonClick = (id) => {
         setActiveButton(id);
     };
 
-    function filteredArray(data) {
-        return data.filter((item) => {
+    function filteredArray(allProducts) {
+        return allProducts.filter((item) => {
             return item.category === buttons[activeButton].label;
         });
     }
-    let newArr = filteredArray(data);
+    let newArr = filteredArray(allProducts);
     return (
         <>
             <div className="wrapper" style={{ marginTop: "40px" }}>
@@ -42,7 +43,7 @@ function Assortiment() {
                         value="Наш ассортимент"
                         style={{ marginBottom: "50px" }}
                     />
-                    {data.length > 0 ? (
+                    {allProducts.length > 0 ? (
                         <>
                             <div className="asrt__buttons">
                                 {buttons.map((button) => (

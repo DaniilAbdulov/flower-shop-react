@@ -1,3 +1,8 @@
+import {
+    selectIsTrends,
+    // selectIsLoading,
+} from "../../redux/slices/productsSlice";
+import { useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/free-mode";
@@ -6,22 +11,25 @@ import { FreeMode, Autoplay } from "swiper/modules";
 import "./Trends.scss";
 import BorderedFrame from "../UI/BorderedFrame";
 import TrendItem from "../Products/TrendItem";
-import data from "../../data/example";
+
 import Loader from "../UI/Loader";
 function Trends() {
+    const trends = useSelector(selectIsTrends);
+    // const loading = useSelector(selectIsLoading);
     return (
         <>
             <div className="wrapper">
                 <div
                     className="trends"
                     style={{
-                        alignItems: data.length > 0 ? "" : "center",
+                        alignItems: trends.length > 0 ? "" : "center",
+                        // alignItems: !loading ? "" : "center",
                     }}
                 >
                     <div className="trends__label">
                         <BorderedFrame value="Тренды" />
                     </div>
-                    {data.length > 0 ? (
+                    {trends.length > 0 ? (
                         <div className="trends__swiper">
                             <Swiper
                                 breakpoints={{
@@ -44,7 +52,7 @@ function Trends() {
                                 modules={[FreeMode, Autoplay]}
                                 className="mySwiper"
                             >
-                                {data.map((item) => {
+                                {trends.map((item) => {
                                     return (
                                         <SwiperSlide key={item.id}>
                                             <TrendItem value={item} />

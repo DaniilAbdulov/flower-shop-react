@@ -1,7 +1,7 @@
 import Like from "../UI/Like";
 
 function ProductPageItem({ product }) {
-    const { id, img, title, description, sold, price, avaiable, isFavorite } =
+    const { id, img, title, description, sold, price, available, isFavorite } =
         product;
     function addProductToCard() {
         const idOfProduct = id;
@@ -23,7 +23,7 @@ function ProductPageItem({ product }) {
                         Продано: <span>{sold}</span>
                     </p>
                     <p>
-                        Осталось в наличи: <span>{avaiable}</span>
+                        Осталось в наличи: <span>{available}</span>
                     </p>
                     <p>
                         Цена: <span>{price}</span>
