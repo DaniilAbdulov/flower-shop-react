@@ -6,8 +6,8 @@ import { API_URL } from "../../config";
 const initialState = {
     allProducts: [],
     singleProduct: {},
-    isTrends: {},
-    isAdvice: {},
+    isTrends: [],
+    isAdvice: [],
     isLoading: false,
 };
 

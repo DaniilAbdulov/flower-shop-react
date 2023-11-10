@@ -3,13 +3,28 @@ import { useSelector } from "react-redux";
 import { selectAllProducts } from "../../redux/slices/productsSlice";
 import ProductsList from "../Products/ProductsList";
 import BorderedFrame from "../UI/BorderedFrame";
-import "./Assortiment.scss";
 import Loader from "../UI/Loader";
-import setNamesOfButtons from "../../functions/setNamesOfButtons";
-function Assortiment() {
+
+export function Assortiment() {
     const [activeButton, setActiveButton] = useState(0);
     const allProducts = useSelector(selectAllProducts);
     const buttons = setNamesOfButtons(allProducts);
+    function setNamesOfButtons(dataForButtons) {
+        const buttons = [];
+        const set = new Set();
+        for (let i = 0; i < dataForButtons.length; i++) {
+            set.add(dataForButtons[i].category);
+        }
+        const categories = Array.from(set);
+        for (let i = 0; i < categories.length; i++) {
+            const newButton = {
+                id: i,
+                label: `${categories[i]}`,
+            };
+            buttons.push(newButton);
+        }
+        return buttons;
+    }
 
     const handleButtonClick = (id) => {
         setActiveButton(id);
@@ -62,4 +77,3 @@ function Assortiment() {
         </>
     );
 }
-export default Assortiment;

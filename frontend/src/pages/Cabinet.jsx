@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectIsAuth } from "../redux/slices/userSlice";
 import MyCabinet from "../components/Cabinet/MyCabinet";
+import UnAuth from "../components/UI/UnAuth";
+
 function Cabinet() {
-    const [isAuth, setIsAuth] = useState(true);
+    const isAuth = useSelector(selectIsAuth);
     return (
         <>
             {isAuth ? (
@@ -12,10 +14,7 @@ function Cabinet() {
                     </div>
                 </>
             ) : (
-                <>
-                    Личный кабинет не доступен. Пожалуйста{" "}
-                    <NavLink to="/auth">авторизуйтесь</NavLink>
-                </>
+                <UnAuth location="Личный кабинет" />
             )}
         </>
     );

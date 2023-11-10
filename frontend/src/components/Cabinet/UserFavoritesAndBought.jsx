@@ -1,9 +1,23 @@
-import { useState } from "react";
+import {
+    fetchAdvicedProducts,
+    selectIsAdvice,
+} from "../../redux/slices/productsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import ProductsList from "../Products/ProductsList";
 import Loader from "../UI/Loader";
 import data from "../../data/example";
+import { selectUser } from "../../redux/slices/userSlice";
 function UserFavoritesAndBought({ visible }) {
     const [activeButton, setActiveButton] = useState(0);
+    const dispatch = useDispatch();
+    const user = useSelector(selectUser);
+    const advicedProducts = useSelector(selectIsAdvice);
+    useEffect(() => {
+        if (advicedProducts.length === 0) {
+            dispatch(fetchAdvicedProducts(user));
+        }
+    }, [dispatch, advicedProducts, user]);
     const buttons = [
         { id: 0, label: "Советуем к покупке" },
         { id: 1, label: "Избранное" },
@@ -17,7 +31,7 @@ function UserFavoritesAndBought({ visible }) {
             return item.isFavorite;
         });
     }
-    let newArr = activeButton === 0 ? data : filteredArray(data);
+    let newArr = activeButton === 0 ? advicedProducts : filteredArray(data);
     return (
         <div
             className="asrt"

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectUser } from "../../redux/slices/userSlice";
 import {
@@ -25,9 +25,13 @@ function ProductPage() {
     const advicedProducts = useSelector(selectIsAdvice);
     const product = useSelector(selectSingleProduct);
     useEffect(() => {
-        dispatch(fetchAdvicedProducts(user));
         dispatch(fetchSingleProduct(productId));
-    }, [dispatch, productId, user]);
+    }, [dispatch, user, productId]);
+    useEffect(() => {
+        if (advicedProducts.length === 0) {
+            dispatch(fetchAdvicedProducts(user));
+        }
+    }, [dispatch, advicedProducts, user]);
     return (
         <div className="fc product-page" style={{ marginBottom: "0px" }}>
             <div className="fc__body ">
@@ -38,7 +42,7 @@ function ProductPage() {
                             background: product ? "white" : "transparent",
                         }}
                     >
-                        {product ? (
+                        {product.img ? (
                             <>
                                 <ProductPageItem product={product} />
                             </>

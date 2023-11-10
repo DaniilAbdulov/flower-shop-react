@@ -1,6 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchAllProducts } from "../redux/slices/productsSlice";
+import {
+    fetchAllProducts,
+    selectAllProducts,
+} from "../redux/slices/productsSlice";
 import Assortiment from "../components/Home/Assortiment";
 import Advantages from "../components/Home/Advantages";
 import General from "../components/Home/General";
@@ -10,9 +13,13 @@ import { selectUser } from "../redux/slices/userSlice";
 function Home() {
     const dispatch = useDispatch();
     const user = useSelector(selectUser);
+    const products = useSelector(selectAllProducts);
     useEffect(() => {
-        dispatch(fetchAllProducts(user));
-    }, [user]);
+        if (products.length === 0) {
+            console.log(user);
+            dispatch(fetchAllProducts(user));
+        }
+    }, [dispatch, products, user]);
     return (
         <>
             <General />
