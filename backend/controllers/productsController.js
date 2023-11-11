@@ -2,13 +2,25 @@ import pool from "../db.js";
 
 class ProductsController {
     async getAllProducts(req, res, next) {
+        let fetchFromThisId = 0;
         try {
+            fetchFromThisId = parseInt(req.query.userId);
+        } catch (error) {
+            fetchFromThisId = null;
+        }
+
+        try {
+            if (fetchFromThisId) {
+                console.log("Выполнить запрос с определенным id");
+            } else {
+                console.log("Выполнить запрпос без избранного");
+            }
             const allProducts = await pool.query(
                 "SELECT p.id, p.title, p.price, p.img, c.name AS category,EXISTS (SELECT 1 FROM trends WHERE product_id = p.id) AS isTrend FROM product AS p JOIN category AS c ON p.category_id = c.id"
             );
             const data = allProducts.rows;
             if (data) {
-                return res.status(200).json({ data });
+                return res.status(200).json({ data, fetchFromThisId });
             }
         } catch (error) {
             console.log(error);

@@ -4,6 +4,7 @@ import { setError } from "./errorSlice";
 import { API_URL } from "../../config";
 const initialState = {
     user: {},
+    userId: null,
     isLoading: false,
     isAdmin: false,
     isUser: false,
@@ -74,6 +75,7 @@ const userSlice = createSlice({
         logOutUser: (state) => {
             state.user = {};
             state.isAdmin = false;
+            state.userId = "Пользователь был в сети, но разлогинился";
             state.isUser = false;
             state.isAuth = false;
             state.userFirstLastName = "";
@@ -90,7 +92,7 @@ const userSlice = createSlice({
             state.isLoading = false;
 
             if (!action.payload) {
-                console.log("Ошибка в action.payload");
+                // console.log("Ошибка в action.payload");
                 return;
             }
 
@@ -98,6 +100,7 @@ const userSlice = createSlice({
             localStorage.setItem("bgtrackerjwt", token);
             initializeAxiosHeaders(token);
             state.user = user;
+            state.userId = user.id;
             state.isAuth = true;
             state.userFirstLastName = `${getFirstSymbol(
                 user.first_name
@@ -128,6 +131,7 @@ const userSlice = createSlice({
 
 export const { logOutUser, userFirstLastName } = userSlice.actions;
 export const selectUser = (state) => state.user.user;
+export const selectUserId = (state) => state.user.userId;
 export const selectIsAdmin = (state) => state.user.isAdmin;
 export const selectIsUser = (state) => state.user.isUser;
 export const selectIsAuth = (state) => state.user.isAuth;

@@ -9,13 +9,19 @@ const initialState = {
     isTrends: [],
     isAdvice: [],
     isLoading: false,
+    fetchFromThisId: null,
+    allProductsLength: 0,
 };
 
 export const fetchAllProducts = createAsyncThunk(
     "products/getAllProducts",
-    async (thunkAPI) => {
+    async (userId, thunkAPI) => {
         try {
-            const res = await axios.get(`${API_URL}/product/getAllProducts`);
+            const res = await axios.get(`${API_URL}/product/getAllProducts`, {
+                params: {
+                    userId: userId,
+                },
+            });
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.response.data.message));
@@ -67,8 +73,7 @@ const productsSlice = createSlice({
         const handleApiSuccess = (state, action) => {
             state.isLoading = false;
             if (!action.payload) {
-                console.log("Ошибка в action.payload");
-                return;
+                return initialState;
             }
             const typeOfFetchingData = action.type.split("/")[1];
             console.log(typeOfFetchingData);
@@ -78,6 +83,8 @@ const productsSlice = createSlice({
                     state.isTrends = action.payload.data.filter((item) => {
                         return item.istrend;
                     });
+                    state.fetchFromThisId = action.payload.fetchFromThisId;
+                    state.allProductsLength = action.payload.data.length;
                     break;
                 case "getAdvicedProducts":
                     state.isAdvice = action.payload.data;
@@ -112,6 +119,9 @@ const productsSlice = createSlice({
 export const selectIsLoading = (state) => state.products.isLoading;
 export const selectIsTrends = (state) => state.products.isTrends;
 export const selectAllProducts = (state) => state.products.allProducts;
+export const selectAllProductsLength = (state) =>
+    state.products.allProductsLength;
 export const selectIsAdvice = (state) => state.products.isAdvice;
 export const selectSingleProduct = (state) => state.products.singleProduct;
+export const selectFetchFromThisId = (state) => state.products.fetchFromThisId;
 export default productsSlice.reducer;
