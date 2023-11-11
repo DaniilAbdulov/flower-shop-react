@@ -12,13 +12,11 @@ class ProductsController {
         try {
             let allProducts = {};
             if (fetchFromThisId) {
-                console.log("Выполнить запрос с определенным id");
                 allProducts = await pool.query(
                     "SELECT p.id, p.title, p.price, p.img, c.name AS category,EXISTS (SELECT 1 FROM trends WHERE product_id = p.id) AS isTrend, EXISTS (SELECT 1 FROM favorites WHERE product_id = p.id and users_id=$1) AS isFavorite FROM product AS p JOIN category AS c ON p.category_id = c.id",
                     [fetchFromThisId]
                 );
             } else {
-                console.log("Выполнить запрпос без избранного");
                 allProducts = await pool.query(
                     "SELECT p.id, p.title, p.price, p.img, c.name AS category,EXISTS (SELECT 1 FROM trends WHERE product_id = p.id) AS isTrend FROM product AS p JOIN category AS c ON p.category_id = c.id"
                 );
