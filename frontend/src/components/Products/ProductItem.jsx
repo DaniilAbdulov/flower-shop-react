@@ -4,12 +4,12 @@ import "./ProductItem.scss";
 import Like from "../UI/Like";
 
 function ProductItem(props) {
-    const { id, isFavorite, img, title, price } = props.data;
+    const { id, isfavorite, img, title, price } = props.data;
     return (
         <>
             <div className="product">
                 <div className="product__like">
-                    <Like like={isFavorite} id={id} />
+                    <Like like={isfavorite} id={id} />
                 </div>
                 <div className="product__image">
                     <img src={img} alt="Flower" />

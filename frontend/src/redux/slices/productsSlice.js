@@ -9,6 +9,7 @@ const initialState = {
     isTrends: [],
     isAdvice: [],
     isLoading: false,
+    isFavorite: [],
     fetchFromThisId: null,
     allProductsLength: 0,
 };
@@ -77,11 +78,15 @@ const productsSlice = createSlice({
             }
             const typeOfFetchingData = action.type.split("/")[1];
             console.log(typeOfFetchingData);
+
             switch (typeOfFetchingData) {
                 case "getAllProducts":
                     state.allProducts = action.payload.data;
                     state.isTrends = action.payload.data.filter((item) => {
                         return item.istrend;
+                    });
+                    state.isFavorite = action.payload.data.filter((item) => {
+                        return item.isfavorite;
                     });
                     state.fetchFromThisId = action.payload.fetchFromThisId;
                     state.allProductsLength = action.payload.data.length;
@@ -118,6 +123,7 @@ const productsSlice = createSlice({
 
 export const selectIsLoading = (state) => state.products.isLoading;
 export const selectIsTrends = (state) => state.products.isTrends;
+export const selectIsFavorites = (state) => state.products.isFavorite;
 export const selectAllProducts = (state) => state.products.allProducts;
 export const selectAllProductsLength = (state) =>
     state.products.allProductsLength;

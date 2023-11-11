@@ -15,6 +15,7 @@ import TrendItem from "../Products/TrendItem";
 import Loader from "../UI/Loader";
 function Trends() {
     const trends = useSelector(selectIsTrends);
+    console.log(trends);
     // const loading = useSelector(selectIsLoading);
     return (
         <>

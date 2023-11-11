@@ -1,6 +1,7 @@
 import {
     fetchAdvicedProducts,
     selectIsAdvice,
+    selectIsFavorites,
 } from "../../redux/slices/productsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -13,6 +14,7 @@ function UserFavoritesAndBought({ visible }) {
     const dispatch = useDispatch();
     const user = useSelector(selectUser);
     const advicedProducts = useSelector(selectIsAdvice);
+    const favoriteProducts = useSelector(selectIsFavorites);
     useEffect(() => {
         if (advicedProducts.length === 0) {
             dispatch(fetchAdvicedProducts(user));
@@ -26,12 +28,7 @@ function UserFavoritesAndBought({ visible }) {
         setActiveButton(id);
     };
 
-    function filteredArray(data) {
-        return data.filter((item) => {
-            return item.isFavorite;
-        });
-    }
-    let newArr = activeButton === 0 ? advicedProducts : filteredArray(data);
+    let newArr = activeButton === 0 ? advicedProducts : favoriteProducts;
     return (
         <div
             className="asrt"

@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import "./TrendItem.scss";
 import Like from "../UI/Like";
 function TrendItem({ value }) {
-    const { id, img, isFavorite, title } = value;
+    const { id, img, isfavorite, title } = value;
 
     return (
         <div>
@@ -16,7 +16,7 @@ function TrendItem({ value }) {
                 }}
             >
                 <div className="trend__like">
-                    <Like like={isFavorite} id={id} />
+                    <Like like={isfavorite} id={id} />
                 </div>
 
                 <NavLink to={`product/${id}`} className="trend__title">
