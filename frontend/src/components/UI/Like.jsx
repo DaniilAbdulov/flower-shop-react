@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
@@ -14,6 +14,11 @@ function Like({ like, id }) {
         }
         setIsFavorite(!isFavorite);
     }
+    // useEffect(() => {
+    //     if (isAuth && like) {
+    //         setIsFavorite(like);
+    //     }
+    // }, [id, isAuth, like]);
     return (
         <div>
             {isAuth && (

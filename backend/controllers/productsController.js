@@ -45,11 +45,26 @@ class ProductsController {
         }
     }
     async getSingleProduct(req, res, next) {
+        const productId = req.query.productId;
+        let fetchFromThisId = 0;
         try {
-            const singleProduct = await pool.query(
-                "select id,title,description,price,available,img from product where id = $1",
-                [req.query.id]
-            );
+            fetchFromThisId = parseInt(req.query.userId);
+        } catch (error) {
+            fetchFromThisId = null;
+        }
+        let singleProduct = {};
+        try {
+            if (fetchFromThisId) {
+                singleProduct = await pool.query(
+                    "select p.id,p.title,p.description,p.price,p.available,p.img,EXISTS (SELECT 1 FROM favorites as f WHERE f.product_id = p.id and f.users_id = $1) AS isFavorite from product as p where id = $2",
+                    [fetchFromThisId, productId]
+                );
+            } else {
+                singleProduct = await pool.query(
+                    "select id,title,description,price,available,img from product where id = $1",
+                    [productId]
+                );
+            }
             const data = singleProduct.rows;
             if (data) {
                 return res.status(200).json({ data });

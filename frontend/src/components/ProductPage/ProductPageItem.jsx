@@ -1,7 +1,7 @@
 import Like from "../UI/Like";
 
 function ProductPageItem({ product }) {
-    const { id, img, title, description, sold, price, available, isFavorite } =
+    const { id, img, title, description, sold, price, available, isfavorite } =
         product;
     function addProductToCard() {
         const idOfProduct = id;
@@ -10,7 +10,7 @@ function ProductPageItem({ product }) {
     return (
         <>
             <div className="ppbody__like">
-                <Like like={isFavorite} id={id} />
+                <Like like={isfavorite} id={id} />
             </div>
             <div className="ppbody__image">
                 <img src={img} alt="Flower" />

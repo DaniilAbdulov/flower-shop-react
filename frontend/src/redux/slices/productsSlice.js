@@ -8,7 +8,7 @@ const initialState = {
     singleProduct: {},
     isTrends: [],
     isAdvice: [],
-    isLoading: false,
+    isLoading: "waiting",
     isFavorite: [],
     fetchFromThisId: null,
     allProductsLength: 0,
@@ -48,11 +48,10 @@ export const fetchAdvicedProducts = createAsyncThunk(
 
 export const fetchSingleProduct = createAsyncThunk(
     "products/getSingleProduct",
-    async (id, thunkAPI) => {
-        console.log(id);
+    async ({ productId, userId }, thunkAPI, state) => {
         try {
             const res = await axios.get(`${API_URL}/product/getSingleProduct`, {
-                params: { id },
+                params: { productId, userId },
             });
             return res.data;
         } catch (error) {
@@ -68,17 +67,17 @@ const productsSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         const handleApiCall = (state) => {
-            state.isLoading = true;
+            state.isLoading = "pending";
+            state.singleProduct = {};
         };
 
         const handleApiSuccess = (state, action) => {
-            state.isLoading = false;
+            state.isLoading = "fullfield";
             if (!action.payload) {
                 return initialState;
             }
             const typeOfFetchingData = action.type.split("/")[1];
             console.log(typeOfFetchingData);
-
             switch (typeOfFetchingData) {
                 case "getAllProducts":
                     state.allProducts = action.payload.data;
@@ -96,6 +95,7 @@ const productsSlice = createSlice({
                     break;
                 case "getSingleProduct":
                     state.singleProduct = action.payload.data[0];
+                    state.fetchFromThisId = action.payload.fetchFromThisId;
                     break;
                 default:
                     break;
@@ -103,7 +103,7 @@ const productsSlice = createSlice({
         };
 
         const handleApiError = (state) => {
-            state.isLoading = false;
+            state.isLoading = "rejected";
         };
 
         builder
