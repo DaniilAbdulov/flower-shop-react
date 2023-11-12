@@ -3,15 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { selectIsAuth, selectUserId } from "../../redux/slices/userSlice";
+import {
+    addToFavorites,
+    deleteFromFavorites,
+} from "../../redux/slices/changeProductsInfoSLice";
 function Like({ like, id }) {
     const [isFavorite, setIsFavorite] = useState(like);
     const userId = useSelector(selectUserId);
+    const productId = id;
     const isAuth = useSelector(selectIsAuth);
+    const dispatch = useDispatch();
     function toggleFavorite() {
         if (isFavorite) {
-            alert(`Карточка с id ${id} удалена из избранного`);
+            dispatch(deleteFromFavorites({ productId, userId }));
         } else {
-            alert(`Карточка с id ${id} добавлена в избранноe`);
+            dispatch(addToFavorites({ productId, userId }));
         }
         setIsFavorite(!isFavorite);
     }

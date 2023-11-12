@@ -16,12 +16,10 @@ class ProductsController {
                     "SELECT p.id, p.title, p.price, p.img, c.name AS category,EXISTS (SELECT 1 FROM trends WHERE product_id = p.id) AS isTrend, EXISTS (SELECT 1 FROM favorites WHERE product_id = p.id and users_id=$1) AS isFavorite FROM product AS p JOIN category AS c ON p.category_id = c.id",
                     [fetchFromThisId]
                 );
-                console.log(`Отправились посты с полем ИЗБРАННОЕ`);
             } else {
                 allProducts = await pool.query(
                     "SELECT p.id, p.title, p.price, p.img, c.name AS category,EXISTS (SELECT 1 FROM trends WHERE product_id = p.id) AS isTrend FROM product AS p JOIN category AS c ON p.category_id = c.id"
                 );
-                console.log(`Отправились посты БЕЗ поля ИЗБРАННОЕ`);
             }
             const data = allProducts.rows;
             if (data) {
@@ -29,7 +27,9 @@ class ProductsController {
             }
         } catch (error) {
             console.log(error);
-            return res.status(500).json({ message: "Internal Server Error" });
+            return res
+                .status(500)
+                .json({ message: "Ошибка получения всех продуктов" });
         }
     }
     async getAdvicedProducts(req, res, next) {
@@ -43,7 +43,9 @@ class ProductsController {
             }
         } catch (error) {
             console.log(error);
-            return res.status(500).json({ message: "Internal Server Error" });
+            return res
+                .status(500)
+                .json({ message: "Ошибка получения трендов" });
         }
     }
     async getSingleProduct(req, res, next) {
@@ -73,12 +75,12 @@ class ProductsController {
             }
         } catch (error) {
             console.log(error);
-            return res.status(500).json({ message: "Internal Server Error" });
+            return res.status(500).json({
+                message:
+                    "Ошибка при выполнении операции в базе данных для одного продукта",
+            });
         }
     }
 }
 
 export default new ProductsController();
-
-// SELECT p.id, p.title, p.price, p.img FROM product as p join advice as a on p.id = a.product_id where p.id = a.product_id;
-// /SELECT p.id, p.title, p.price, p.img, c.name AS category,EXISTS (SELECT 1 FROM trends WHERE product_id = p.id) AS isTrend, EXISTS (SELECT 1 FROM favorites WHERE product_id = p.id and users_id=1) AS isFavorite FROM product AS p JOIN category AS c ON p.category_id = c.id
