@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
-import { selectIsAuth } from "../../redux/slices/userSlice";
+import { selectIsAuth, selectUserId } from "../../redux/slices/userSlice";
 function Like({ like, id }) {
     const [isFavorite, setIsFavorite] = useState(like);
+    const userId = useSelector(selectUserId);
     const isAuth = useSelector(selectIsAuth);
     function toggleFavorite() {
         if (isFavorite) {
@@ -14,11 +15,9 @@ function Like({ like, id }) {
         }
         setIsFavorite(!isFavorite);
     }
-    // useEffect(() => {
-    //     if (isAuth && like) {
-    //         setIsFavorite(like);
-    //     }
-    // }, [id, isAuth, like]);
+    useEffect(() => {
+        setIsFavorite(like);
+    }, [id, isAuth, userId, like]);
     return (
         <div>
             {isAuth && (

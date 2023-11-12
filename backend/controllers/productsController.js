@@ -16,10 +16,12 @@ class ProductsController {
                     "SELECT p.id, p.title, p.price, p.img, c.name AS category,EXISTS (SELECT 1 FROM trends WHERE product_id = p.id) AS isTrend, EXISTS (SELECT 1 FROM favorites WHERE product_id = p.id and users_id=$1) AS isFavorite FROM product AS p JOIN category AS c ON p.category_id = c.id",
                     [fetchFromThisId]
                 );
+                console.log(`Отправились посты с полем ИЗБРАННОЕ`);
             } else {
                 allProducts = await pool.query(
                     "SELECT p.id, p.title, p.price, p.img, c.name AS category,EXISTS (SELECT 1 FROM trends WHERE product_id = p.id) AS isTrend FROM product AS p JOIN category AS c ON p.category_id = c.id"
                 );
+                console.log(`Отправились посты БЕЗ поля ИЗБРАННОЕ`);
             }
             const data = allProducts.rows;
             if (data) {
@@ -67,7 +69,7 @@ class ProductsController {
             }
             const data = singleProduct.rows;
             if (data) {
-                return res.status(200).json({ data });
+                return res.status(200).json({ data, fetchFromThisId });
             }
         } catch (error) {
             console.log(error);

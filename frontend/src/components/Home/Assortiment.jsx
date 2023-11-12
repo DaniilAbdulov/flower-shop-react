@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { selectAllProducts } from "../../redux/slices/productsSlice";
+import {
+    selectAllProducts,
+    selectIsLoading,
+} from "../../redux/slices/productsSlice";
 import ProductsList from "../Products/ProductsList";
 import BorderedFrame from "../UI/BorderedFrame";
 import "./Assortiment.scss";
@@ -10,7 +13,7 @@ function Assortiment() {
     const [activeButton, setActiveButton] = useState(0);
     const allProducts = useSelector(selectAllProducts);
     const buttons = setNamesOfButtons(allProducts);
-
+    const isLoading = useSelector(selectIsLoading);
     const handleButtonClick = (id) => {
         setActiveButton(id);
     };

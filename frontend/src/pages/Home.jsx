@@ -20,11 +20,6 @@ function Home() {
         if (userId === "Пользователь был в сети, но разлогинился") {
             return;
         }
-
-        // console.log(userId);
-        // console.log(fethingId);
-        // console.log(allProductsLength);
-
         if (userId !== fethingId || !allProductsLength) {
             dispatch(fetchAllProducts(userId));
         }

@@ -9,7 +9,7 @@ const initialState = {
     isTrends: [],
     isAdvice: [],
     isLoading: "waiting",
-    isFavorite: [],
+    // isFavorite: [],
     fetchFromThisId: null,
     allProductsLength: 0,
 };
@@ -84,9 +84,9 @@ const productsSlice = createSlice({
                     state.isTrends = action.payload.data.filter((item) => {
                         return item.istrend;
                     });
-                    state.isFavorite = action.payload.data.filter((item) => {
-                        return item.isfavorite;
-                    });
+                    // state.isFavorite = action.payload.data.filter((item) => {
+                    //     return item.isfavorite;
+                    // });
                     state.fetchFromThisId = action.payload.fetchFromThisId;
                     state.allProductsLength = action.payload.data.length;
                     break;
