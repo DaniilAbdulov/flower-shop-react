@@ -5,7 +5,7 @@ const router = new Router();
 
 router.get(
     "/getAllProducts",
-
+    authMiddleware,
     productsController.getAllProducts
 );
 router.get(
@@ -23,7 +23,5 @@ router.get(
     authMiddleware,
     productsController.getFavoriteProducts
 );
-// router.post("/login", userController.login);
-// router.get("/auth", authMiddleware, userController.check);
 
 export default router;

@@ -15,9 +15,9 @@ function Like({ like, id }) {
     const dispatch = useDispatch();
     function toggleFavorite() {
         if (isFavorite) {
-            dispatch(deleteFromFavorites({ productId, userId }));
+            dispatch(deleteFromFavorites(productId));
         } else {
-            dispatch(addToFavorites({ productId, userId }));
+            dispatch(addToFavorites(productId));
         }
         setIsFavorite(!isFavorite);
     }

@@ -4,7 +4,7 @@ class ChangeProductsInformationController {
     async addToFavorites(req, res, next) {
         try {
             const productId = parseInt(req.body.params.productId);
-            const userId = parseInt(req.body.params.userId);
+            const userId = req.user.id;
 
             if (!productId || !userId) {
                 throw new Error("Некорректный id продукта или пользователя");
@@ -38,7 +38,7 @@ class ChangeProductsInformationController {
     async deleteFromFavorites(req, res, next) {
         try {
             const productId = parseInt(req.query.productId);
-            const userId = parseInt(req.query.userId);
+            const userId = req.user.id;
 
             if (!productId || !userId) {
                 throw new Error("Некорректный id продукта или пользователя");

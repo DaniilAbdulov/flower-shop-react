@@ -4,7 +4,7 @@ class ProductsController {
     async getAllProducts(req, res, next) {
         let fetchFromThisId = 0;
         try {
-            fetchFromThisId = parseInt(req.query.userId);
+            fetchFromThisId = req.user.id;
         } catch (error) {
             fetchFromThisId = null;
         }

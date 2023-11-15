@@ -7,12 +7,11 @@ const initialState = {};
 
 export const addToFavorites = createAsyncThunk(
     "change/addToFavorites",
-    async ({ productId, userId }, thunkAPI) => {
+    async (productId, thunkAPI) => {
         try {
             const res = await axios.post(`${API_URL}/change/addToFavorites`, {
                 params: {
                     productId,
-                    userId,
                 },
             });
             return res.data;
@@ -24,14 +23,13 @@ export const addToFavorites = createAsyncThunk(
 );
 export const deleteFromFavorites = createAsyncThunk(
     "change/deleteFromFavorites",
-    async ({ productId, userId }, thunkAPI) => {
+    async (productId, thunkAPI) => {
         try {
             const res = await axios.delete(
                 `${API_URL}/change/deleteFromFavorites`,
                 {
                     params: {
                         productId,
-                        userId,
                     },
                 }
             );
