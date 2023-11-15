@@ -1,5 +1,6 @@
 import {
     fetchAdvicedProducts,
+    fetchFavoriteProducts,
     selectIsAdvice,
     selectIsFavorites,
 } from "../../redux/slices/productsSlice";
@@ -7,19 +8,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import ProductsList from "../Products/ProductsList";
 import Loader from "../UI/Loader";
-import data from "../../data/example";
-import { selectUser } from "../../redux/slices/userSlice";
 function UserFavoritesAndBought({ visible }) {
     const [activeButton, setActiveButton] = useState(0);
     const dispatch = useDispatch();
-    const user = useSelector(selectUser);
     const advicedProducts = useSelector(selectIsAdvice);
     const favoriteProducts = useSelector(selectIsFavorites);
     useEffect(() => {
-        if (advicedProducts.length === 0) {
-            dispatch(fetchAdvicedProducts(user));
+        if (activeButton === 0) {
+            dispatch(fetchAdvicedProducts());
+        } else {
+            dispatch(fetchFavoriteProducts());
         }
-    }, [dispatch, advicedProducts, user]);
+    }, [dispatch, activeButton]);
     const buttons = [
         { id: 0, label: "Советуем к покупке" },
         { id: 1, label: "Избранное" },
@@ -29,6 +29,7 @@ function UserFavoritesAndBought({ visible }) {
     };
 
     let newArr = activeButton === 0 ? advicedProducts : favoriteProducts;
+    console.log(newArr);
     return (
         <div
             className="asrt"
@@ -50,7 +51,7 @@ function UserFavoritesAndBought({ visible }) {
                     </button>
                 ))}
             </div>
-            {data.length > 0 ? (
+            {newArr.length > 0 ? (
                 <>
                     <div className="asrt__cards">
                         <ProductsList items={newArr} />

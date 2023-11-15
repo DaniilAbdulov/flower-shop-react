@@ -1,8 +1,11 @@
+import { useSelector } from "react-redux";
 import Like from "../UI/Like";
+import { selectIsAuth } from "../../redux/slices/userSlice";
 
 function ProductPageItem({ product }) {
     const { id, img, title, description, sold, price, available, isfavorite } =
         product;
+    const isAuth = useSelector(selectIsAuth);
     function addProductToCard() {
         const idOfProduct = id;
         alert(`Продукт с id ${idOfProduct} улетел в корзину`);
@@ -30,7 +33,9 @@ function ProductPageItem({ product }) {
                     </p>
                 </div>
                 <div className="ppbody__button">
-                    <button onClick={addProductToCard}>В корзину</button>
+                    <button onClick={addProductToCard} disabled={!isAuth}>
+                        В корзину
+                    </button>
                 </div>
             </div>
         </>

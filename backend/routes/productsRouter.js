@@ -10,13 +10,18 @@ router.get(
 );
 router.get(
     "/getAdvicedProducts",
-
+    authMiddleware,
     productsController.getAdvicedProducts
 );
 router.get(
     "/getSingleProduct",
 
     productsController.getSingleProduct
+);
+router.get(
+    "/getFavoriteProducts",
+    authMiddleware,
+    productsController.getFavoriteProducts
 );
 // router.post("/login", userController.login);
 // router.get("/auth", authMiddleware, userController.check);

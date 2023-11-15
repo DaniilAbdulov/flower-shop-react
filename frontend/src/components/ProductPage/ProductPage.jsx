@@ -26,12 +26,10 @@ function ProductPage() {
     const product = useSelector(selectSingleProduct);
     useEffect(() => {
         dispatch(fetchSingleProduct({ productId, userId }));
-    }, [dispatch, userId, productId]);
-    // useEffect(() => {
-    //     if (advicedProducts.length === 0) {
-    //         dispatch(fetchAdvicedProducts(user));
-    //     }
-    // }, [dispatch, advicedProducts, user]);
+        if (advicedProducts.length === 0) {
+            dispatch(fetchAdvicedProducts());
+        }
+    }, [dispatch, userId, productId, advicedProducts.length]);
     return (
         <div className="fc product-page" style={{ marginBottom: "0px" }}>
             <div className="fc__body ">

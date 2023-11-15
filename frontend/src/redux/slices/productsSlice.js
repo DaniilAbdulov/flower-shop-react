@@ -8,8 +8,8 @@ const initialState = {
     singleProduct: {},
     isTrends: [],
     isAdvice: [],
+    isFavorite: [],
     isLoading: "waiting",
-    // isFavorite: [],
     fetchFromThisId: null,
     allProductsLength: 0,
 };
@@ -61,6 +61,21 @@ export const fetchSingleProduct = createAsyncThunk(
     }
 );
 
+export const fetchFavoriteProducts = createAsyncThunk(
+    "products/getFavoriteProducts",
+    async (thunkAPI) => {
+        try {
+            const res = await axios.get(
+                `${API_URL}/product/getFavoriteProducts`
+            );
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.response.data.message));
+            throw error;
+        }
+    }
+);
+
 const productsSlice = createSlice({
     name: "products",
     initialState: initialState,
@@ -84,9 +99,6 @@ const productsSlice = createSlice({
                     state.isTrends = action.payload.data.filter((item) => {
                         return item.istrend;
                     });
-                    // state.isFavorite = action.payload.data.filter((item) => {
-                    //     return item.isfavorite;
-                    // });
                     state.fetchFromThisId = action.payload.fetchFromThisId;
                     state.allProductsLength = action.payload.data.length;
                     break;
@@ -96,6 +108,9 @@ const productsSlice = createSlice({
                 case "getSingleProduct":
                     state.singleProduct = action.payload.data[0];
                     state.fetchFromThisId = action.payload.fetchFromThisId;
+                    break;
+                case "getFavoriteProducts":
+                    state.isFavorite = action.payload.data;
                     break;
                 default:
                     break;
@@ -115,11 +130,12 @@ const productsSlice = createSlice({
             .addCase(fetchAdvicedProducts.rejected, handleApiError)
             .addCase(fetchSingleProduct.pending, handleApiCall)
             .addCase(fetchSingleProduct.fulfilled, handleApiSuccess)
-            .addCase(fetchSingleProduct.rejected, handleApiError);
+            .addCase(fetchSingleProduct.rejected, handleApiError)
+            .addCase(fetchFavoriteProducts.pending, handleApiCall)
+            .addCase(fetchFavoriteProducts.fulfilled, handleApiSuccess)
+            .addCase(fetchFavoriteProducts.rejected, handleApiError);
     },
 });
-
-// export const { isTrend } = productsSlice.actions;
 
 export const selectIsLoading = (state) => state.products.isLoading;
 export const selectIsTrends = (state) => state.products.isTrends;

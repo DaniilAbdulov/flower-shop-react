@@ -33,10 +33,19 @@ class ProductsController {
         }
     }
     async getAdvicedProducts(req, res, next) {
+        const userId = req.user.id;
         try {
-            const advicedProducts = await pool.query(
-                "SELECT p.id, p.title, p.price, p.img FROM product as p join advice as a on p.id = a.product_id where p.id = a.product_id;"
-            );
+            let advicedProducts = [];
+            if (userId) {
+                advicedProducts = await pool.query(
+                    "SELECT p.id, p.title, p.price, p.img, EXISTS (SELECT 1 FROM favorites WHERE product_id = p.id and users_id=$1) AS isFavorite FROM product as p join advice as a on p.id = a.product_id where p.id = a.product_id;",
+                    [userId]
+                );
+            } else {
+                advicedProducts = await pool.query(
+                    "SELECT p.id, p.title, p.price, p.img FROM product as p join advice as a on p.id = a.product_id where p.id = a.product_id;"
+                );
+            }
             const data = advicedProducts.rows;
             if (data) {
                 return res.status(200).json({ data });
@@ -46,6 +55,25 @@ class ProductsController {
             return res
                 .status(500)
                 .json({ message: "Ошибка получения трендов" });
+        }
+    }
+    async getFavoriteProducts(req, res, next) {
+        const userId = req.user.id;
+        try {
+            const favorites = await pool.query(
+                "SELECT p.id, p.title, p.price, p.img, TRUE as isfavorite FROM favorites AS f JOIN product AS p ON f.product_id = p.id WHERE f.users_id = $1",
+                [userId]
+            );
+            if (favorites.rows) {
+                const data = favorites.rows;
+                return res.status(200).json({ data });
+            }
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({
+                message:
+                    "Ошибка при выполнении операции в базе данных для избранных товаров",
+            });
         }
     }
     async getSingleProduct(req, res, next) {
