@@ -40,7 +40,6 @@ function ChangeProduct({ setVisible, product }) {
                 img,
                 category,
             };
-            console.log(changedProduct);
             setVisible(false);
             setTitle("");
             setDescription("");

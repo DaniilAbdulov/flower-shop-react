@@ -5,7 +5,6 @@ function AddCategory({ setVisible }) {
     function handlerSubmit(e) {
         e.preventDefault();
         if (category) {
-            console.log(category);
             setVisible(false);
             setCategory("");
         } else {

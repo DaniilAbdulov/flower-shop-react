@@ -1,8 +1,6 @@
 import TrendItem from "./TrendItem";
 
 function TrendList({ data }) {
-    console.log(data);
-
     return (
         <>
             {data.map((item) => (

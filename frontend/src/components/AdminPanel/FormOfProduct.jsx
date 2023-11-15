@@ -39,7 +39,6 @@ function FormOfProduct({ setVisible, buttonName }) {
                 img,
                 category,
             };
-            console.log(newProduct);
             setVisible(false);
             setTitle("");
             setDescription("");
