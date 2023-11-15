@@ -3,12 +3,13 @@ import { selectIsAuth } from "../redux/slices/userSlice";
 import "./Cart.scss";
 import CartList from "../components/Cart/CartList";
 import CartTotal from "../components/Cart/CartTotal";
-import data from "../data/example";
 import ProductsList from "../components/Products/ProductsList";
 import Loader from "../components/UI/Loader";
 import UnAuth from "../components/UI/UnAuth";
+import { selectIsAdvice } from "../redux/slices/productsSlice";
 function Cart() {
     const isAuth = useSelector(selectIsAuth);
+    const advicedProducts = useSelector(selectIsAdvice);
     return (
         <div className="wrapper">
             <div className="cart">
@@ -32,9 +33,9 @@ function Cart() {
 
                 <h2>Советуем к покупке</h2>
                 <div className="cart__column-advice">
-                    {data.length > 0 ? (
+                    {advicedProducts.length > 0 ? (
                         <>
-                            <ProductsList items={data} />
+                            <ProductsList items={advicedProducts} />
                         </>
                     ) : (
                         <>

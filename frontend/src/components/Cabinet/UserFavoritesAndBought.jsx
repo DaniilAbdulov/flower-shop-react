@@ -56,6 +56,10 @@ function UserFavoritesAndBought({ visible }) {
                         <ProductsList items={newArr} />
                     </div>
                 </>
+            ) : newArr.length === 0 ? (
+                <>
+                    <p>List is empty</p>
+                </>
             ) : (
                 <>
                     <div className="loader" style={{ width: "100%" }}>

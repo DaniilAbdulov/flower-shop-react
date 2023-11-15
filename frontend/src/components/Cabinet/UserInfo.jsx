@@ -3,10 +3,12 @@ import Loader from "../UI/Loader";
 import { selectUser } from "../../redux/slices/userSlice";
 import no_photo from "../../asserts/no_photo.webp";
 import { useState } from "react";
+import { selectIsFavorites } from "../../redux/slices/productsSlice";
 
 function UserInfo() {
     const [imgIsLoading, setImgIsLoading] = useState(false);
     const user = useSelector(selectUser);
+    const favoriteProducts = useSelector(selectIsFavorites);
     const { first_name, last_name, user_img, created_at, email } = user;
     const date = new Date(created_at);
     const options = {
@@ -56,7 +58,7 @@ function UserInfo() {
                             </div>
                             <div className="us__item">
                                 <p>В избранном</p>
-                                <span>12</span>
+                                <span>{favoriteProducts.length}</span>
                             </div>
                             <div className="us__item">
                                 <p>Заказов</p>
