@@ -22,8 +22,8 @@ function Cart() {
     useEffect(() => {
         dispatch(getCartData());
 
-        dispatch(fetchAdvicedProducts());
-    }, [dispatch, isAuth, userId, fethingId, advicedProducts.length]);
+        dispatch(fetchAdvicedProducts(userId));
+    }, [dispatch, isAuth, userId, advicedProducts.length]);
 
     return (
         <div className="wrapper">

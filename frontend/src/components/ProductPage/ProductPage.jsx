@@ -31,7 +31,7 @@ function ProductPage() {
         // if (advicedProducts.length === 0) {
         //     dispatch(fetchAdvicedProducts());
         // }
-        dispatch(fetchAdvicedProducts());
+        dispatch(fetchAdvicedProducts(userId));
     }, [
         dispatch,
         userId,

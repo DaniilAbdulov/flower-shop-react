@@ -4,7 +4,7 @@
     h2 {
         font-size: 20px;
         font-weight: bold;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
     }
     &__row {
         display: flex;
@@ -16,7 +16,7 @@
         h2 {
             font-size: 20px;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 10px;
         }
         &-advice {
             text-align: center;
@@ -28,8 +28,8 @@
         }
     }
     &__result {
-        margin-bottom: 20px;
-        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-top: 25px;
         &-desktop {
             position: sticky;
             top: 100px;

@@ -8,18 +8,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import ProductsList from "../Products/ProductsList";
 import Loader from "../UI/Loader";
+import { selectUserId } from "../../redux/slices/userSlice";
 function UserFavoritesAndBought({ visible }) {
     const [activeButton, setActiveButton] = useState(0);
     const dispatch = useDispatch();
     const advicedProducts = useSelector(selectIsAdvice);
     const favoriteProducts = useSelector(selectIsFavorites);
+    const userId = useSelector(selectUserId);
     useEffect(() => {
         if (activeButton === 0) {
-            dispatch(fetchAdvicedProducts());
+            dispatch(fetchAdvicedProducts(userId));
         } else {
             dispatch(fetchFavoriteProducts());
         }
-    }, [dispatch, activeButton]);
+    }, [dispatch, activeButton, userId]);
     const buttons = [
         { id: 0, label: "Советуем к покупке" },
         { id: 1, label: "Избранное" },

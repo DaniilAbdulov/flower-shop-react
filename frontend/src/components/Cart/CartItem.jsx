@@ -1,12 +1,18 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import "./CartItem.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    deleteCartItem,
+    getCartData,
+    selectDeleteLoading,
+} from "../../redux/slices/cartSlice";
 function CartItem({ item }) {
-    console.log(item);
     const { id, price, title, available, description, img } = item;
     const [count, setCount] = useState(1);
-
+    const dispatch = useDispatch();
+    const deleteLoading = useSelector(selectDeleteLoading);
     function increment() {
         if (available > count) {
             setCount(count + 1);
@@ -17,46 +23,49 @@ function CartItem({ item }) {
             setCount(count - 1);
         }
     }
-    function deleteProductFromCart(productid) {
-        alert(`product width id ${productid} deleted from cart`);
+    function deleteProductFromCart(productId) {
+        dispatch(deleteCartItem(productId));
     }
+    // useEffect(() => {
+    //     dispatch(getCartData());
+    // }, [dispatch, deleteLoading]);
     return (
         <>
-            <div className="cart-item">
-                <div className="cart-item__wrapper">
-                    <div className="cart-item__row">
-                        <div className="cart-item__image">
+            <div className="ci">
+                <div className="ci__wrapper">
+                    <div className="ci__content">
+                        <div className="ci__image">
                             <img src={img} alt="flower" />
                         </div>
-                        <div className="cart-item__body">
-                            <div className="cart-item__price">{price} ₽</div>
-                            <div className="cart-item__title">
-                                <h2>{title}</h2>
-                            </div>
-                            <div className="cart-item__description">
-                                <h3>{description}</h3>
-                            </div>
-                            <div className="cart-item__avaiable">
+                        <div className="ci__body">
+                            <h3>{price} ₽</h3>
+                            <h2>{title}</h2>
+                            <p>{description}</p>
+                            <p>
                                 В наличии: <span>{available}</span>
-                            </div>
-                            <div className="cart-item__counter">
-                                <FontAwesomeIcon
-                                    icon={faMinus}
-                                    onClick={decrement}
-                                />
-                                <span> {count} </span>
-                                <FontAwesomeIcon
-                                    icon={faPlus}
-                                    onClick={increment}
-                                />
+                            </p>
+                            <div className="ci__buttons">
+                                <div className="ci__delete">
+                                    <FontAwesomeIcon
+                                        icon={faTrash}
+                                        onClick={() =>
+                                            deleteProductFromCart(id)
+                                        }
+                                    />
+                                </div>
+                                <div className="ci__counter">
+                                    <FontAwesomeIcon
+                                        icon={faMinus}
+                                        onClick={decrement}
+                                    />
+                                    <span> {count} </span>
+                                    <FontAwesomeIcon
+                                        icon={faPlus}
+                                        onClick={increment}
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="cart-item__icon">
-                        <FontAwesomeIcon
-                            icon={faTrash}
-                            onClick={() => deleteProductFromCart(id)}
-                        />
                     </div>
                 </div>
             </div>

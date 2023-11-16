@@ -5,6 +5,7 @@ import { API_URL } from "../../config";
 
 const initialState = {
     cart: [],
+    deleteLoading: "none",
 };
 
 export const addProductToCart = createAsyncThunk(
@@ -35,6 +36,22 @@ export const getCartData = createAsyncThunk(
         }
     }
 );
+export const deleteCartItem = createAsyncThunk(
+    "cart/deleteCartItem",
+    async (productId, thunkAPI) => {
+        try {
+            const res = await axios.delete(`${API_URL}/cart/deleteCartItem`, {
+                params: {
+                    productId,
+                },
+            });
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.response.data.message));
+            throw error;
+        }
+    }
+);
 
 const cartSlice = createSlice({
     name: "cart",
@@ -42,11 +59,11 @@ const cartSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         const handleApiCall = (state) => {
-            state.isLoading = "pending";
+            state.deleteLoading = "pending";
         };
 
         const handleApiSuccess = (state, action) => {
-            state.isLoading = "fullfield";
+            state.deleteLoading = "fullfield";
             if (!action.payload) {
                 return initialState;
             }
@@ -64,7 +81,7 @@ const cartSlice = createSlice({
         };
 
         const handleApiError = (state) => {
-            state.isLoading = "rejected";
+            state.deleteLoading = "rejected";
         };
 
         builder
@@ -73,8 +90,13 @@ const cartSlice = createSlice({
             .addCase(addProductToCart.rejected, handleApiError)
             .addCase(getCartData.pending, handleApiCall)
             .addCase(getCartData.fulfilled, handleApiSuccess)
-            .addCase(getCartData.rejected, handleApiError);
+            .addCase(getCartData.rejected, handleApiError)
+            .addCase(deleteCartItem.pending, handleApiCall)
+            .addCase(deleteCartItem.fulfilled, handleApiSuccess)
+            .addCase(deleteCartItem.rejected, handleApiError);
     },
 });
 export const selectCartData = (state) => state.cart.cart;
+export const selectDeleteLoading = (state) => state.cart.deleteLoading;
+
 export default cartSlice.reducer;

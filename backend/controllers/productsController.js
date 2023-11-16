@@ -35,12 +35,13 @@ class ProductsController {
     async getAdvicedProducts(req, res, next) {
         let fetchFromThisId = 0;
         try {
-            fetchFromThisId = req.user.id;
+            fetchFromThisId = parseInt(req.query.userId);
         } catch (error) {
             fetchFromThisId = null;
         }
         try {
             let advicedProducts = [];
+            console.log(fetchFromThisId);
             if (fetchFromThisId) {
                 advicedProducts = await pool.query(
                     "SELECT p.id, p.title, p.price, p.img, EXISTS (SELECT 1 FROM favorites WHERE product_id = p.id and users_id=$1) AS isFavorite FROM product as p join advice as a on p.id = a.product_id where p.id = a.product_id;",
@@ -53,7 +54,7 @@ class ProductsController {
             }
             const data = advicedProducts.rows;
             if (data) {
-                return res.status(200).json({ data });
+                return res.status(200).json({ data, fetchFromThisId });
             }
         } catch (error) {
             console.log(error);

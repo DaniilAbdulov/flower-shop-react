@@ -35,26 +35,31 @@ class CartController {
     async getCartData(req, res, next) {
         const userId = req.user.id;
         try {
-            // const userHaveCart = await pool.query(
-            //     "SELECT EXISTS(SELECT * FROM carts_users WHERE users_id = $1) AS result;",
-            //     [userId]
-            // );
-            // // if (!userHaveCart.rows[0].result) {
-            // //     return res.status(200).json([]);
-            // // }
-            // console.log(userHaveCart.rows[0].result);
             const userCart = await pool.query(
                 "SELECT P.ID,P.TITLE,P.DESCRIPTION,P.PRICE,P.AVAILABLE,P.IMG,C.COUNT FROM PRODUCT AS P JOIN CARTS_USERS AS C ON P.ID = C.PRODUCT_ID WHERE C.USERS_ID = $1",
                 [userId]
             );
             const data = userCart.rows;
-
             return res.status(200).json({ data });
         } catch (error) {
             const message = error.message;
             return res.status(500).json({
                 message,
             });
+        }
+    }
+    async deleteCartItem(req, res, next) {
+        const userId = req.user.id;
+        const productId = parseInt(req.query.productId);
+        try {
+            const deleteProduct = await pool.query(
+                "DELETE FROM CARTS_USERS WHERE USERS_ID = $1 AND PRODUCT_ID = $2",
+                [userId, productId]
+            );
+            return res.status(200).json({ message: "deleted" });
+        } catch (error) {
+            const err = error.error;
+            return res.status(400).json({ err });
         }
     }
 }

@@ -9,10 +9,6 @@ router.post(
     cartController.addProductToCart
 );
 router.get("/getCartData", authMiddleware, cartController.getCartData);
-// router.delete(
-//     "/deleteFromFavorites",
-//     authMiddleware,
-//     changeProductsInformationController.deleteFromFavorites
-// );
+router.delete("/deleteCartItem", authMiddleware, cartController.deleteCartItem);
 
 export default router;

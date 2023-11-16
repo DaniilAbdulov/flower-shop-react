@@ -33,10 +33,15 @@ export const fetchAllProducts = createAsyncThunk(
 
 export const fetchAdvicedProducts = createAsyncThunk(
     "products/getAdvicedProducts",
-    async (thunkAPI) => {
+    async (userId, thunkAPI) => {
         try {
             const res = await axios.get(
-                `${API_URL}/product/getAdvicedProducts`
+                `${API_URL}/product/getAdvicedProducts`,
+                {
+                    params: {
+                        userId,
+                    },
+                }
             );
             return res.data;
         } catch (error) {
@@ -104,6 +109,7 @@ const productsSlice = createSlice({
                     break;
                 case "getAdvicedProducts":
                     state.isAdvice = action.payload.data;
+                    state.fetchFromThisId = action.payload.fetchFromThisId;
                     break;
                 case "getSingleProduct":
                     state.singleProduct = action.payload.data[0];
