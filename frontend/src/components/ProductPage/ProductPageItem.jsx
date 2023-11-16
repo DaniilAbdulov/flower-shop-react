@@ -1,14 +1,17 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Like from "../UI/Like";
 import { selectIsAuth } from "../../redux/slices/userSlice";
+import { addProductToCart } from "../../redux/slices/cartSlice";
 
 function ProductPageItem({ product }) {
     const { id, img, title, description, sold, price, available, isfavorite } =
         product;
     const isAuth = useSelector(selectIsAuth);
+    const dispatch = useDispatch();
     function addProductToCard() {
         const idOfProduct = id;
-        alert(`Продукт с id ${idOfProduct} улетел в корзину`);
+        // alert(`Продукт с id ${idOfProduct} улетел в корзину`);
+        dispatch(addProductToCart(idOfProduct));
     }
     return (
         <>

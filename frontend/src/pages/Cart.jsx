@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectIsAuth } from "../redux/slices/userSlice";
 import "./Cart.scss";
 import CartList from "../components/Cart/CartList";
@@ -6,10 +6,23 @@ import CartTotal from "../components/Cart/CartTotal";
 import ProductsList from "../components/Products/ProductsList";
 import Loader from "../components/UI/Loader";
 import UnAuth from "../components/UI/UnAuth";
-import { selectIsAdvice } from "../redux/slices/productsSlice";
+import {
+    fetchAdvicedProducts,
+    selectIsAdvice,
+} from "../redux/slices/productsSlice";
+import { useEffect } from "react";
+import { getCartData } from "../redux/slices/cartSlice";
 function Cart() {
     const isAuth = useSelector(selectIsAuth);
     const advicedProducts = useSelector(selectIsAdvice);
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getCartData());
+
+        dispatch(fetchAdvicedProducts());
+    }, [dispatch, isAuth, advicedProducts.length]);
+
     return (
         <div className="wrapper">
             <div className="cart">

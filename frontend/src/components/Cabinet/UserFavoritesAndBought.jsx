@@ -65,10 +65,6 @@ function UserFavoritesAndBought({ visible }) {
                     <div className="loader" style={{ width: "100%" }}>
                         <Loader />
                     </div>
-                    {/* if isLoading true, but data is empty,then 
-                            <div className="nodata">
-                                <p>Ваш список пуст</p>
-                            </div> */}
                 </>
             )}
         </div>

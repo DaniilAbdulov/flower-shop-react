@@ -1,32 +1,33 @@
 import CartItem from "./CartItem";
-import data from "../../data/example";
 import Loader from "../UI/Loader";
+import { useSelector } from "react-redux";
+import { selectCartData } from "../../redux/slices/cartSlice";
+
 function CartList() {
+    const cartData = useSelector(selectCartData);
     return (
         <>
-            {data.length > 0 ? (
+            {cartData.length > 0 ? (
                 <>
                     <ul className="cart__list">
-                        {data.map((item, index) => {
-                            if (index < 1) {
-                                return (
-                                    <li key={item.id}>
-                                        <CartItem item={item} />
-                                    </li>
-                                );
-                            }
+                        {cartData.map((item) => {
+                            return (
+                                <li key={item.id}>
+                                    <CartItem item={item} />
+                                </li>
+                            );
                         })}
                     </ul>
+                </>
+            ) : cartData.length === 0 ? (
+                <>
+                    <p>Ваша корзина пуста</p>
                 </>
             ) : (
                 <>
                     <div className="loader">
                         <Loader />
                     </div>
-                    {/* if isLoading true, but data is empty,then 
-                            <div className="nodata">
-                                <p>Ваша корзина пуста</p>
-                            </div> */}
                 </>
             )}
         </>

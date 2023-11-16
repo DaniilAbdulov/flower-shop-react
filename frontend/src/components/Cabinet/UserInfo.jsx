@@ -56,10 +56,14 @@ function UserInfo() {
                                 <p>Сумма покупок</p>
                                 <span>1 200 000</span>
                             </div>
-                            <div className="us__item">
-                                <p>В избранном</p>
-                                <span>{favoriteProducts.length}</span>
-                            </div>
+                            {favoriteProducts.length > 0 && (
+                                <>
+                                    <div className="us__item">
+                                        <p>В избранном</p>
+                                        <span>{favoriteProducts.length}</span>
+                                    </div>
+                                </>
+                            )}
                             <div className="us__item">
                                 <p>Заказов</p>
                                 <span>12</span>

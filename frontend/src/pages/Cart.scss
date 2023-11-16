@@ -2,9 +2,9 @@
     padding: 0px 20px;
 
     h2 {
-        font-size: 25px;
+        font-size: 20px;
         font-weight: bold;
-        margin-bottom: 15px;
+        margin-bottom: 5px;
     }
     &__row {
         display: flex;
@@ -14,9 +14,9 @@
         flex: 0 1 50%;
         position: relative;
         h2 {
-            font-size: 25px;
+            font-size: 20px;
             font-weight: bold;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
         }
         &-advice {
             text-align: center;

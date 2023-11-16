@@ -5,6 +5,7 @@ import {
     fetchAdvicedProducts,
     fetchSingleProduct,
     selectIsAdvice,
+    selectIsFavorites,
     selectSingleProduct,
 } from "../../redux/slices/productsSlice";
 import "./ProductPage.scss";
@@ -24,12 +25,20 @@ function ProductPage() {
     const userId = useSelector(selectUserId);
     const advicedProducts = useSelector(selectIsAdvice);
     const product = useSelector(selectSingleProduct);
+    const favoriteProducts = useSelector(selectIsFavorites);
     useEffect(() => {
         dispatch(fetchSingleProduct({ productId, userId }));
-        if (advicedProducts.length === 0) {
-            dispatch(fetchAdvicedProducts());
-        }
-    }, [dispatch, userId, productId, advicedProducts.length]);
+        // if (advicedProducts.length === 0) {
+        //     dispatch(fetchAdvicedProducts());
+        // }
+        dispatch(fetchAdvicedProducts());
+    }, [
+        dispatch,
+        userId,
+        productId,
+        advicedProducts.length,
+        favoriteProducts.length,
+    ]);
     return (
         <div className="fc product-page" style={{ marginBottom: "0px" }}>
             <div className="fc__body ">

@@ -3,11 +3,12 @@ import { faTrash, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import "./CartItem.scss";
 import { useState } from "react";
 function CartItem({ item }) {
-    const { id, price, title, description, img } = item;
+    console.log(item);
+    const { id, price, title, available, description, img } = item;
     const [count, setCount] = useState(1);
-    const [avaiable] = useState(item.avaiable);
+
     function increment() {
-        if (avaiable > count) {
+        if (available > count) {
             setCount(count + 1);
         }
     }
@@ -36,7 +37,7 @@ function CartItem({ item }) {
                                 <h3>{description}</h3>
                             </div>
                             <div className="cart-item__avaiable">
-                                В наличии: <span>{avaiable}</span>
+                                В наличии: <span>{available}</span>
                             </div>
                             <div className="cart-item__counter">
                                 <FontAwesomeIcon
