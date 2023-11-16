@@ -5,12 +5,12 @@ const router = new Router();
 
 router.get(
     "/getAllProducts",
-    authMiddleware,
+
     productsController.getAllProducts
 );
 router.get(
     "/getAdvicedProducts",
-    authMiddleware,
+
     productsController.getAdvicedProducts
 );
 router.get(

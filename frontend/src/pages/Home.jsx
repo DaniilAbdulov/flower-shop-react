@@ -16,20 +16,20 @@ function Home() {
     const userId = useSelector(selectUserId);
     const fethingId = useSelector(selectFetchFromThisId);
     const allProductsLength = useSelector(selectAllProductsLength);
-    // useEffect(() => {
-    //     if (userId === "Пользователь был в сети, но разлогинился") {
-    //         return;
-    //     }
-    //     if (userId !== fethingId || !allProductsLength) {
-    //         dispatch(fetchAllProducts(userId));
-    //     }
-    // }, [userId, fethingId, allProductsLength, dispatch]);
     useEffect(() => {
         if (userId === "Пользователь был в сети, но разлогинился") {
             return;
         }
-        dispatch(fetchAllProducts(userId));
-    }, [userId, dispatch]);
+        if (userId !== fethingId || !allProductsLength) {
+            dispatch(fetchAllProducts(userId));
+        }
+    }, [userId, fethingId, allProductsLength, dispatch]);
+    // useEffect(() => {
+    //     if (userId === "Пользователь был в сети, но разлогинился") {
+    //         return;
+    //     }
+    //     dispatch(fetchAllProducts(userId));
+    // }, [userId, dispatch]);
     return (
         <>
             <General />

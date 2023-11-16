@@ -16,9 +16,13 @@ const initialState = {
 
 export const fetchAllProducts = createAsyncThunk(
     "products/getAllProducts",
-    async (thunkAPI) => {
+    async (userId, thunkAPI) => {
         try {
-            const res = await axios.get(`${API_URL}/product/getAllProducts`);
+            const res = await axios.get(`${API_URL}/product/getAllProducts`, {
+                params: {
+                    userId,
+                },
+            });
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.response.data.message));

@@ -33,13 +33,18 @@ class ProductsController {
         }
     }
     async getAdvicedProducts(req, res, next) {
-        const userId = req.user.id;
+        let fetchFromThisId = 0;
+        try {
+            fetchFromThisId = req.user.id;
+        } catch (error) {
+            fetchFromThisId = null;
+        }
         try {
             let advicedProducts = [];
-            if (userId) {
+            if (fetchFromThisId) {
                 advicedProducts = await pool.query(
                     "SELECT p.id, p.title, p.price, p.img, EXISTS (SELECT 1 FROM favorites WHERE product_id = p.id and users_id=$1) AS isFavorite FROM product as p join advice as a on p.id = a.product_id where p.id = a.product_id;",
-                    [userId]
+                    [fetchFromThisId]
                 );
             } else {
                 advicedProducts = await pool.query(
