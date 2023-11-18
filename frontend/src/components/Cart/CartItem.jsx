@@ -33,7 +33,7 @@ function CartItem({ item }) {
                             <img src={img} alt="flower" />
                         </div>
                         <div className="ci__body">
-                            <h3>{price} ₽</h3>
+                            <h3>{price}</h3>
                             <h2>{title}</h2>
                             <p>{description}</p>
                             <p>

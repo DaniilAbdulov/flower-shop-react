@@ -1,4 +1,5 @@
 import pool from "../db.js";
+import { transformPrice } from "../functions/transformPrice.js";
 
 class ProductsController {
     async getAllProducts(req, res, next) {
@@ -20,7 +21,12 @@ class ProductsController {
                     "SELECT p.id, p.title, p.price, p.img, c.name AS category,EXISTS (SELECT 1 FROM trends WHERE product_id = p.id) AS isTrend FROM product AS p JOIN category AS c ON p.category_id = c.id"
                 );
             }
-            const data = allProducts.rows;
+            const data = allProducts.rows.map((item) => {
+                return {
+                    ...item,
+                    price: transformPrice(item.price),
+                };
+            });
             if (data) {
                 setTimeout(() => {
                     return res.status(200).json({ data, fetchFromThisId });
@@ -53,7 +59,12 @@ class ProductsController {
                     "SELECT p.id, p.title, p.price, p.img FROM product as p join advice as a on p.id = a.product_id where p.id = a.product_id;"
                 );
             }
-            const data = advicedProducts.rows;
+            const data = advicedProducts.rows.map((item) => {
+                return {
+                    ...item,
+                    price: transformPrice(item.price),
+                };
+            });
             if (data) {
                 setTimeout(() => {
                     return res.status(200).json({ data, fetchFromThisId });
@@ -75,7 +86,12 @@ class ProductsController {
                 [userId]
             );
             if (favorites.rows) {
-                const data = favorites.rows;
+                const data = favorites.rows.map((item) => {
+                    return {
+                        ...item,
+                        price: transformPrice(item.price),
+                    };
+                });
                 setTimeout(() => {
                     return res.status(200).json({ data });
                 }, 2000);
@@ -110,7 +126,12 @@ class ProductsController {
                     [productId]
                 );
             }
-            const data = singleProduct.rows;
+            const data = singleProduct.rows.map((item) => {
+                return {
+                    ...item,
+                    price: transformPrice(item.price),
+                };
+            });
             if (data) {
                 setTimeout(() => {
                     return res.status(200).json({ data, fetchFromThisId });

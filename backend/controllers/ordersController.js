@@ -11,6 +11,7 @@ class OrdersController {
             let data = "";
             if (orders.rows) {
                 data = transformData(orders.rows);
+                console.log(data);
             }
             setTimeout(() => {
                 return res.status(200).json({ data });

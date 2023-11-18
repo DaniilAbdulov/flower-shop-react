@@ -1,5 +1,5 @@
 import pool from "../db.js";
-
+import { transformPrice } from "../functions/transformPrice.js";
 class CartController {
     async addProductToCart(req, res, next) {
         try {
@@ -39,8 +39,14 @@ class CartController {
                 "SELECT SUM(count) as count,SUM(res) AS sum FROM (SELECT c.users_id, SUM(c.count) AS count, SUM(c.count * p.price) AS res FROM carts_users AS c JOIN product AS p ON c.product_id = p.id WHERE c.users_id = $1 GROUP BY c.users_id) AS subquery",
                 [userId]
             );
-            const data = userCart.rows;
+            const data = userCart.rows.map((item) => {
+                return {
+                    ...item,
+                    price: transformPrice(item.price),
+                };
+            });
             const cartTotal = userCartTotal.rows;
+
             setTimeout(() => {
                 return res.status(200).json({ data, cartTotal });
             }, 2000);
