@@ -86,7 +86,11 @@ export const setCountOfItem = createAsyncThunk(
 const cartSlice = createSlice({
     name: "cart",
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        clearCartTotal: (state) => {
+            state.cartTotal = {};
+        },
+    },
     extraReducers: (builder) => {
         const handleApiCall = (state) => {
             state.fetchingGetCartData = true;
@@ -132,5 +136,6 @@ export const selectCartData = (state) => state.cart.cart;
 export const selectCartTotal = (state) => state.cart.cartTotal;
 export const selectCartTotalCount = (state) => state.cart.cartTotal.count;
 export const selectCartLoading = (state) => state.cart.fetchingGetCartData;
+export const { clearCartTotal } = cartSlice.actions;
 
 export default cartSlice.reducer;

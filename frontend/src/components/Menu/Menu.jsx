@@ -12,7 +12,10 @@ import {
 } from "../../redux/slices/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import { selectCartTotalCount } from "../../redux/slices/cartSlice";
+import {
+    clearCartTotal,
+    selectCartTotalCount,
+} from "../../redux/slices/cartSlice";
 function Menu() {
     const cartTotalCount = useSelector(selectCartTotalCount);
     const isAdmin = useSelector(selectIsAdmin);
@@ -38,6 +41,7 @@ function Menu() {
     const dispatch = useDispatch();
     function logOutUserHandler() {
         dispatch(logOutUser());
+        dispatch(clearCartTotal());
     }
 
     useEffect(() => {

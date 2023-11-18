@@ -17,9 +17,11 @@ function FinalPay({ setNewStage }) {
                     className="final-pay__text"
                     style={{ marginBottom: "15px", textAlign: "center" }}
                 >
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Autem eveniet fugiat illum doloremque incidunt ipsum
-                    pariatur ea atque, esse quidem!
+                    Здесь происходит введение платежной информации. Запрос на
+                    оплату в банк и т.д. Данная логика будет настроена при
+                    реальном использовани магазина. Далее вы либо окончательтно
+                    подтверждаете оплату, либо нажимаете крестик и заказ
+                    приобретает статус "не оплачено"
                 </div>
                 <div
                     className="final-pay__button po__button"

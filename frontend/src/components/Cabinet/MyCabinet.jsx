@@ -10,8 +10,16 @@ import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 
 import MyDialog from "../UI/MyDialog";
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrders, selectOrdersData } from "../../redux/slices/ordersSlice";
 function MyCabinet() {
     const [showOrders, setShowOrders] = useState(false);
+    const ordersData = useSelector(selectOrdersData);
+    const dispatch = useDispatch();
+    function fetchOrdersHandler() {
+        dispatch(getOrders());
+    }
+    console.log(ordersData);
     return (
         <>
             <div className="cabinet">
@@ -20,7 +28,10 @@ function MyCabinet() {
                 <UserInfo />
                 <div
                     className="cabinet__showmeOrders"
-                    onClick={() => setShowOrders(true)}
+                    onClick={() => {
+                        setShowOrders(true);
+                        fetchOrdersHandler();
+                    }}
                 >
                     <button>
                         <FontAwesomeIcon icon={faBagShopping} />

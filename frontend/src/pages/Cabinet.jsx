@@ -5,6 +5,7 @@ import UnAuth from "../components/UI/UnAuth";
 
 function Cabinet() {
     const isAuth = useSelector(selectIsAuth);
+
     return (
         <>
             {isAuth ? (
