@@ -1,31 +1,21 @@
 import { useParams } from "react-router-dom";
 import orders from "../data/orders";
 import "./Order.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { getOrders, selectOrdersData } from "../redux/slices/ordersSlice";
+import { useEffect } from "react";
+import { selectUser } from "../redux/slices/userSlice";
 function Order() {
+    const ordersData = useSelector(selectOrdersData);
+    const user = useSelector(selectUser);
     const params = useParams();
-    const orderId = params.id;
-    const order = orders.filter((item) => item.id == orderId)[0];
+    const orderId = parseInt(params.id);
+
+    const order = ordersData.filter((item) => item.order_id === orderId)[0];
+
     let cancelationValues = false;
-    const months = [
-        "Января",
-        "Февраля",
-        "Марта",
-        "Апреля",
-        "Мая",
-        "Июня",
-        "Июля",
-        "Августа",
-        "Сентября",
-        "Октября",
-        "Ноября",
-        "Декабря",
-    ];
-    function getData(d) {
-        const date = d.getDate();
-        const month = months[d.getMonth()];
-        const year = d.getFullYear();
-        return `${date} ${month} ${year}`;
-    }
+    console.log(user);
+
     function getButton() {
         if (
             order.status === "Получен" ||
@@ -40,7 +30,7 @@ function Order() {
             return;
         }
     }
-    const new_date_order = getData(order.date_order);
+
     const buttonValue = getButton();
     function handlePayButton() {
         alert(`Настрой логику перехода на страницу оплаты`);
@@ -55,7 +45,7 @@ function Order() {
                     <div className="order__text">
                         <h2>Заказ № {orderId}</h2>
                         <p className="order__text">
-                            Дата заказа: {new_date_order}
+                            Дата заказа: {order.date_order}
                         </p>
                         {cancelationValues && (
                             <>
@@ -78,22 +68,26 @@ function Order() {
                     </div>
 
                     <div className="order__image-wrapper">
-                        {order.product_img.map((photo, index) => (
-                            <div className="order__image-container" key={index}>
-                                <img src={photo} alt="Изображение" />
-                                <p>x200</p>
+                        {order.products.map((product) => (
+                            <div
+                                className="order__image-container"
+                                key={product.id}
+                            >
+                                <img src={product.img} alt="Изображение" />
+                                <p>x{product.count}</p>
                             </div>
                         ))}
                     </div>
                     <div className="order__user">
                         <h2>Получатель:</h2>
                         <p>
-                            <span>Daniil</span> <span>Abdulov</span>
+                            <span>{user.first_name}</span>{" "}
+                            <span>{user.last_name}</span>
                         </p>
-                        <p>user@yandex.ru</p>
+                        <p>{user.email}</p>
                     </div>
                     <div className="order__total-price order__user">
-                        <h2>Сумма: 18000</h2>
+                        <h2>Сумма: {order.total}</h2>
                     </div>
                     <button onClick={handlePayButton} className="order__button">
                         {buttonValue}

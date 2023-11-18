@@ -5,21 +5,20 @@ import UserInfo from "./UserInfo";
 import UserFavoritesAndAdviced from "./UserFavoritesAndAdviced";
 import UserOrders from "./UserOrders";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
-
-import MyDialog from "../UI/MyDialog";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getOrders, selectOrdersData } from "../../redux/slices/ordersSlice";
+import { getOrders } from "../../redux/slices/ordersSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
+import MyDialog from "../UI/MyDialog";
 function MyCabinet() {
     const [showOrders, setShowOrders] = useState(false);
-    const ordersData = useSelector(selectOrdersData);
+
     const dispatch = useDispatch();
     function fetchOrdersHandler() {
         dispatch(getOrders());
     }
-    console.log(ordersData);
+    // console.log(ordersData);
     return (
         <>
             <div className="cabinet">

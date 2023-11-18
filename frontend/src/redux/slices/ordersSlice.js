@@ -62,7 +62,7 @@ const ordersSlice = createSlice({
             console.log(typeOfFetchingData);
             switch (typeOfFetchingData) {
                 case "getOrders":
-                    state.fetchingGetOrdersData = true;
+                    state.fetchingGetOrdersData = false;
                     state.orders = action.payload.data;
                     break;
                 default:
@@ -90,9 +90,7 @@ const ordersSlice = createSlice({
     },
 });
 export const selectOrdersData = (state) => state.orders.orders;
-// export const selectCartTotal = (state) => state.orders.cartTotal;
-// export const selectCartTotalCount = (state) => state.orders.cartTotal.count;
-// export const selectCartLoading = (state) => state.o;
-// export const { clearCartTotal orderscartSlice.actions;
+export const selectOrdersLoading = (state) =>
+    state.orders.fetchingGetOrdersData;
 
 export default ordersSlice.reducer;
