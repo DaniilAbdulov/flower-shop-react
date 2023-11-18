@@ -4,11 +4,10 @@ class ProductsController {
     async getAllProducts(req, res, next) {
         let fetchFromThisId = 0;
         try {
-            fetchFromThisId = req.user.id;
+            fetchFromThisId = parseInt(req.query.userId);
         } catch (error) {
             fetchFromThisId = null;
         }
-
         try {
             let allProducts = {};
             if (fetchFromThisId) {
@@ -23,7 +22,10 @@ class ProductsController {
             }
             const data = allProducts.rows;
             if (data) {
-                return res.status(200).json({ data, fetchFromThisId });
+                setTimeout(() => {
+                    return res.status(200).json({ data, fetchFromThisId });
+                }, 2000);
+                // return res.status(200).json({ data, fetchFromThisId });
             }
         } catch (error) {
             console.log(error);
@@ -54,7 +56,10 @@ class ProductsController {
             }
             const data = advicedProducts.rows;
             if (data) {
-                return res.status(200).json({ data, fetchFromThisId });
+                setTimeout(() => {
+                    return res.status(200).json({ data, fetchFromThisId });
+                }, 2000);
+                // return res.status(200).json({ data, fetchFromThisId });
             }
         } catch (error) {
             console.log(error);
@@ -72,7 +77,10 @@ class ProductsController {
             );
             if (favorites.rows) {
                 const data = favorites.rows;
-                return res.status(200).json({ data });
+                setTimeout(() => {
+                    return res.status(200).json({ data });
+                }, 2000);
+                // return res.status(200).json({ data });
             }
         } catch (error) {
             console.log(error);
@@ -105,7 +113,10 @@ class ProductsController {
             }
             const data = singleProduct.rows;
             if (data) {
-                return res.status(200).json({ data, fetchFromThisId });
+                setTimeout(() => {
+                    return res.status(200).json({ data, fetchFromThisId });
+                }, 2000);
+                // return res.status(200).json({ data, fetchFromThisId });
             }
         } catch (error) {
             console.log(error);

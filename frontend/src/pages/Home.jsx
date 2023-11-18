@@ -11,6 +11,7 @@ import General from "../components/Home/General";
 import Trends from "../components/Home/Trends";
 import "./Pages.scss";
 import { selectUserId } from "../redux/slices/userSlice";
+import { getCartData } from "../redux/slices/cartSlice";
 function Home() {
     const dispatch = useDispatch();
     const userId = useSelector(selectUserId);
@@ -22,6 +23,9 @@ function Home() {
         }
         if (userId !== fethingId || !allProductsLength) {
             dispatch(fetchAllProducts(userId));
+            if (userId) {
+                dispatch(getCartData());
+            }
         }
     }, [userId, fethingId, allProductsLength, dispatch]);
     // useEffect(() => {

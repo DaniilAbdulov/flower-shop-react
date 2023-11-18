@@ -1,7 +1,4 @@
-import {
-    selectIsTrends,
-    // selectIsLoading,
-} from "../../redux/slices/productsSlice";
+import { selectIsTrends } from "../../redux/slices/productsSlice";
 import { useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -15,7 +12,6 @@ import TrendItem from "../Products/TrendItem";
 import Loader from "../UI/Loader";
 function Trends() {
     const trends = useSelector(selectIsTrends);
-    // const loading = useSelector(selectIsLoading);
     return (
         <>
             <div className="wrapper">
@@ -23,7 +19,6 @@ function Trends() {
                     className="trends"
                     style={{
                         alignItems: trends.length > 0 ? "" : "center",
-                        // alignItems: !loading ? "" : "center",
                     }}
                 >
                     <div className="trends__label">

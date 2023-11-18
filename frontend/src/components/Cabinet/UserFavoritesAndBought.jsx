@@ -1,6 +1,8 @@
 import {
     fetchAdvicedProducts,
     fetchFavoriteProducts,
+    selectAdvicedLoading,
+    selectFavoriteLoading,
     selectIsAdvice,
     selectIsFavorites,
 } from "../../redux/slices/productsSlice";
@@ -9,12 +11,15 @@ import { useEffect, useState } from "react";
 import ProductsList from "../Products/ProductsList";
 import Loader from "../UI/Loader";
 import { selectUserId } from "../../redux/slices/userSlice";
+
 function UserFavoritesAndBought({ visible }) {
     const [activeButton, setActiveButton] = useState(0);
     const dispatch = useDispatch();
     const advicedProducts = useSelector(selectIsAdvice);
     const favoriteProducts = useSelector(selectIsFavorites);
     const userId = useSelector(selectUserId);
+    const adviceLoading = useSelector(selectAdvicedLoading);
+    const favoriteLoading = useSelector(selectFavoriteLoading);
     useEffect(() => {
         if (activeButton === 0) {
             dispatch(fetchAdvicedProducts(userId));
@@ -31,6 +36,8 @@ function UserFavoritesAndBought({ visible }) {
     };
 
     let newArr = activeButton === 0 ? advicedProducts : favoriteProducts;
+    console.log(adviceLoading);
+    console.log(favoriteLoading);
     return (
         <div
             className="asrt"
@@ -52,21 +59,20 @@ function UserFavoritesAndBought({ visible }) {
                     </button>
                 ))}
             </div>
-            {newArr.length > 0 ? (
+            {(adviceLoading || favoriteLoading) && (
+                <div className="loader" style={{ width: "100%" }}>
+                    <Loader />
+                </div>
+            )}
+            {!adviceLoading && !favoriteLoading && (
                 <>
-                    <div className="asrt__cards">
-                        <ProductsList items={newArr} />
-                    </div>
-                </>
-            ) : newArr.length === 0 ? (
-                <>
-                    <p>List is empty</p>
-                </>
-            ) : (
-                <>
-                    <div className="loader" style={{ width: "100%" }}>
-                        <Loader />
-                    </div>
+                    {newArr.length > 0 ? (
+                        <div className="asrt__cards">
+                            <ProductsList items={newArr} />
+                        </div>
+                    ) : (
+                        <p>List is empty</p>
+                    )}
                 </>
             )}
         </div>

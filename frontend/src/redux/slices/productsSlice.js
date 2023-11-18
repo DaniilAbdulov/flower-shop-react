@@ -9,9 +9,10 @@ const initialState = {
     isTrends: [],
     isAdvice: [],
     isFavorite: [],
-    isLoading: "waiting",
     fetchFromThisId: null,
     allProductsLength: 0,
+    advicedLoading: false,
+    favoriteLoading: false,
 };
 
 export const fetchAllProducts = createAsyncThunk(
@@ -86,13 +87,23 @@ const productsSlice = createSlice({
     initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
-        const handleApiCall = (state) => {
-            state.isLoading = "pending";
+        const handleApiCall = (state, action) => {
             state.singleProduct = {};
+            const typeOfFetchingData = action.type.split("/")[1];
+            console.log(typeOfFetchingData);
+            switch (typeOfFetchingData) {
+                case "getAdvicedProducts":
+                    state.advicedLoading = true;
+                    break;
+                case "getFavoriteProducts":
+                    state.favoriteLoading = true;
+                    break;
+                default:
+                    break;
+            }
         };
 
         const handleApiSuccess = (state, action) => {
-            state.isLoading = "fullfield";
             if (!action.payload) {
                 return initialState;
             }
@@ -110,6 +121,7 @@ const productsSlice = createSlice({
                 case "getAdvicedProducts":
                     state.isAdvice = action.payload.data;
                     state.fetchFromThisId = action.payload.fetchFromThisId;
+                    state.advicedLoading = false;
                     break;
                 case "getSingleProduct":
                     state.singleProduct = action.payload.data[0];
@@ -117,6 +129,7 @@ const productsSlice = createSlice({
                     break;
                 case "getFavoriteProducts":
                     state.isFavorite = action.payload.data;
+                    state.favoriteLoading = false;
                     break;
                 default:
                     break;
@@ -124,7 +137,8 @@ const productsSlice = createSlice({
         };
 
         const handleApiError = (state) => {
-            state.isLoading = "rejected";
+            state.advicedLoading = false;
+            state.favoriteLoading = false;
         };
 
         builder
@@ -143,7 +157,8 @@ const productsSlice = createSlice({
     },
 });
 
-export const selectIsLoading = (state) => state.products.isLoading;
+export const selectAdvicedLoading = (state) => state.products.advicedLoading;
+export const selectFavoriteLoading = (state) => state.products.favoriteLoading;
 export const selectIsTrends = (state) => state.products.isTrends;
 export const selectIsFavorites = (state) => state.products.isFavorite;
 export const selectAllProducts = (state) => state.products.allProducts;

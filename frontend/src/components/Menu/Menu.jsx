@@ -61,7 +61,7 @@ function Menu() {
                             }
                         }}
                     >
-                        {cartTotalCount !== null && (
+                        {cartTotalCount && (
                             <div className="ccount__count">
                                 {cartTotalCount}
                             </div>
