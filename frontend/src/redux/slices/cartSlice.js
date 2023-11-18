@@ -5,7 +5,8 @@ import { API_URL } from "../../config";
 
 const initialState = {
     cart: [],
-    deleteLoading: "none",
+    cartTotal: {},
+    fetchingGetCartData: false,
 };
 
 export const addProductToCart = createAsyncThunk(
@@ -17,6 +18,9 @@ export const addProductToCart = createAsyncThunk(
                     productId,
                 },
             });
+            if (res.data.message === "added") {
+                thunkAPI.dispatch(getCartData());
+            }
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.response.data.message));
@@ -45,6 +49,32 @@ export const deleteCartItem = createAsyncThunk(
                     productId,
                 },
             });
+            if (res.data.message === "deleted") {
+                thunkAPI.dispatch(getCartData());
+            }
+
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.response.data.message));
+            throw error;
+        }
+    }
+);
+export const setCountOfItem = createAsyncThunk(
+    "cart/setCountOfItem",
+    async ({ id, newCount }, thunkAPI) => {
+        try {
+            const res = await axios.put(`${API_URL}/cart/setCountOfItem`, {
+                params: {
+                    id,
+                    newCount,
+                },
+            });
+
+            if (res.data.message === "count changed") {
+                thunkAPI.dispatch(getCartData());
+            }
+
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.response.data.message));
@@ -59,21 +89,20 @@ const cartSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         const handleApiCall = (state) => {
-            state.deleteLoading = "pending";
+            state.fetchingGetCartData = true;
         };
 
         const handleApiSuccess = (state, action) => {
-            state.deleteLoading = "fullfield";
             if (!action.payload) {
                 return initialState;
             }
             const typeOfFetchingData = action.type.split("/")[1];
             console.log(typeOfFetchingData);
             switch (typeOfFetchingData) {
-                case "addProductToCart":
-                    break;
                 case "getCartData":
                     state.cart = action.payload.data;
+                    state.cartTotal = action.payload.cartTotal[0];
+                    state.fetchingGetCartData = false;
                     break;
                 default:
                     break;
@@ -81,7 +110,7 @@ const cartSlice = createSlice({
         };
 
         const handleApiError = (state) => {
-            state.deleteLoading = "rejected";
+            state.fetchingGetCartData = false;
         };
 
         builder
@@ -93,10 +122,15 @@ const cartSlice = createSlice({
             .addCase(getCartData.rejected, handleApiError)
             .addCase(deleteCartItem.pending, handleApiCall)
             .addCase(deleteCartItem.fulfilled, handleApiSuccess)
-            .addCase(deleteCartItem.rejected, handleApiError);
+            .addCase(deleteCartItem.rejected, handleApiError)
+            .addCase(setCountOfItem.pending, handleApiCall)
+            .addCase(setCountOfItem.fulfilled, handleApiSuccess)
+            .addCase(setCountOfItem.rejected, handleApiError);
     },
 });
 export const selectCartData = (state) => state.cart.cart;
-export const selectDeleteLoading = (state) => state.cart.deleteLoading;
+export const selectCartTotal = (state) => state.cart.cartTotal;
+export const selectCartTotalCount = (state) => state.cart.cartTotal.count;
+export const selectCartLoading = (state) => state.cart.fetchingGetCartData;
 
 export default cartSlice.reducer;

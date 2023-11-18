@@ -50,11 +50,20 @@
     }
     &__delete {
         font-size: 20px;
+        cursor: pointer;
+        scale: 1;
+        transform: rotate(0deg);
+        transition: all 0.1s ease-in-out;
+        &:active {
+            scale: 1.2;
+            transform: rotate(-20deg);
+        }
     }
     &__buttons {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        cursor: pointer;
     }
 }
 @media (max-width: 800px) {
@@ -67,6 +76,9 @@
         }
         &__image {
             margin-right: 0px;
+        }
+        &__body {
+            min-width: 100%;
         }
     }
 }

@@ -1,34 +1,29 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
 import "./CartItem.scss";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-    deleteCartItem,
-    getCartData,
-    selectDeleteLoading,
-} from "../../redux/slices/cartSlice";
+import { useDispatch } from "react-redux";
+import { deleteCartItem, setCountOfItem } from "../../redux/slices/cartSlice";
 function CartItem({ item }) {
-    const { id, price, title, available, description, img } = item;
-    const [count, setCount] = useState(1);
+    const { id, price, title, available, count, description, img } = item;
+
     const dispatch = useDispatch();
-    const deleteLoading = useSelector(selectDeleteLoading);
+
     function increment() {
         if (available > count) {
-            setCount(count + 1);
+            const newCount = count + 1;
+            dispatch(setCountOfItem({ id, newCount }));
         }
     }
     function decrement() {
         if (count > 1) {
-            setCount(count - 1);
+            const newCount = count - 1;
+            dispatch(setCountOfItem({ id, newCount }));
         }
     }
     function deleteProductFromCart(productId) {
         dispatch(deleteCartItem(productId));
     }
-    // useEffect(() => {
-    //     dispatch(getCartData());
-    // }, [dispatch, deleteLoading]);
+
     return (
         <>
             <div className="ci">

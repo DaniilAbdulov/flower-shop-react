@@ -2,6 +2,7 @@ import CartItem from "./CartItem";
 import Loader from "../UI/Loader";
 import { useSelector } from "react-redux";
 import { selectCartData } from "../../redux/slices/cartSlice";
+import { Link } from "react-router-dom";
 
 function CartList() {
     const cartData = useSelector(selectCartData);
@@ -22,6 +23,7 @@ function CartList() {
             ) : cartData.length === 0 ? (
                 <>
                     <p>Ваша корзина пуста</p>
+                    <Link to="/">Перейти к покупкам</Link>
                 </>
             ) : (
                 <>

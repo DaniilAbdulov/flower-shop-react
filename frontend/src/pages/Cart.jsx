@@ -12,12 +12,13 @@ import {
     selectIsAdvice,
 } from "../redux/slices/productsSlice";
 import { useEffect } from "react";
-import { getCartData } from "../redux/slices/cartSlice";
+import { getCartData, selectCartLoading } from "../redux/slices/cartSlice";
 function Cart() {
     const isAuth = useSelector(selectIsAuth);
     const advicedProducts = useSelector(selectIsAdvice);
     const fethingId = useSelector(selectFetchFromThisId);
     const userId = useSelector(selectUserId);
+    const fetchCartData = useSelector(selectCartLoading);
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getCartData());
@@ -27,7 +28,19 @@ function Cart() {
 
     return (
         <div className="wrapper">
-            <div className="cart">
+            <div
+                className="loader-forCart"
+                style={{ display: fetchCartData ? "block" : "none" }}
+            >
+                <Loader />
+            </div>
+            <div
+                className="cart"
+                style={{
+                    opacity: fetchCartData ? "0.3" : "1",
+                    pointerEvents: fetchCartData ? "none" : "all",
+                }}
+            >
                 {isAuth ? (
                     <div className="cart__row">
                         <div className="cart__column">

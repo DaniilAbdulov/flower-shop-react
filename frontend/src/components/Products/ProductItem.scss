@@ -19,6 +19,13 @@
         button {
             font-size: 25px;
         }
+        scale: 1;
+        transform: rotate(0deg);
+        transition: all 0.1s ease-in-out;
+        &:active {
+            scale: 1.2;
+            transform: rotate(-20deg);
+        }
     }
     &__image {
         margin-bottom: 10px;

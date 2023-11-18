@@ -22,9 +22,9 @@ class CartController {
             if (addProduct.rowCount !== 1) {
                 throw new Error("Ошибка добавления товара в избранное");
             }
-            return res
-                .status(200)
-                .json({ message: "Товар добавлен в корзину" });
+            setTimeout(() => {
+                return res.status(200).json({ message: "added" });
+            }, 2000);
         } catch (error) {
             const message = error.message;
             return res.status(500).json({
@@ -36,16 +36,44 @@ class CartController {
         const userId = req.user.id;
         try {
             const userCart = await pool.query(
-                "SELECT P.ID,P.TITLE,P.DESCRIPTION,P.PRICE,P.AVAILABLE,P.IMG,C.COUNT FROM PRODUCT AS P JOIN CARTS_USERS AS C ON P.ID = C.PRODUCT_ID WHERE C.USERS_ID = $1",
+                "SELECT P.ID,P.TITLE,P.DESCRIPTION,P.PRICE,P.AVAILABLE,P.IMG,C.COUNT FROM PRODUCT AS P JOIN CARTS_USERS AS C ON P.ID = C.PRODUCT_ID WHERE C.USERS_ID = $1 ORDER BY P.TITLE",
+                [userId]
+            );
+            const userCartTotal = await pool.query(
+                "SELECT SUM(count) as count,SUM(res) AS sum FROM (SELECT c.users_id, SUM(c.count) AS count, SUM(c.count * p.price) AS res FROM carts_users AS c JOIN product AS p ON c.product_id = p.id WHERE c.users_id = $1 GROUP BY c.users_id) AS subquery",
                 [userId]
             );
             const data = userCart.rows;
-            return res.status(200).json({ data });
+            const cartTotal = userCartTotal.rows;
+            setTimeout(() => {
+                return res.status(200).json({ data, cartTotal });
+            }, 2000);
         } catch (error) {
             const message = error.message;
             return res.status(500).json({
                 message,
             });
+        }
+    }
+    async setCountOfItem(req, res, next) {
+        const userId = req.user.id;
+        const productId = req.body.params.id;
+        const count = req.body.params.newCount;
+        try {
+            const setCountOfItem = await pool.query(
+                "UPDATE carts_users SET count = $1 WHERE users_id = $2 AND product_id = $3",
+                [count, userId, productId]
+            );
+            if (setCountOfItem.command === "UPDATE") {
+                setTimeout(() => {
+                    return res.status(200).json({ message: "count changed" });
+                }, 2000);
+            } else {
+                throw new Error("Ошибка изменения количесвта товара в корзине");
+            }
+        } catch (error) {
+            const err = error.error;
+            return res.status(400).json({ err });
         }
     }
     async deleteCartItem(req, res, next) {
@@ -56,7 +84,16 @@ class CartController {
                 "DELETE FROM CARTS_USERS WHERE USERS_ID = $1 AND PRODUCT_ID = $2",
                 [userId, productId]
             );
-            return res.status(200).json({ message: "deleted" });
+            if (
+                deleteProduct.command === "DELETE" &&
+                deleteProduct.rowCount === 1
+            ) {
+                setTimeout(() => {
+                    return res.status(200).json({ message: "deleted" });
+                }, 2000);
+            } else {
+                throw new Error("Ошибка удаления товара из корзины");
+            }
         } catch (error) {
             const err = error.error;
             return res.status(400).json({ err });

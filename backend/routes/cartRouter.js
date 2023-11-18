@@ -10,5 +10,6 @@ router.post(
 );
 router.get("/getCartData", authMiddleware, cartController.getCartData);
 router.delete("/deleteCartItem", authMiddleware, cartController.deleteCartItem);
+router.put("/setCountOfItem", authMiddleware, cartController.setCountOfItem);
 
 export default router;

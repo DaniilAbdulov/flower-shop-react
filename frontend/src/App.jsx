@@ -10,6 +10,7 @@ import Error from "./components/Error/Error";
 
 function App() {
     const dispatch = useDispatch();
+
     useEffect(() => {
         dispatch(fetchCurrentUser());
     }, []);

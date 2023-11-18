@@ -12,8 +12,9 @@ import {
 } from "../../redux/slices/userSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { selectCartTotalCount } from "../../redux/slices/cartSlice";
 function Menu() {
-    const [cartCount, setCartCount] = useState(0);
+    const cartTotalCount = useSelector(selectCartTotalCount);
     const isAdmin = useSelector(selectIsAdmin);
     const isAuth = useSelector(selectIsAuth);
     const firstSymbols = useSelector(selectFirstSymbols);
@@ -52,7 +53,7 @@ function Menu() {
             <div className="header__container">
                 <div className="header__logos">
                     <NavLink
-                        className="header__cart cart"
+                        className="header__cart ccount"
                         to="/cart"
                         onClick={() => {
                             if (device === "mobile") {
@@ -60,8 +61,10 @@ function Menu() {
                             }
                         }}
                     >
-                        {cartCount > 0 && (
-                            <div className="cart__count">{cartCount}</div>
+                        {cartTotalCount !== null && (
+                            <div className="ccount__count">
+                                {cartTotalCount}
+                            </div>
                         )}
 
                         <AiOutlineShoppingCart />

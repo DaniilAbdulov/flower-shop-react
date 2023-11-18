@@ -14,6 +14,13 @@
         button {
             font-size: 30px;
         }
+        scale: 1;
+        transform: rotate(0deg);
+        transition: all 0.1s ease-in-out;
+        &:active {
+            scale: 1.2;
+            transform: rotate(-20deg);
+        }
     }
     &__title {
         word-wrap: break-word;
