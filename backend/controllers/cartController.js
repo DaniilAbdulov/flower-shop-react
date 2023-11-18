@@ -5,8 +5,6 @@ class CartController {
         try {
             const productId = parseInt(req.body.params.productId);
             const userId = req.user.id;
-            console.log(productId);
-            console.log(userId);
             const candidat = await pool.query(
                 "SELECT EXISTS(SELECT * FROM carts_users WHERE users_id = $1 and product_id = $2) AS result;",
                 [userId, productId]
@@ -22,9 +20,7 @@ class CartController {
             if (addProduct.rowCount !== 1) {
                 throw new Error("Ошибка добавления товара в избранное");
             }
-            setTimeout(() => {
-                return res.status(200).json({ message: "added" });
-            }, 2000);
+            return res.status(200).json({ message: "added" });
         } catch (error) {
             const message = error.message;
             return res.status(500).json({
@@ -48,6 +44,7 @@ class CartController {
             setTimeout(() => {
                 return res.status(200).json({ data, cartTotal });
             }, 2000);
+            // return res.status(200).json({ data, cartTotal });
         } catch (error) {
             const message = error.message;
             return res.status(500).json({
@@ -65,9 +62,7 @@ class CartController {
                 [count, userId, productId]
             );
             if (setCountOfItem.command === "UPDATE") {
-                setTimeout(() => {
-                    return res.status(200).json({ message: "count changed" });
-                }, 2000);
+                return res.status(200).json({ message: "count changed" });
             } else {
                 throw new Error("Ошибка изменения количесвта товара в корзине");
             }
@@ -88,9 +83,7 @@ class CartController {
                 deleteProduct.command === "DELETE" &&
                 deleteProduct.rowCount === 1
             ) {
-                setTimeout(() => {
-                    return res.status(200).json({ message: "deleted" });
-                }, 2000);
+                return res.status(200).json({ message: "deleted" });
             } else {
                 throw new Error("Ошибка удаления товара из корзины");
             }

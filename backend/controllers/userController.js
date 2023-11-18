@@ -9,7 +9,6 @@ const generateJwt = (id, nickName, email) => {
 
 class UserController {
     async registration(req, res, next) {
-        console.log(req.body);
         const { id, firstName, lastName, nickName, email, password } = req.body;
         if (!email || !password) {
             return res
@@ -22,7 +21,6 @@ class UserController {
                 [email]
             );
             if (currentEmail.rowCount) {
-                console.log("Пользователь с таким email уже существует");
                 return res.status(400).json({
                     message: "Пользователь с таким email уже существует",
                 });
@@ -32,7 +30,6 @@ class UserController {
                 [nickName]
             );
             if (currentNickName.rowCount) {
-                console.log("Пользователь с таким ником уже существует");
                 return res.status(400).json({
                     message: "Пользователь с таким ником уже существует",
                 });
@@ -71,7 +68,6 @@ class UserController {
                 [nickName]
             );
             if (!findUser.rowCount) {
-                console.log("Нет такого пользователя");
                 res.status(404).json({ message: "Нет такого пользователя" });
                 return;
             }
@@ -79,7 +75,6 @@ class UserController {
             let comparePassword = password === user.password;
             // let comparePassword = bcrypt.compareSync(password, user.password);
             if (!comparePassword) {
-                console.log("Неверный пароль");
                 res.status(404).json({ message: "Неверный пароль" });
                 return;
             }
@@ -96,7 +91,6 @@ class UserController {
             req.user.id,
         ]);
         if (!findUser.rowCount) {
-            console.log("Проблема с токеном");
             return res.status(404).json({ message: "Проблема с токеном" });
         }
         const user = findUser.rows[0];

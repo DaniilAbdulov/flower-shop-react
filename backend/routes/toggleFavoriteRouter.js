@@ -1,17 +1,17 @@
 import { Router } from "express";
-import changeProductsInformationController from "../controllers/changeProductsInformationController.js";
+import toggleFavoriteController from "../controllers/toggleFavoriteController.js";
 import authMiddleware from "../middleware/authMiddleware.js";
 const router = new Router();
 
 router.post(
     "/addToFavorites",
     authMiddleware,
-    changeProductsInformationController.addToFavorites
+    toggleFavoriteController.addToFavorites
 );
 router.delete(
     "/deleteFromFavorites",
     authMiddleware,
-    changeProductsInformationController.deleteFromFavorites
+    toggleFavoriteController.deleteFromFavorites
 );
 
 export default router;

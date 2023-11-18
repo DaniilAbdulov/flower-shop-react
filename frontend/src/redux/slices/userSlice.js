@@ -92,7 +92,6 @@ const userSlice = createSlice({
             state.isLoading = false;
 
             if (!action.payload) {
-                // console.log("Ошибка в action.payload");
                 return;
             }
 

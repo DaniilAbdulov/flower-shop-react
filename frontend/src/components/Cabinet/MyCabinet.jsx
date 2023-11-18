@@ -2,7 +2,7 @@ import "../Home/Assortiment.scss";
 import "./MyCabinet.scss";
 
 import UserInfo from "./UserInfo";
-import UserFavoritesAndBought from "./UserFavoritesAndBought";
+import UserFavoritesAndAdviced from "./UserFavoritesAndAdviced";
 import UserOrders from "./UserOrders";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -30,7 +30,7 @@ function MyCabinet() {
                 <MyDialog visible={showOrders} setVisible={setShowOrders}>
                     <UserOrders />
                 </MyDialog>
-                <UserFavoritesAndBought visible={showOrders} />
+                <UserFavoritesAndAdviced visible={showOrders} />
             </div>
         </>
     );

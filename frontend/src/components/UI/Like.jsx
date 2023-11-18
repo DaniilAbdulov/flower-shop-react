@@ -6,7 +6,7 @@ import { selectIsAuth, selectUserId } from "../../redux/slices/userSlice";
 import {
     addToFavorites,
     deleteFromFavorites,
-} from "../../redux/slices/changeProductsInfoSLice";
+} from "../../redux/slices/toggleFavoriteSLice";
 function Like({ like, id }) {
     const [isFavorite, setIsFavorite] = useState(like);
     const userId = useSelector(selectUserId);

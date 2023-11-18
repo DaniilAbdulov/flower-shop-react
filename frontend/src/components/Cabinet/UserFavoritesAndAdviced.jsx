@@ -36,8 +36,6 @@ function UserFavoritesAndBought({ visible }) {
     };
 
     let newArr = activeButton === 0 ? advicedProducts : favoriteProducts;
-    console.log(adviceLoading);
-    console.log(favoriteLoading);
     return (
         <div
             className="asrt"

@@ -6,10 +6,10 @@ import { API_URL } from "../../config";
 const initialState = {};
 
 export const addToFavorites = createAsyncThunk(
-    "change/addToFavorites",
+    "favorite/addToFavorites",
     async (productId, thunkAPI) => {
         try {
-            const res = await axios.post(`${API_URL}/change/addToFavorites`, {
+            const res = await axios.post(`${API_URL}/favorite/addToFavorites`, {
                 params: {
                     productId,
                 },
@@ -22,11 +22,11 @@ export const addToFavorites = createAsyncThunk(
     }
 );
 export const deleteFromFavorites = createAsyncThunk(
-    "change/deleteFromFavorites",
+    "favorite/deleteFromFavorites",
     async (productId, thunkAPI) => {
         try {
             const res = await axios.delete(
-                `${API_URL}/change/deleteFromFavorites`,
+                `${API_URL}/favorite/deleteFromFavorites`,
                 {
                     params: {
                         productId,
@@ -41,8 +41,8 @@ export const deleteFromFavorites = createAsyncThunk(
     }
 );
 
-const productsSlice = createSlice({
-    name: "change",
+const toggleFavoriteSlice = createSlice({
+    name: "favorite",
     initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
@@ -81,4 +81,4 @@ const productsSlice = createSlice({
     },
 });
 
-export default productsSlice.reducer;
+export default toggleFavoriteSlice.reducer;

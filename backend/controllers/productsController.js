@@ -43,7 +43,6 @@ class ProductsController {
         }
         try {
             let advicedProducts = [];
-            console.log(fetchFromThisId);
             if (fetchFromThisId) {
                 advicedProducts = await pool.query(
                     "SELECT p.id, p.title, p.price, p.img, EXISTS (SELECT 1 FROM favorites WHERE product_id = p.id and users_id=$1) AS isFavorite FROM product as p join advice as a on p.id = a.product_id where p.id = a.product_id;",
