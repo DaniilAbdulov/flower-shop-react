@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import pool from "../db.js";
+import { formatDate } from "../functions/transformData.js";
 const generateJwt = (id, nickName, email) => {
     return jwt.sign({ id, nickName, email }, process.env.SECRET_KEY, {
         expiresIn: "24h",
@@ -53,6 +54,8 @@ class UserController {
             if (addUser.rowCount) {
                 const token = generateJwt(addUser.rows[0].id, nickName, "USER");
                 const user = addUser.rows[0];
+                user.created_at = formatDate(user.created_at);
+                user.updated_at = formatDate(user.updated_at);
                 return res.json({ token, user });
             }
         } catch (error) {
@@ -72,6 +75,8 @@ class UserController {
                 return;
             }
             const user = findUser.rows[0];
+            user.created_at = formatDate(user.created_at);
+            user.updated_at = formatDate(user.updated_at);
             let comparePassword = password === user.password;
             // let comparePassword = bcrypt.compareSync(password, user.password);
             if (!comparePassword) {
@@ -94,6 +99,8 @@ class UserController {
             return res.status(404).json({ message: "Проблема с токеном" });
         }
         const user = findUser.rows[0];
+        user.created_at = formatDate(user.created_at);
+        user.updated_at = formatDate(user.updated_at);
         const token = generateJwt(user.id, user.email, user.role);
         return res.json({ token, user });
     }

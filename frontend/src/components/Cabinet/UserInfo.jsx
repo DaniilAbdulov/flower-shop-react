@@ -1,23 +1,22 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../UI/Loader";
 import { selectUser } from "../../redux/slices/userSlice";
 import no_photo from "../../asserts/no_photo.webp";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { selectIsFavorites } from "../../redux/slices/productsSlice";
+import {
+    getOrdersInfo,
+    selectOrdersInfo,
+    selectOrdersInfoLoading,
+} from "../../redux/slices/ordersSlice";
 
 function UserInfo() {
     const [imgIsLoading, setImgIsLoading] = useState(false);
     const user = useSelector(selectUser);
+    const ordersInfo = useSelector(selectOrdersInfo);
     const favoriteProducts = useSelector(selectIsFavorites);
+    const loadingOrdersInfo = useSelector(selectOrdersInfoLoading);
     const { first_name, last_name, user_img, created_at, email } = user;
-    const date = new Date(created_at);
-    const options = {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-    };
-    const ruDate = new Intl.DateTimeFormat("ru", options).format(date);
-
     const image = new Image();
     image.onload = () => {
         setImgIsLoading(true);
@@ -26,7 +25,10 @@ function UserInfo() {
         console.log("Произошла ошибка при загрузке изображения.");
     };
     image.src = user_img ? user_img : no_photo;
-
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getOrdersInfo());
+    }, [dispatch]);
     return (
         <div>
             {user ? (
@@ -48,13 +50,17 @@ function UserInfo() {
                                     {first_name} {last_name}
                                 </h2>
                                 <p>{email}</p>
-                                <p>Дата регистрации: {ruDate}</p>
+                                <p>Дата регистрации: {created_at}</p>
                             </div>
                         </div>
                         <div className="user__stats us">
                             <div className="us__item">
                                 <p>Сумма покупок</p>
-                                <span>1 200 000</span>
+                                <span>
+                                    {!loadingOrdersInfo && ordersInfo
+                                        ? ordersInfo.total
+                                        : "0"}
+                                </span>
                             </div>
                             {favoriteProducts.length > 0 && (
                                 <>
@@ -66,7 +72,11 @@ function UserInfo() {
                             )}
                             <div className="us__item">
                                 <p>Заказов</p>
-                                <span>12</span>
+                                <span>
+                                    {!loadingOrdersInfo && ordersInfo
+                                        ? ordersInfo.count
+                                        : "0"}
+                                </span>
                             </div>
                         </div>
                     </div>

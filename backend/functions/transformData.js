@@ -33,7 +33,7 @@ export function transformData(data) {
     });
     return newArr;
 }
-function formatDate(d) {
+export function formatDate(d) {
     const date = new Date(d);
     const options = { year: "numeric", month: "long", day: "numeric" };
     const result = date.toLocaleDateString("ru-RU", options);

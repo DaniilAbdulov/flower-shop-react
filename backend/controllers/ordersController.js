@@ -1,5 +1,6 @@
 import pool from "../db.js";
 import { transformData } from "../functions/transformData.js";
+import { transformPrice } from "../functions/transformPrice.js";
 class OrdersController {
     async getOrders(req, res, next) {
         const userId = req.user.id;
@@ -11,12 +12,32 @@ class OrdersController {
             let data = "";
             if (orders.rows) {
                 data = transformData(orders.rows);
-                console.log(data);
             }
             setTimeout(() => {
                 return res.status(200).json({ data });
             }, 1000);
             // return res.status(200).json({ data, cartTotal });
+        } catch (error) {
+            const message = error.message;
+            return res.status(500).json({
+                message,
+            });
+        }
+    }
+    async getOrdersInfo(req, res, next) {
+        const userId = req.user.id;
+        try {
+            const ordersInfo = await pool.query(
+                "SELECT count(o.id), sum(op.count*p.price) as total FROM orders AS o JOIN orders_products AS op ON o.id = op.order_id JOIN product as p on op.product_id = p.id where o.users_id = $1 AND O.STATUS_ORDER_ID != 1 group by o.users_id",
+                [userId]
+            );
+            if (ordersInfo.rowCount === 0) {
+                res.status(200).json({});
+            } else {
+                const data = ordersInfo.rows[0];
+                data.total = transformPrice(data.total);
+                res.status(200).json({ data });
+            }
         } catch (error) {
             const message = error.message;
             return res.status(500).json({
