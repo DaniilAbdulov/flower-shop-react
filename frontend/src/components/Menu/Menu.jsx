@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
-import { AiOutlineShoppingCart } from "react-icons/ai";
-import "./Menu.scss";
+import { selectCartTotalCount } from "../../redux/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
     logOutUser,
@@ -10,17 +8,18 @@ import {
     selectIsAuth,
     selectFirstSymbols,
 } from "../../redux/slices/userSlice";
+import { FaBars } from "react-icons/fa";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import "./Menu.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
-import {
-    clearCartTotal,
-    selectCartTotalCount,
-} from "../../redux/slices/cartSlice";
+
 function Menu() {
     const cartTotalCount = useSelector(selectCartTotalCount);
     const isAdmin = useSelector(selectIsAdmin);
     const isAuth = useSelector(selectIsAuth);
     const firstSymbols = useSelector(selectFirstSymbols);
+
     const links = [
         { to: "/", title: "Home" },
         { to: "/about", title: "About us" },
@@ -41,7 +40,6 @@ function Menu() {
     const dispatch = useDispatch();
     function logOutUserHandler() {
         dispatch(logOutUser());
-        dispatch(clearCartTotal());
     }
 
     useEffect(() => {
@@ -52,6 +50,7 @@ function Menu() {
             setVisible(false);
         }
     }, []);
+
     return (
         <header className="header">
             <div className="header__container">
@@ -65,7 +64,7 @@ function Menu() {
                             }
                         }}
                     >
-                        {cartTotalCount && (
+                        {cartTotalCount && isAuth && (
                             <div className="ccount__count">
                                 {cartTotalCount}
                             </div>

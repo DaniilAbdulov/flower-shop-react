@@ -90,6 +90,9 @@ const cartSlice = createSlice({
         clearCartTotal: (state) => {
             state.cartTotal = {};
         },
+        clearCart: (state) => {
+            state.cart = [];
+        },
     },
     extraReducers: (builder) => {
         const handleApiCall = (state) => {
@@ -136,6 +139,6 @@ export const selectCartData = (state) => state.cart.cart;
 export const selectCartTotal = (state) => state.cart.cartTotal;
 export const selectCartTotalCount = (state) => state.cart.cartTotal.count;
 export const selectCartLoading = (state) => state.cart.fetchingGetCartData;
-export const { clearCartTotal } = cartSlice.actions;
+export const { clearCartTotal, clearCart } = cartSlice.actions;
 
 export default cartSlice.reducer;

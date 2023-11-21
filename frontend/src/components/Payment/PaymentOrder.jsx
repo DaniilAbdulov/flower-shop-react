@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import data from "../../data/example";
 import { useEffect, useState } from "react";
 import {
     getCartData,

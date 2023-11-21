@@ -1,3 +1,5 @@
+import { transformPrice } from "./transformPrice.js";
+
 export function transformData(data) {
     const newArr = data.map((item) => {
         item.date_order = formatDate(item.date_order);
@@ -38,12 +40,4 @@ export function formatDate(d) {
     const options = { year: "numeric", month: "long", day: "numeric" };
     const result = date.toLocaleDateString("ru-RU", options);
     return result;
-}
-function transformPrice(price) {
-    const number = typeof price === "number" ? price : parseInt(price);
-    return number.toLocaleString("ru-RU", {
-        style: "currency",
-        currency: "RUB",
-        minimumFractionDigits: 0,
-    });
 }

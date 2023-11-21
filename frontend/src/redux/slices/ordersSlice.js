@@ -6,10 +6,10 @@ import { API_URL } from "../../config";
 const initialState = {
     orders: [],
     ordersInfo: {},
-    // cartTotal: {},
     fetchingGetOrdersData: false,
     fetchingGetOrdersInfo: false,
     fetchingCreateOrder: false,
+    orderCreated: false,
 };
 
 export const getOrdersInfo = createAsyncThunk(
@@ -56,7 +56,11 @@ export const createOrder = createAsyncThunk(
 const ordersSlice = createSlice({
     name: "orders",
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        clearOrderCreated: (state) => {
+            state.orderCreated = false;
+        },
+    },
     extraReducers: (builder) => {
         const handleApiCall = (state, action) => {
             const typeOfFetchingData = action.type.split("/")[1];
@@ -69,6 +73,7 @@ const ordersSlice = createSlice({
                     break;
                 case "createOrder":
                     state.fetchingCreateOrder = true;
+
                     break;
                 default:
                     break;
@@ -92,6 +97,7 @@ const ordersSlice = createSlice({
                     break;
                 case "createOrder":
                     state.fetchingCreateOrder = false;
+                    state.orderCreated = true;
                     break;
                 default:
                     break;
@@ -120,5 +126,9 @@ export const selectOrdersLoading = (state) =>
     state.orders.fetchingGetOrdersData;
 export const selectOrdersInfoLoading = (state) =>
     state.orders.fetchingGetOrdersInfo;
+export const selectCreateOrderLoading = (state) =>
+    state.orders.fetchingCreateOrder;
+export const selectOrderCreated = (state) => state.orders.orderCreated;
+export const { clearOrderCreated } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

@@ -1,5 +1,5 @@
 export function transformPrice(price) {
-    const number = typeof price === "number" ? price : parseInt(price);
+    const number = Number(price);
     return number.toLocaleString("ru-RU", {
         style: "currency",
         currency: "RUB",

@@ -62,7 +62,6 @@ class OrdersController {
                 );
                 idOfOrder = idOfAddedOrder.rows[0].id;
             }
-            const arrOfResponses = [];
             for (let i = 0; i < orders.length; i++) {
                 await pool.query(
                     "insert into orders_products (order_id,product_id,count) values ($1,$2,$3)",
@@ -72,10 +71,23 @@ class OrdersController {
                     "UPDATE product SET available = available - $1 WHERE id = $2",
                     [orders[i].count, orders[i].productId]
                 );
+                await pool.query(
+                    "DELETE FROM carts_users where users_id = $1",
+                    [userId]
+                );
             }
+            setTimeout(() => {
+                return res.status(200).json({ message: "order created" });
+            }, 2000);
+            // return res.status(200).json({ message: "order created" });
         } catch (error) {
-            console.log(error);
             const message = error.message;
+            console.log(message);
+            if (message.includes("available")) {
+                return res.status(500).json({
+                    message: "Количества товара не достаточно для заказа",
+                });
+            }
             return res.status(500).json({
                 message,
             });
