@@ -47,6 +47,7 @@ class CartController {
             });
             const cartTotal = userCartTotal.rows;
 
+            cartTotal[0].sum = transformPrice(cartTotal[0].sum);
             setTimeout(() => {
                 return res.status(200).json({ data, cartTotal });
             }, 2000);

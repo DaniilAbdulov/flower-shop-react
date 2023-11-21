@@ -9,6 +9,7 @@ const initialState = {
     // cartTotal: {},
     fetchingGetOrdersData: false,
     fetchingGetOrdersInfo: false,
+    fetchingCreateOrder: false,
 };
 
 export const getOrdersInfo = createAsyncThunk(
@@ -35,6 +36,22 @@ export const getOrders = createAsyncThunk(
         }
     }
 );
+export const createOrder = createAsyncThunk(
+    "orders/createOrder",
+    async (orders, thunkAPI) => {
+        try {
+            const res = await axios.post(`${API_URL}/orders/createOrder`, {
+                params: {
+                    orders,
+                },
+            });
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.response.data.message));
+            throw error;
+        }
+    }
+);
 
 const ordersSlice = createSlice({
     name: "orders",
@@ -49,6 +66,9 @@ const ordersSlice = createSlice({
                     break;
                 case "getOrdersInfo":
                     state.fetchingGetOrdersInfo = true;
+                    break;
+                case "createOrder":
+                    state.fetchingCreateOrder = true;
                     break;
                 default:
                     break;
@@ -70,6 +90,9 @@ const ordersSlice = createSlice({
                     state.ordersInfo = action.payload.data;
                     state.fetchingGetOrdersInfo = false;
                     break;
+                case "createOrder":
+                    state.fetchingCreateOrder = false;
+                    break;
                 default:
                     break;
             }
@@ -85,7 +108,10 @@ const ordersSlice = createSlice({
             .addCase(getOrders.rejected, handleApiError)
             .addCase(getOrdersInfo.pending, handleApiCall)
             .addCase(getOrdersInfo.fulfilled, handleApiSuccess)
-            .addCase(getOrdersInfo.rejected, handleApiError);
+            .addCase(getOrdersInfo.rejected, handleApiError)
+            .addCase(createOrder.pending, handleApiCall)
+            .addCase(createOrder.fulfilled, handleApiSuccess)
+            .addCase(createOrder.rejected, handleApiError);
     },
 });
 export const selectOrdersData = (state) => state.orders.orders;

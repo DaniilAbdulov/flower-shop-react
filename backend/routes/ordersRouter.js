@@ -5,5 +5,6 @@ const router = new Router();
 
 router.get("/getOrders", authMiddleware, ordersController.getOrders);
 router.get("/getOrdersInfo", authMiddleware, ordersController.getOrdersInfo);
+router.post("/createOrder", authMiddleware, ordersController.createOrder);
 
 export default router;

@@ -45,6 +45,42 @@ class OrdersController {
             });
         }
     }
+    async createOrder(req, res, next) {
+        const userId = req.user.id;
+        const time = new Date();
+        const orders = req.body.params.orders;
+        let idOfOrder = 0;
+        try {
+            const createOrder = await pool.query(
+                "insert into orders (users_id,date_order,status_order_id) values ($1,$2,$3)",
+                [userId, time, 1]
+            );
+            if (createOrder.rowCount === 1) {
+                const idOfAddedOrder = await pool.query(
+                    "select id from orders where date_order = $1",
+                    [time]
+                );
+                idOfOrder = idOfAddedOrder.rows[0].id;
+            }
+            const arrOfResponses = [];
+            for (let i = 0; i < orders.length; i++) {
+                await pool.query(
+                    "insert into orders_products (order_id,product_id,count) values ($1,$2,$3)",
+                    [idOfOrder, orders[i].productId, orders[i].count]
+                );
+                await pool.query(
+                    "UPDATE product SET available = available - $1 WHERE id = $2",
+                    [orders[i].count, orders[i].productId]
+                );
+            }
+        } catch (error) {
+            console.log(error);
+            const message = error.message;
+            return res.status(500).json({
+                message,
+            });
+        }
+    }
 }
 
 export default new OrdersController();

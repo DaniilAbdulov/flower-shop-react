@@ -8,6 +8,7 @@ import {
     selectCartTotal,
 } from "../../redux/slices/cartSlice";
 import Loader from "../UI/Loader";
+import { createOrder } from "../../redux/slices/ordersSlice";
 
 function PaymentOrder({ setNewStage }) {
     const cartData = useSelector(selectCartData);
@@ -26,7 +27,18 @@ function PaymentOrder({ setNewStage }) {
     useEffect(() => {
         dispatch(getCartData());
     }, [dispatch]);
-    console.log(fetchCartData);
+    console.log(cartData);
+    function createOrderHandler() {
+        const orders = [];
+        for (let i = 0; i < cartData.length; i++) {
+            const order = {
+                productId: cartData[i].id,
+                count: cartData[i].count,
+            };
+            orders.push(order);
+        }
+        dispatch(createOrder(orders));
+    }
     return (
         <div className="payment__order po">
             <div className="po__wrapper">
@@ -69,7 +81,8 @@ function PaymentOrder({ setNewStage }) {
                         </div>
                         <div
                             className="po__button"
-                            onClick={() => setNewStage("createOrder")}
+                            // onClick={() => setNewStage("createOrder")}
+                            onClick={() => createOrderHandler()}
                         >
                             <span>Оплатить</span>
                             <span>{cartTotal.sum} Р</span>
