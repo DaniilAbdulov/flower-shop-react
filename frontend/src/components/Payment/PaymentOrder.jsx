@@ -26,7 +26,7 @@ function PaymentOrder({ setNewStage }) {
     useEffect(() => {
         dispatch(getCartData());
     }, [dispatch]);
-    console.log(cartData);
+
     function createOrderHandler() {
         const orders = [];
         for (let i = 0; i < cartData.length; i++) {

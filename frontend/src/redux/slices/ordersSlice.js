@@ -6,7 +6,9 @@ import { API_URL } from "../../config";
 const initialState = {
     orders: [],
     ordersInfo: {},
+    oneOrder: {},
     fetchingGetOrdersData: false,
+    fetchingGetOneOrderData: false,
     fetchingGetOrdersInfo: false,
     fetchingCreateOrder: false,
     orderCreated: false,
@@ -36,6 +38,22 @@ export const getOrders = createAsyncThunk(
         }
     }
 );
+export const getOneOrder = createAsyncThunk(
+    "orders/getOneOrder",
+    async (orderId, thunkAPI) => {
+        try {
+            const res = await axios.get(`${API_URL}/orders/getOneOrder`, {
+                params: {
+                    orderId,
+                },
+            });
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.response.data.message));
+            throw error;
+        }
+    }
+);
 export const createOrder = createAsyncThunk(
     "orders/createOrder",
     async (orders, thunkAPI) => {
@@ -45,6 +63,25 @@ export const createOrder = createAsyncThunk(
                     orders,
                 },
             });
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.response.data.message));
+            throw error;
+        }
+    }
+);
+export const cancelOrder = createAsyncThunk(
+    "orders/cancelOrder",
+    async (orderId, thunkAPI) => {
+        try {
+            const res = await axios.put(`${API_URL}/orders/cancelOrder`, {
+                params: {
+                    orderId,
+                },
+            });
+            if (res.data.message === "Status changed") {
+                thunkAPI.dispatch(getOneOrder(orderId));
+            }
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.response.data.message));
@@ -75,6 +112,9 @@ const ordersSlice = createSlice({
                     state.fetchingCreateOrder = true;
 
                     break;
+                case "getOneOrder":
+                    state.fetchingGetOneOrderData = true;
+                    break;
                 default:
                     break;
             }
@@ -88,9 +128,10 @@ const ordersSlice = createSlice({
             console.log(typeOfFetchingData);
             switch (typeOfFetchingData) {
                 case "getOrders":
-                    state.fetchingGetOrdersData = false;
                     state.orders = action.payload.data;
+                    state.fetchingGetOrdersData = false;
                     break;
+
                 case "getOrdersInfo":
                     state.ordersInfo = action.payload.data;
                     state.fetchingGetOrdersInfo = false;
@@ -98,6 +139,10 @@ const ordersSlice = createSlice({
                 case "createOrder":
                     state.fetchingCreateOrder = false;
                     state.orderCreated = true;
+                    break;
+                case "getOneOrder":
+                    state.oneOrder = action.payload.data[0];
+                    state.fetchingGetOneOrderData = false;
                     break;
                 default:
                     break;
@@ -117,13 +162,19 @@ const ordersSlice = createSlice({
             .addCase(getOrdersInfo.rejected, handleApiError)
             .addCase(createOrder.pending, handleApiCall)
             .addCase(createOrder.fulfilled, handleApiSuccess)
-            .addCase(createOrder.rejected, handleApiError);
+            .addCase(createOrder.rejected, handleApiError)
+            .addCase(getOneOrder.pending, handleApiCall)
+            .addCase(getOneOrder.fulfilled, handleApiSuccess)
+            .addCase(getOneOrder.rejected, handleApiError);
     },
 });
 export const selectOrdersData = (state) => state.orders.orders;
+export const selectOneOrder = (state) => state.orders.oneOrder;
 export const selectOrdersInfo = (state) => state.orders.ordersInfo;
 export const selectOrdersLoading = (state) =>
     state.orders.fetchingGetOrdersData;
+export const selectOneOrderLoading = (state) =>
+    state.orders.fetchingGetOneOrderData;
 export const selectOrdersInfoLoading = (state) =>
     state.orders.fetchingGetOrdersInfo;
 export const selectCreateOrderLoading = (state) =>

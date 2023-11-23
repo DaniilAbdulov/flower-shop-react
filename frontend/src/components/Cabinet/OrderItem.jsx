@@ -9,7 +9,7 @@ function OrderItem({ order }) {
                     <div className="order-item__body">
                         <div className="order-item__text">
                             <h2>Заказ от {date_order}</h2>
-                            <NavLink to={`/order/${order_id}`}>
+                            <NavLink to={`/orders/${order_id}`}>
                                 № {order_id}
                             </NavLink>
                         </div>

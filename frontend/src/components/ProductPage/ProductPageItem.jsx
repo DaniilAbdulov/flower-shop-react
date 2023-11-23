@@ -35,8 +35,11 @@ function ProductPageItem({ product }) {
                     </p>
                 </div>
                 <div className="ppbody__button">
-                    <button onClick={addProductToCard} disabled={!isAuth}>
-                        В корзину
+                    <button
+                        onClick={addProductToCard}
+                        disabled={!isAuth || available === 0}
+                    >
+                        {available ? "В корзину" : "Нет в наличии"}
                     </button>
                 </div>
             </div>

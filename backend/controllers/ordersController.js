@@ -24,11 +24,35 @@ class OrdersController {
             });
         }
     }
+    async getOneOrder(req, res, next) {
+        const userId = req.user.id;
+        const orderId = req.query.orderId;
+
+        try {
+            const order = await pool.query(
+                "SELECT CAST(O.DATE_ORDER AS VARCHAR) AS DATE_ORDER, OP.ORDER_ID, STRING_AGG(CAST(OP.COUNT AS VARCHAR), ',') AS COUNT, STRING_AGG(CAST(OP.PRODUCT_ID AS VARCHAR), ',') AS PRODUCT_ID, STRING_AGG(P.IMG, ',') AS IMG, SUM(OP.COUNT * P.PRICE) AS TOTAL, S.STATUS FROM ORDERS AS O JOIN ORDERS_PRODUCTS AS OP ON O.ID = OP.ORDER_ID JOIN PRODUCT AS P ON P.ID = OP.PRODUCT_ID JOIN STATUS_ORDERS AS S ON O.STATUS_ORDER_ID = S.ID WHERE O.USERS_ID = $1 AND ORDER_ID = $2 GROUP BY O.USERS_ID, O.DATE_ORDER, OP.ORDER_ID, S.STATUS ORDER BY OP.ORDER_ID",
+                [userId, orderId]
+            );
+            let data = "";
+            if (order.rows) {
+                data = transformData(order.rows);
+            }
+            setTimeout(() => {
+                return res.status(200).json({ data });
+            }, 1000);
+            // return res.status(200).json({ data, cartTotal });
+        } catch (error) {
+            const message = error.message;
+            return res.status(500).json({
+                message,
+            });
+        }
+    }
     async getOrdersInfo(req, res, next) {
         const userId = req.user.id;
         try {
             const ordersInfo = await pool.query(
-                "SELECT count(o.id), sum(op.count*p.price) as total FROM orders AS o JOIN orders_products AS op ON o.id = op.order_id JOIN product as p on op.product_id = p.id where o.users_id = $1 AND O.STATUS_ORDER_ID != 1 group by o.users_id",
+                "SELECT count(o.id), sum(op.count*p.price) as total FROM orders AS o JOIN orders_products AS op ON o.id = op.order_id JOIN product as p on op.product_id = p.id where o.users_id = $1 AND O.STATUS_ORDER_ID IN(2,3) group by o.users_id",
                 [userId]
             );
             if (ordersInfo.rowCount === 0) {
@@ -49,6 +73,7 @@ class OrdersController {
         const userId = req.user.id;
         const time = new Date();
         const orders = req.body.params.orders;
+
         let idOfOrder = 0;
         try {
             const createOrder = await pool.query(
@@ -82,12 +107,44 @@ class OrdersController {
             // return res.status(200).json({ message: "order created" });
         } catch (error) {
             const message = error.message;
-            console.log(message);
             if (message.includes("available")) {
                 return res.status(500).json({
                     message: "Количества товара не достаточно для заказа",
                 });
             }
+            return res.status(500).json({
+                message,
+            });
+        }
+    }
+    async cancelOrder(req, res, next) {
+        const userId = req.user.id;
+        const orderId = req.body.params.orderId;
+        try {
+            const doesUserHaveThisOrder = await pool.query(
+                "SELECT COUNT(*) FROM orders WHERE id = $1 AND users_id = $2 AND status_order_id != 4;",
+                [orderId, userId]
+            );
+            if (!doesUserHaveThisOrder.rows.count === "1") {
+                res.status(400).json({
+                    message: "Order`s status is not `cancel`",
+                });
+            } else {
+                const changeStatusOfOrder = await pool.query(
+                    "update orders set status_order_id = 4 where id = $1 and users_id = $2;",
+                    [orderId, userId]
+                );
+                if (!changeStatusOfOrder.rowCount) {
+                    res.status(400).json({
+                        message:
+                            "Something went wrong with change status operation",
+                    });
+                } else {
+                    res.status(200).json({ message: "Status changed" });
+                }
+            }
+        } catch (error) {
+            const message = error.message;
             return res.status(500).json({
                 message,
             });

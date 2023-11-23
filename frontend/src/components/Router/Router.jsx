@@ -29,7 +29,7 @@ function Router() {
                         <Route path="admin" element={<AdminPanel />} />
                     </>
                 )}
-                <Route path="order/:id" element={<Order />} />
+                <Route path="orders/:id" element={<Order />} />
                 <Route path="*" element={<h2>Page not found</h2>} />
             </Routes>
         </div>

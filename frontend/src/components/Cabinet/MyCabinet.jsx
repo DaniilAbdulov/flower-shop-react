@@ -6,7 +6,7 @@ import UserFavoritesAndAdviced from "./UserFavoritesAndAdviced";
 import UserOrders from "./UserOrders";
 
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { getOrders } from "../../redux/slices/ordersSlice";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
@@ -18,7 +18,6 @@ function MyCabinet() {
     function fetchOrdersHandler() {
         dispatch(getOrders());
     }
-    // console.log(ordersData);
     return (
         <>
             <div className="cabinet">
