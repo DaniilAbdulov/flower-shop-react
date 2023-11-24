@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import data from "../../data/example";
+import { createProduct } from "../../redux/slices/adminPanelSlice";
 function FormOfProduct({ setVisible, buttonName }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
@@ -10,6 +12,7 @@ function FormOfProduct({ setVisible, buttonName }) {
     const [img, setImg] = useState("");
     const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState("");
+    const dispatch = useDispatch();
     useEffect(() => {
         showMeData(data);
     }, []);
@@ -29,7 +32,6 @@ function FormOfProduct({ setVisible, buttonName }) {
             alert("Выберите категорию товара");
         } else {
             const newProduct = {
-                id: Date.now(),
                 title,
                 description,
                 price: Number(price),
@@ -39,6 +41,7 @@ function FormOfProduct({ setVisible, buttonName }) {
                 img,
                 category,
             };
+            dispatch(createProduct(newProduct));
             setVisible(false);
             setTitle("");
             setDescription("");

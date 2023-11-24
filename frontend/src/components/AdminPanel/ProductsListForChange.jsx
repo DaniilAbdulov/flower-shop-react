@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import data from "../../data/example";
 import MiniItem from "./MiniItem";
+import { useDispatch, useSelector } from "react-redux";
+import {
+    fetchAllProducts,
+    selectAllProducts,
+} from "../../redux/slices/productsSlice";
 
 function ProductsListForChange() {
     const [categories, setCategories] = useState([]);
     const [searchValue, setSearchValue] = useState("");
-    const [products, setProducts] = useState(data);
+
     const [selectedProduct, setSelectedProduct] = useState("Все");
-    useEffect(() => {
-        showMeData(data);
-    }, []);
+    const allProducts = useSelector(selectAllProducts);
 
     function showMeData(data) {
         const mySet = new Set();
@@ -22,7 +25,7 @@ function ProductsListForChange() {
         });
         setCategories(Array.from(mySet));
     }
-    const sortedProducts = products.filter((product) => {
+    const sortedProducts = allProducts.filter((product) => {
         if (
             selectedProduct !== "Тренды" &&
             selectedProduct !== "Советуем к покупке"
@@ -41,6 +44,11 @@ function ProductsListForChange() {
             return product.isAdvice;
         }
     });
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(fetchAllProducts());
+        showMeData(allProducts);
+    }, [dispatch]);
     return (
         <div>
             <h2>Изменение товаров</h2>

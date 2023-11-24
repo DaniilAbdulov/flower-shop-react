@@ -1,6 +1,6 @@
 import pool from "../db.js";
 
-class ChangeProductsInformationController {
+class toggleFavoriteController {
     async addToFavorites(req, res, next) {
         try {
             const productId = parseInt(req.body.params.productId);
@@ -76,4 +76,4 @@ class ChangeProductsInformationController {
     }
 }
 
-export default new ChangeProductsInformationController();
+export default new toggleFavoriteController();
