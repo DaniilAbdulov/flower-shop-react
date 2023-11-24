@@ -4,13 +4,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MyDialog from "../UI/MyDialog";
 import ChangeProduct from "./ChangeProduct";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteProduct } from "../../redux/slices/adminPanelSlice";
 function MiniItem(props) {
-    const { id, title, img, price, avaiable } = props.data;
+    const { id, title, img, price, available } = props.data;
     const [showEditWindow, setShowEditWindow] = useState(false);
+    const dispatch = useDispatch();
     function handleDeleteProduct() {
         let result = window.confirm("Вы действительно хотите удалить товар ?");
         if (result) {
             alert(`Product with id ${id} deleted`);
+            dispatch(deleteProduct(id));
         } else {
             return;
         }
@@ -29,7 +33,7 @@ function MiniItem(props) {
                                 {price} <span>руб.</span>
                             </p>
                             <p>
-                                {avaiable} <span>шт.</span>
+                                {available} <span>шт.</span>
                             </p>
                         </div>
                         <div className="mini-item__buttons">

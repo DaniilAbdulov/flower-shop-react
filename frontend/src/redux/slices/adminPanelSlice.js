@@ -23,6 +23,22 @@ export const createProduct = createAsyncThunk(
         }
     }
 );
+export const deleteProduct = createAsyncThunk(
+    "admin/deleteProduct",
+    async (productId, thunkAPI) => {
+        try {
+            const res = await axios.delete(`${API_URL}/admin/deleteProduct`, {
+                params: {
+                    productId,
+                },
+            });
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.response.data.message));
+            throw error;
+        }
+    }
+);
 
 const adminPanelSlice = createSlice({
     name: "admin",
@@ -55,7 +71,10 @@ const adminPanelSlice = createSlice({
         builder
             .addCase(createProduct.pending, handleApiCall)
             .addCase(createProduct.fulfilled, handleApiSuccess)
-            .addCase(createProduct.rejected, handleApiError);
+            .addCase(createProduct.rejected, handleApiError)
+            .addCase(deleteProduct.pending, handleApiCall)
+            .addCase(deleteProduct.fulfilled, handleApiSuccess)
+            .addCase(deleteProduct.rejected, handleApiError);
     },
 });
 

@@ -66,6 +66,19 @@ class AdminPanelController {
             return res.status(500).json({ message: "Ошибка создания товара" });
         }
     }
+    async deleteProduct(req, res, next) {
+        const productId = req.query.productId;
+        try {
+            const deleteProduct = await pool.query(
+                "DELETE FROM PRODUCT WHERE ID = $1",
+                [productId]
+            );
+            console.log(deleteProduct.command);
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({ message: "Ошибка удаления товара" });
+        }
+    }
 }
 
 export default new AdminPanelController();

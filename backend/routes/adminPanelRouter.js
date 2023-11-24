@@ -8,5 +8,10 @@ router.post(
     authMiddleware,
     adminPanelController.createProduct
 );
+router.delete(
+    "/deleteProduct",
+    authMiddleware,
+    adminPanelController.deleteProduct
+);
 
 export default router;

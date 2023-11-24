@@ -18,7 +18,7 @@ class ProductsController {
                 );
             } else {
                 allProducts = await pool.query(
-                    "SELECT p.id, p.title, p.price, p.img, c.name AS category,EXISTS (SELECT 1 FROM trends WHERE product_id = p.id) AS isTrend FROM product AS p JOIN category AS c ON p.category_id = c.id"
+                    "SELECT p.id, p.title, p.price,p.available,p.img, c.name AS category,EXISTS (SELECT 1 FROM trends WHERE product_id = p.id) AS isTrend FROM product AS p JOIN category AS c ON p.category_id = c.id"
                 );
             }
             const data = allProducts.rows.map((item) => {
