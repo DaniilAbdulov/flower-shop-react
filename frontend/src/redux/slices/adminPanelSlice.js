@@ -7,6 +7,7 @@ import { fetchAllProducts } from "./productsSlice";
 const initialState = {
     createProductLoading: false,
     deleteProductLoading: false,
+    changeProductLoading: false,
 };
 
 export const createProduct = createAsyncThunk(
@@ -47,6 +48,25 @@ export const deleteProduct = createAsyncThunk(
         }
     }
 );
+export const changeProduct = createAsyncThunk(
+    "admin/changeProduct",
+    async (changedProduct, thunkAPI) => {
+        try {
+            const res = await axios.put(`${API_URL}/admin/changeProduct`, {
+                params: {
+                    changedProduct,
+                },
+            });
+            if (res.data.message === "Changes success") {
+                thunkAPI.dispatch(fetchAllProducts());
+            }
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.response.data.message));
+            throw error;
+        }
+    }
+);
 
 const adminPanelSlice = createSlice({
     name: "admin",
@@ -61,6 +81,9 @@ const adminPanelSlice = createSlice({
                     break;
                 case "deleteProduct":
                     state.deleteProductLoading = true;
+                    break;
+                case "changeProduct":
+                    state.changeProductLoading = true;
                     break;
                 default:
                     break;
@@ -81,6 +104,9 @@ const adminPanelSlice = createSlice({
                 case "deleteProduct":
                     state.deleteProductLoading = false;
                     break;
+                case "changeProduct":
+                    state.changeProductLoading = false;
+                    break;
                 default:
                     break;
             }
@@ -95,6 +121,9 @@ const adminPanelSlice = createSlice({
                 case "deleteProduct":
                     state.deleteProductLoading = false;
                     break;
+                case "changeProduct":
+                    state.changeProductLoadingProductLoading = false;
+                    break;
                 default:
                     break;
             }
@@ -106,7 +135,10 @@ const adminPanelSlice = createSlice({
             .addCase(createProduct.rejected, handleApiError)
             .addCase(deleteProduct.pending, handleApiCall)
             .addCase(deleteProduct.fulfilled, handleApiSuccess)
-            .addCase(deleteProduct.rejected, handleApiError);
+            .addCase(deleteProduct.rejected, handleApiError)
+            .addCase(changeProduct.pending, handleApiCall)
+            .addCase(changeProduct.fulfilled, handleApiSuccess)
+            .addCase(changeProduct.rejected, handleApiError);
     },
 });
 
@@ -114,5 +146,7 @@ export const selectCreateProductLoading = (state) =>
     state.admin.createProductLoading;
 export const selectDeleteProductLoading = (state) =>
     state.admin.deleteProductLoading;
+export const selectChangeProductLoading = (state) =>
+    state.admin.changeProductLoading;
 
 export default adminPanelSlice.reducer;

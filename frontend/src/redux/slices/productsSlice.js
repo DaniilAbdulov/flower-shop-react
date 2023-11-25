@@ -13,6 +13,7 @@ const initialState = {
     allProductsLength: 0,
     advicedLoading: false,
     favoriteLoading: false,
+    allProductsLoading: false,
 };
 
 export const fetchAllProducts = createAsyncThunk(
@@ -98,6 +99,9 @@ const productsSlice = createSlice({
                 case "getFavoriteProducts":
                     state.favoriteLoading = true;
                     break;
+                case "getAllProducts":
+                    state.allProductsLoading = true;
+                    break;
                 default:
                     break;
             }
@@ -118,6 +122,7 @@ const productsSlice = createSlice({
                     });
                     state.fetchFromThisId = action.payload.fetchFromThisId;
                     state.allProductsLength = action.payload.data.length;
+                    state.allProductsLoading = false;
                     break;
                 case "getAdvicedProducts":
                     state.isAdvice = action.payload.data;
@@ -163,6 +168,8 @@ export const selectFavoriteLoading = (state) => state.products.favoriteLoading;
 export const selectIsTrends = (state) => state.products.isTrends;
 export const selectIsFavorites = (state) => state.products.isFavorite;
 export const selectAllProducts = (state) => state.products.allProducts;
+export const selectAllProductsLoading = (state) =>
+    state.products.allProductsLoading;
 export const selectAllProductsLength = (state) =>
     state.products.allProductsLength;
 export const selectIsAdvice = (state) => state.products.isAdvice;

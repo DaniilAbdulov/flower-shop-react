@@ -6,7 +6,7 @@ function FormOfProduct({ setVisible, buttonName }) {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
-    const [avaiable, setAvaiable] = useState("");
+    const [available, setAvailable] = useState("");
     const [isTrend, setIsTrend] = useState(false);
     const [isAdvice, setIsAdvice] = useState(false);
     const [img, setImg] = useState("");
@@ -35,7 +35,7 @@ function FormOfProduct({ setVisible, buttonName }) {
                 title,
                 description,
                 price: Number(price),
-                avaiable: Number(avaiable),
+                available: Number(available),
                 isTrend,
                 isAdvice,
                 img,
@@ -46,7 +46,7 @@ function FormOfProduct({ setVisible, buttonName }) {
             setTitle("");
             setDescription("");
             setPrice("");
-            setAvaiable("");
+            setAvailable("");
             setIsTrend(false);
             setIsAdvice(false);
             setImg("");
@@ -80,12 +80,12 @@ function FormOfProduct({ setVisible, buttonName }) {
                         onChange={(e) => setPrice(e.target.value)}
                         required
                     />
-                    <label htmlFor="avaiable">В наличии:</label>
+                    <label htmlFor="available">В наличии:</label>
                     <input
                         type="number"
-                        id="avaiable"
-                        value={avaiable}
-                        onChange={(e) => setAvaiable(e.target.value)}
+                        id="available"
+                        value={available}
+                        onChange={(e) => setAvailable(e.target.value)}
                         required
                     />
                     <div className="add-checkbox">

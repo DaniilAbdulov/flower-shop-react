@@ -13,5 +13,10 @@ router.delete(
     authMiddleware,
     adminPanelController.deleteProduct
 );
+router.put(
+    "/changeProduct",
+    authMiddleware,
+    adminPanelController.changeProduct
+);
 
 export default router;

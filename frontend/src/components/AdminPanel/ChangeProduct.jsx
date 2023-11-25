@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
 import data from "../../data/example";
+import { useDispatch } from "react-redux";
+import { changeProduct } from "../../redux/slices/adminPanelSlice";
 function ChangeProduct({ setVisible, product }) {
     const id = product.data.id;
-
     const [title, setTitle] = useState(product.data.title);
     const [description, setDescription] = useState(product.data.description);
     const [price, setPrice] = useState(
         Number(product.data.price.replace(/[\s₽]/g, ""))
     );
-    const [avaiable, setAvaiable] = useState(product.data.available);
+    const [available, setAvailable] = useState(product.data.available);
     const [isTrend, setIsTrend] = useState(product.data.istrend);
     const [isAdvice, setIsAdvice] = useState(product.data.isadvice);
     const [img, setImg] = useState(product.data.img);
@@ -27,6 +28,7 @@ function ChangeProduct({ setVisible, product }) {
         });
         setCategories(Array.from(mySet));
     }
+    const dispatch = useDispatch();
     function handleSubmit(e) {
         e.preventDefault();
         if (category === "Выберите категорию") {
@@ -37,17 +39,19 @@ function ChangeProduct({ setVisible, product }) {
                 title,
                 description,
                 price: Number(price),
-                avaiable: Number(avaiable),
+                available: Number(available),
                 isTrend,
                 isAdvice,
                 img,
                 category,
             };
+            console.log(changedProduct);
+            dispatch(changeProduct(changedProduct));
             setVisible(false);
             setTitle("");
             setDescription("");
             setPrice("");
-            setAvaiable("");
+            setAvailable("");
             setIsTrend(false);
             setIsAdvice(false);
             setImg("");
@@ -81,12 +85,12 @@ function ChangeProduct({ setVisible, product }) {
                         onChange={(e) => setPrice(e.target.value)}
                         required
                     />
-                    <label htmlFor="avaiable">В наличии:</label>
+                    <label htmlFor="available">В наличии:</label>
                     <input
                         type="number"
-                        id="avaiable"
-                        value={avaiable}
-                        onChange={(e) => setAvaiable(e.target.value)}
+                        id="available"
+                        value={available}
+                        onChange={(e) => setAvailable(e.target.value)}
                         required
                     />
                     <div className="add-checkbox">
