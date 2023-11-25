@@ -5,9 +5,11 @@ import { API_URL } from "../../config";
 import { fetchAllProducts } from "./productsSlice";
 // import { getAllProducts } from "./productsSlice";
 const initialState = {
+    shopStatic: {},
     createProductLoading: false,
     deleteProductLoading: false,
     changeProductLoading: false,
+    getStaticLoading: false,
 };
 
 export const createProduct = createAsyncThunk(
@@ -67,6 +69,18 @@ export const changeProduct = createAsyncThunk(
         }
     }
 );
+export const getStatic = createAsyncThunk(
+    "admin/getStatic",
+    async (thunkAPI) => {
+        try {
+            const res = await axios.get(`${API_URL}/admin/getStatic`);
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.response.data.message));
+            throw error;
+        }
+    }
+);
 
 const adminPanelSlice = createSlice({
     name: "admin",
@@ -85,13 +99,15 @@ const adminPanelSlice = createSlice({
                 case "changeProduct":
                     state.changeProductLoading = true;
                     break;
+                case "getStatic":
+                    state.getStaticLoading = true;
+                    break;
                 default:
                     break;
             }
         };
 
         const handleApiSuccess = (state, action) => {
-            state.createProductLoading = false;
             if (!action.payload) {
                 return initialState;
             }
@@ -107,6 +123,10 @@ const adminPanelSlice = createSlice({
                 case "changeProduct":
                     state.changeProductLoading = false;
                     break;
+                case "getStatic":
+                    state.getStaticLoading = false;
+                    state.shopStatic = action.payload.data;
+                    break;
                 default:
                     break;
             }
@@ -114,6 +134,7 @@ const adminPanelSlice = createSlice({
 
         const handleApiError = (state, action) => {
             const typeOfFetchingData = action.type.split("/")[1];
+
             switch (typeOfFetchingData) {
                 case "createProduct":
                     state.createProductLoading = false;
@@ -122,7 +143,10 @@ const adminPanelSlice = createSlice({
                     state.deleteProductLoading = false;
                     break;
                 case "changeProduct":
-                    state.changeProductLoadingProductLoading = false;
+                    state.changeProductLoading = false;
+                    break;
+                case "getStatic":
+                    state.getStaticLoading = false;
                     break;
                 default:
                     break;
@@ -138,15 +162,19 @@ const adminPanelSlice = createSlice({
             .addCase(deleteProduct.rejected, handleApiError)
             .addCase(changeProduct.pending, handleApiCall)
             .addCase(changeProduct.fulfilled, handleApiSuccess)
-            .addCase(changeProduct.rejected, handleApiError);
+            .addCase(changeProduct.rejected, handleApiError)
+            .addCase(getStatic.pending, handleApiCall)
+            .addCase(getStatic.fulfilled, handleApiSuccess)
+            .addCase(getStatic.rejected, handleApiError);
     },
 });
-
+export const selectShopStatic = (state) => state.admin.shopStatic;
 export const selectCreateProductLoading = (state) =>
     state.admin.createProductLoading;
 export const selectDeleteProductLoading = (state) =>
     state.admin.deleteProductLoading;
 export const selectChangeProductLoading = (state) =>
     state.admin.changeProductLoading;
+export const selectGetStaticLoading = (state) => state.admin.getStaticLoading;
 
 export default adminPanelSlice.reducer;

@@ -1,6 +1,6 @@
 import pool from "../db.js";
 import { getCategoryId } from "../functions/getCategoryId.js";
-
+import { transformPrice } from "../functions/transformPrice.js";
 class AdminPanelController {
     async createProduct(req, res, next) {
         const {
@@ -180,6 +180,28 @@ class AdminPanelController {
         } catch (error) {
             console.log(error);
             return res.status(500).json({ message: "Ошибка изменения товара" });
+        }
+    }
+    async getStatic(req, res, next) {
+        try {
+            const getStatic = await pool.query(
+                "SELECT COUNT(o.id) AS count,(SELECT COUNT(id) FROM users)AS users_count , SUM(op.count * p.price) AS total FROM orders AS o JOIN orders_products AS op ON o.id = op.order_id JOIN product AS p ON op.product_id = p.id WHERE o.status_order_id NOT IN (1, 4)"
+            );
+            const data = getStatic.rows[0];
+            if (data) {
+                data.total = transformPrice(data.total);
+                setTimeout(() => {
+                    res.status(200).json({ data });
+                }, 2000);
+                // res.status(200).json({ data });
+            } else {
+                throw new Error("Ошибка в запросе к БД");
+            }
+        } catch (error) {
+            console.log(error);
+            return res
+                .status(500)
+                .json({ message: "Ошибка получения статистики" });
         }
     }
 }

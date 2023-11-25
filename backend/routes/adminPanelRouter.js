@@ -18,5 +18,6 @@ router.put(
     authMiddleware,
     adminPanelController.changeProduct
 );
+router.get("/getStatic", authMiddleware, adminPanelController.getStatic);
 
 export default router;

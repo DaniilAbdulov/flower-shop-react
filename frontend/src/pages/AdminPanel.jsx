@@ -69,7 +69,10 @@ function AdminPanel() {
                         visible={showStatistic}
                         setVisible={setShowStatistic}
                     >
-                        <Statistic setVisible={setShowStatistic} />
+                        <Statistic
+                            visible={showStatistic}
+                            setVisible={setShowStatistic}
+                        />
                     </MyDialog>
                 </div>
                 <div className="panel__change-product">
