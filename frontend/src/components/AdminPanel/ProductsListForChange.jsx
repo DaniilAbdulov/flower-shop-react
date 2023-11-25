@@ -24,22 +24,22 @@ function ProductsListForChange() {
         setCategories(Array.from(mySet));
     }
     const sortedProducts = allProducts.filter((product) => {
+        const matchesTitle = product.title
+            .toLowerCase()
+            .includes(searchValue.toLowerCase());
+
         if (
             selectedProduct !== "Тренды" &&
             selectedProduct !== "Советуем к покупке"
         ) {
-            const matchesTitle = product.title
-                .toLowerCase()
-                .includes(searchValue.toLowerCase());
             const matchesCategory =
                 selectedProduct === "Все" ||
                 product.category === selectedProduct;
-
             return matchesTitle && matchesCategory;
         } else if (selectedProduct === "Тренды") {
-            return product.istrend;
-        } else {
-            return product.isadvice;
+            return product.istrend && matchesTitle;
+        } else if (selectedProduct === "Советуем к покупке") {
+            return product.isadvice && matchesTitle;
         }
     });
 
