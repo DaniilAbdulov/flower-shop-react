@@ -10,7 +10,6 @@ function MiniItem(props) {
     const { id, title, img, price, available } = props.data;
     const [showEditWindow, setShowEditWindow] = useState(false);
     const dispatch = useDispatch();
-
     function handleDeleteProduct() {
         let result = window.confirm("Вы действительно хотите удалить товар ?");
         if (result) {

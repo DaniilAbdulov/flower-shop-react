@@ -13,12 +13,12 @@ class ProductsController {
             let allProducts = {};
             if (fetchFromThisId) {
                 allProducts = await pool.query(
-                    "SELECT p.id, p.title, p.price, p.img, c.name AS category,EXISTS (SELECT 1 FROM trends WHERE product_id = p.id) AS isTrend, EXISTS (SELECT 1 FROM favorites WHERE product_id = p.id and users_id=$1) AS isFavorite FROM product AS p JOIN category AS c ON p.category_id = c.id",
+                    "SELECT p.id, p.title, p.price, p.available, p.description, p.img, c.name AS category,EXISTS (SELECT 1 FROM trends WHERE product_id = p.id) AS isTrend,EXISTS (SELECT 1 FROM advice WHERE product_id = p.id) AS isAdvice,  EXISTS (SELECT 1 FROM favorites WHERE product_id = p.id and users_id=$1) AS isFavorite FROM product AS p JOIN category AS c ON p.category_id = c.id",
                     [fetchFromThisId]
                 );
             } else {
                 allProducts = await pool.query(
-                    "SELECT p.id, p.title, p.price,p.available,p.img, c.name AS category,EXISTS (SELECT 1 FROM trends WHERE product_id = p.id) AS isTrend FROM product AS p JOIN category AS c ON p.category_id = c.id"
+                    "SELECT p.id, p.title, p.price, p.available, p.img, c.name AS category, EXISTS (SELECT 1 FROM advice WHERE product_id = p.id) AS isAdvice, EXISTS (SELECT 1 FROM trends WHERE product_id = p.id) AS isTrend FROM product AS p JOIN category AS c ON p.category_id = c.id"
                 );
             }
             const data = allProducts.rows.map((item) => {
@@ -51,12 +51,12 @@ class ProductsController {
             let advicedProducts = [];
             if (fetchFromThisId) {
                 advicedProducts = await pool.query(
-                    "SELECT p.id, p.title, p.price, p.img, EXISTS (SELECT 1 FROM favorites WHERE product_id = p.id and users_id=$1) AS isFavorite FROM product as p join advice as a on p.id = a.product_id where p.id = a.product_id;",
+                    "SELECT p.id, p.title, p.price, p.description, p.img, EXISTS (SELECT 1 FROM favorites WHERE product_id = p.id and users_id=$1) AS isFavorite FROM product as p join advice as a on p.id = a.product_id where p.id = a.product_id;",
                     [fetchFromThisId]
                 );
             } else {
                 advicedProducts = await pool.query(
-                    "SELECT p.id, p.title, p.price, p.img FROM product as p join advice as a on p.id = a.product_id where p.id = a.product_id;"
+                    "SELECT p.id, p.title, p.price, p.description, p.img FROM product as p join advice as a on p.id = a.product_id where p.id = a.product_id;"
                 );
             }
             const data = advicedProducts.rows.map((item) => {

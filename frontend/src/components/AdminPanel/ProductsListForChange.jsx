@@ -1,12 +1,9 @@
 import { useState, useEffect } from "react";
-import data from "../../data/example";
 import MiniItem from "./MiniItem";
 import { useDispatch, useSelector } from "react-redux";
 import {
     fetchAllProducts,
     selectAllProducts,
-    selectIsAdvice,
-    selectIsTrends,
 } from "../../redux/slices/productsSlice";
 
 function ProductsListForChange() {
@@ -15,8 +12,6 @@ function ProductsListForChange() {
 
     const [selectedProduct, setSelectedProduct] = useState("Все");
     const allProducts = useSelector(selectAllProducts);
-    const trends = useSelector(selectIsTrends);
-    const advicedProducts = useSelector(selectIsAdvice);
     function showMeData(data) {
         const mySet = new Set();
         mySet.add("Все");
@@ -28,12 +23,11 @@ function ProductsListForChange() {
         });
         setCategories(Array.from(mySet));
     }
-    let sortedProducts = [];
-    if (
-        selectedProduct !== "Тренды" &&
-        selectedProduct !== "Советуем к покупке"
-    ) {
-        sortedProducts = allProducts.filter((product) => {
+    const sortedProducts = allProducts.filter((product) => {
+        if (
+            selectedProduct !== "Тренды" &&
+            selectedProduct !== "Советуем к покупке"
+        ) {
             const matchesTitle = product.title
                 .toLowerCase()
                 .includes(searchValue.toLowerCase());
@@ -42,14 +36,13 @@ function ProductsListForChange() {
                 product.category === selectedProduct;
 
             return matchesTitle && matchesCategory;
-        });
-    } else {
-        if (selectedProduct === "Тренды") {
-            sortedProducts = trends;
+        } else if (selectedProduct === "Тренды") {
+            return product.istrend;
         } else {
-            sortedProducts = advicedProducts;
+            return product.isadvice;
         }
-    }
+    });
+
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(fetchAllProducts());

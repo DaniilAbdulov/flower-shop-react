@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import data from "../../data/example";
 function ChangeProduct({ setVisible, product }) {
     const id = product.data.id;
+
     const [title, setTitle] = useState(product.data.title);
     const [description, setDescription] = useState(product.data.description);
-    const [price, setPrice] = useState(product.data.price);
-    const [avaiable, setAvaiable] = useState(product.data.avaiable);
-    const [isTrend, setIsTrend] = useState(product.data.isTrend);
-    const [isAdvice, setIsAdvice] = useState(product.data.isAdvice);
+    const [price, setPrice] = useState(
+        Number(product.data.price.replace(/[\s₽]/g, ""))
+    );
+    const [avaiable, setAvaiable] = useState(product.data.available);
+    const [isTrend, setIsTrend] = useState(product.data.istrend);
+    const [isAdvice, setIsAdvice] = useState(product.data.isadvice);
     const [img, setImg] = useState(product.data.img);
     const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState(product.data.category);
