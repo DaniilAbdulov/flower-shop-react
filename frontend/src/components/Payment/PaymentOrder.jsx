@@ -13,7 +13,7 @@ function PaymentOrder({ setNewStage }) {
     const cartData = useSelector(selectCartData);
     const cartTotal = useSelector(selectCartTotal);
     const fetchCartData = useSelector(selectCartLoading);
-    const [payMethods, setPayMethods] = useState([
+    const [payMethods] = useState([
         { id: 0, name: "Карта" },
         { id: 1, name: "СБП" },
     ]);

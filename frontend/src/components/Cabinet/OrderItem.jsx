@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "./OrderItem.scss";
 function OrderItem({ order }) {
-    const { date_order, order_id, products, status, total } = order;
+    const { date_order, order_id, products, status } = order;
     return (
         <div>
             <div className="order-item">

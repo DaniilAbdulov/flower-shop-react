@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectUser, selectUserId } from "../../redux/slices/userSlice";
+import { selectUserId } from "../../redux/slices/userSlice";
 import {
     fetchAdvicedProducts,
     fetchSingleProduct,

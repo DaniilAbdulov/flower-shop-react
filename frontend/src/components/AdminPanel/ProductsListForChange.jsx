@@ -41,6 +41,7 @@ function ProductsListForChange() {
         } else if (selectedProduct === "Советуем к покупке") {
             return product.isadvice && matchesTitle;
         }
+        return false;
     });
 
     const dispatch = useDispatch();
