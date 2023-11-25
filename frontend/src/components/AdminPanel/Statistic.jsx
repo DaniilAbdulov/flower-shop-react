@@ -11,12 +11,9 @@ function Statistic({ visible }) {
     const dispatch = useDispatch();
     const staticLoading = useSelector(selectGetStaticLoading);
     const shopStatic = useSelector(selectShopStatic);
-    console.log(staticLoading);
-    console.log(shopStatic);
     useEffect(() => {
         if (visible) {
             dispatch(getStatic());
-            console.log("Вызов функции");
         } else {
             return;
         }
