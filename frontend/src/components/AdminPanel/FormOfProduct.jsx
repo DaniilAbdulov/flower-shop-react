@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import data from "../../data/example";
+
 import { createProduct } from "../../redux/slices/adminPanelSlice";
+import { selectAllProducts } from "../../redux/slices/productsSlice";
 function FormOfProduct({ setVisible, buttonName }) {
+    const allProducts = useSelector(selectAllProducts);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
@@ -14,7 +16,7 @@ function FormOfProduct({ setVisible, buttonName }) {
     const [category, setCategory] = useState("");
     const dispatch = useDispatch();
     useEffect(() => {
-        showMeData(data);
+        showMeData(allProducts);
     }, []);
 
     function showMeData(data) {

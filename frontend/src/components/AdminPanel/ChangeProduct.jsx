@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import data from "../../data/example";
-import { useDispatch } from "react-redux";
+
+import { useDispatch, useSelector } from "react-redux";
 import { changeProduct } from "../../redux/slices/adminPanelSlice";
+import { selectAllProducts } from "../../redux/slices/productsSlice";
 function ChangeProduct({ setVisible, product }) {
+    const allProducts = useSelector(selectAllProducts);
     const id = product.data.id;
     const [title, setTitle] = useState(product.data.title);
     const [description, setDescription] = useState(product.data.description);
@@ -16,7 +18,7 @@ function ChangeProduct({ setVisible, product }) {
     const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState(product.data.category);
     useEffect(() => {
-        showMeData(data);
+        showMeData(allProducts);
     }, []);
 
     function showMeData(data) {
