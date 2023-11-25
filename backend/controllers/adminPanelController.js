@@ -60,7 +60,7 @@ class AdminPanelController {
                     }
                 }
             }
-            return res.status(200).json({ message: "Товар создан" });
+            return res.status(200).json({ message: "Product created" });
         } catch (error) {
             console.log(error);
             return res.status(500).json({ message: "Ошибка создания товара" });
@@ -73,7 +73,13 @@ class AdminPanelController {
                 "DELETE FROM PRODUCT WHERE ID = $1",
                 [productId]
             );
-            console.log(deleteProduct.command);
+            if (!deleteProduct.command === "DELETE") {
+                throw new Error("Not deleted");
+            }
+            setTimeout(() => {
+                res.status(200).json({ message: "Deleted success" });
+            }, 2000);
+            // res.status(200).json({ message: "Deleted success" });
         } catch (error) {
             console.log(error);
             return res.status(500).json({ message: "Ошибка удаления товара" });

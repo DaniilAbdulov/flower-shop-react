@@ -2,9 +2,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setError } from "./errorSlice";
 import { API_URL } from "../../config";
-
+import { fetchAllProducts } from "./productsSlice";
+// import { getAllProducts } from "./productsSlice";
 const initialState = {
     createProductLoading: false,
+    deleteProductLoading: false,
 };
 
 export const createProduct = createAsyncThunk(
@@ -16,6 +18,9 @@ export const createProduct = createAsyncThunk(
                     newProduct,
                 },
             });
+            if (res.data.message === "Product created") {
+                thunkAPI.dispatch(fetchAllProducts());
+            }
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.response.data.message));
@@ -32,6 +37,9 @@ export const deleteProduct = createAsyncThunk(
                     productId,
                 },
             });
+            if (res.data.message === "Deleted success") {
+                thunkAPI.dispatch(fetchAllProducts());
+            }
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.response.data.message));
@@ -45,8 +53,18 @@ const adminPanelSlice = createSlice({
     initialState: initialState,
     reducers: {},
     extraReducers: (builder) => {
-        const handleApiCall = (state) => {
-            state.createProductLoading = true;
+        const handleApiCall = (state, action) => {
+            const typeOfFetchingData = action.type.split("/")[1];
+            switch (typeOfFetchingData) {
+                case "createProduct":
+                    state.createProductLoading = true;
+                    break;
+                case "deleteProduct":
+                    state.deleteProductLoading = true;
+                    break;
+                default:
+                    break;
+            }
         };
 
         const handleApiSuccess = (state, action) => {
@@ -58,14 +76,28 @@ const adminPanelSlice = createSlice({
             console.log(typeOfFetchingData);
             switch (typeOfFetchingData) {
                 case "createProduct":
+                    state.createProductLoading = false;
+                    break;
+                case "deleteProduct":
+                    state.deleteProductLoading = false;
                     break;
                 default:
                     break;
             }
         };
 
-        const handleApiError = (state) => {
-            state.isLoading = "rejected";
+        const handleApiError = (state, action) => {
+            const typeOfFetchingData = action.type.split("/")[1];
+            switch (typeOfFetchingData) {
+                case "createProduct":
+                    state.createProductLoading = false;
+                    break;
+                case "deleteProduct":
+                    state.deleteProductLoading = false;
+                    break;
+                default:
+                    break;
+            }
         };
 
         builder
@@ -77,5 +109,10 @@ const adminPanelSlice = createSlice({
             .addCase(deleteProduct.rejected, handleApiError);
     },
 });
+
+export const selectCreateProductLoading = (state) =>
+    state.admin.createProductLoading;
+export const selectDeleteProductLoading = (state) =>
+    state.admin.deleteProductLoading;
 
 export default adminPanelSlice.reducer;
