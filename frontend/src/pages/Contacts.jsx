@@ -107,7 +107,7 @@ function Contacts() {
                             <form onSubmit={handleSubmitMessage}>
                                 <h2>Отправьте нам сообщение</h2>
                                 <div className="form__item">
-                                    <label htmlFor="name">Ваше имя:</label>
+                                    <label for="name">Ваше имя:</label>
                                     <input
                                         type="text"
                                         id="name"
@@ -119,9 +119,7 @@ function Contacts() {
                                     />
                                 </div>
                                 <div className="form__item">
-                                    <label htmlFor="phone">
-                                        Номер телефона:
-                                    </label>
+                                    <label for="phone">Номер телефона:</label>
                                     <input
                                         type="phone"
                                         id="phone"
@@ -133,7 +131,7 @@ function Contacts() {
                                     />
                                 </div>
                                 <div className="form__item">
-                                    <label htmlFor="message">Сообщение:</label>
+                                    <label for="message">Сообщение:</label>
                                     <input
                                         type="text"
                                         id="message"

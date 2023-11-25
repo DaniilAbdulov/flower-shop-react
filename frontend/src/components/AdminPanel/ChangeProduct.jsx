@@ -63,7 +63,7 @@ function ChangeProduct({ setVisible, product }) {
         <>
             <div className="form__add">
                 <form onSubmit={handleSubmit}>
-                    <label htmlFor="title">Название товара:</label>
+                    <label for="title">Название товара:</label>
                     <input
                         type="text"
                         id="title"
@@ -71,7 +71,7 @@ function ChangeProduct({ setVisible, product }) {
                         onChange={(e) => setTitle(e.target.value)}
                         required
                     />
-                    <label htmlFor="description">Описание:</label>
+                    <label for="description">Описание:</label>
                     <textarea
                         type="text"
                         id="description"
@@ -79,7 +79,7 @@ function ChangeProduct({ setVisible, product }) {
                         onChange={(e) => setDescription(e.target.value)}
                         required
                     />
-                    <label htmlFor="price">Цена:</label>
+                    <label for="price">Цена:</label>
                     <input
                         type="number"
                         id="price"
@@ -87,7 +87,7 @@ function ChangeProduct({ setVisible, product }) {
                         onChange={(e) => setPrice(e.target.value)}
                         required
                     />
-                    <label htmlFor="available">В наличии:</label>
+                    <label for="available">В наличии:</label>
                     <input
                         type="number"
                         id="available"
@@ -96,7 +96,7 @@ function ChangeProduct({ setVisible, product }) {
                         required
                     />
                     <div className="add-checkbox">
-                        <label htmlFor="trend">Тренд ?</label>
+                        <label for="trend">Тренд ?</label>
                         <input
                             type="checkbox"
                             checked={isTrend}
@@ -104,14 +104,14 @@ function ChangeProduct({ setVisible, product }) {
                         />
                     </div>
                     <div className="add-checkbox">
-                        <label htmlFor="advice">Советовать к покупке ?</label>
+                        <label for="advice">Советовать к покупке ?</label>
                         <input
                             type="checkbox"
                             checked={isAdvice}
                             onChange={(e) => setIsAdvice(e.target.checked)}
                         />
                     </div>
-                    <label htmlFor="img">Сслыка на изображение:</label>
+                    <label for="img">Сслыка на изображение:</label>
                     <input
                         type="text"
                         id="img"
