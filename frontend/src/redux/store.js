@@ -6,10 +6,12 @@ import cartSlice from "./slices/cartSlice";
 import toggleFavoriteSLice from "./slices/toggleFavoriteSLice";
 import ordersSlice from "./slices/ordersSlice";
 import adminPanelSlice from "./slices/adminPanelSlice";
+import successSlice from "./slices/successSlice";
 const store = configureStore({
     reducer: {
         user: userSlice,
         error: errorSlice,
+        success: successSlice,
         products: productsSlice,
         favorite: toggleFavoriteSLice,
         cart: cartSlice,

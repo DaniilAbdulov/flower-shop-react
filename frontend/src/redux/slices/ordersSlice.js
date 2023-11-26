@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setError } from "./errorSlice";
 import { API_URL } from "../../config";
+import { setSuccess } from "./successSlice";
 
 const initialState = {
     orders: [],
@@ -63,6 +64,7 @@ export const createOrder = createAsyncThunk(
                     orders,
                 },
             });
+            thunkAPI.dispatch(setSuccess("Заказ создан !"));
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.response.data.message));

@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setError } from "./errorSlice";
 import { API_URL } from "../../config";
+import { setSuccess } from "./successSlice";
 
 const initialState = {
     cart: [],
@@ -21,6 +22,7 @@ export const addProductToCart = createAsyncThunk(
             if (res.data.message === "added") {
                 thunkAPI.dispatch(getCartData());
             }
+            thunkAPI.dispatch(setSuccess("Товар добавлен в корзину !"));
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.response.data.message));

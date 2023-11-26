@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setError } from "./errorSlice";
 import { API_URL } from "../../config";
+import { setSuccess } from "./successSlice";
 const initialState = {
     user: {},
     userId: null,
@@ -45,6 +46,7 @@ export const fetchLogin = createAsyncThunk(
     async (candidat, thunkAPI) => {
         try {
             const res = await axios.post(`${API_URL}/user/login`, candidat);
+            thunkAPI.dispatch(setSuccess("Вход выполнен успешно !"));
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.response.data.message));
@@ -60,6 +62,7 @@ export const fetchSignUp = createAsyncThunk(
                 `${API_URL}/user/registration`,
                 newCandidat
             );
+            thunkAPI.dispatch(setSuccess("Регистрация прошла успешно !"));
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.response.data.message));

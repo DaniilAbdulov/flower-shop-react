@@ -2,8 +2,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import pool from "../db.js";
 import { formatDate } from "../functions/transformData.js";
-const generateJwt = (id, nickName, email) => {
-    return jwt.sign({ id, nickName, email }, process.env.SECRET_KEY, {
+const generateJwt = (id, email, role) => {
+    return jwt.sign({ id, email, role }, process.env.SECRET_KEY, {
         expiresIn: "24h",
     });
 };
@@ -52,11 +52,14 @@ class UserController {
                 ]
             );
             if (addUser.rowCount) {
-                const token = generateJwt(addUser.rows[0].id, nickName, "USER");
                 const user = addUser.rows[0];
+                const token = generateJwt(user.id, email, "USER");
                 user.created_at = formatDate(user.created_at);
                 user.updated_at = formatDate(user.updated_at);
-                return res.json({ token, user });
+                setTimeout(() => {
+                    return res.json({ token, user });
+                }, 3000);
+                // return res.json({ token, user });
             }
         } catch (error) {
             console.log(error);
@@ -77,14 +80,16 @@ class UserController {
             const user = findUser.rows[0];
             user.created_at = formatDate(user.created_at);
             user.updated_at = formatDate(user.updated_at);
-            let comparePassword = password === user.password;
-            // let comparePassword = bcrypt.compareSync(password, user.password);
+            let comparePassword = bcrypt.compareSync(password, user.password);
             if (!comparePassword) {
                 res.status(404).json({ message: "Неверный пароль" });
                 return;
             }
-            const token = generateJwt(user.id, nickName, user.role);
-            return res.json({ token, user });
+            const token = generateJwt(user.id, user.email, user.role);
+            setTimeout(() => {
+                return res.json({ token, user });
+            }, 3000);
+            // return res.json({ token, user });
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Внутренняя ошибка сервера" });
@@ -102,7 +107,10 @@ class UserController {
         user.created_at = formatDate(user.created_at);
         user.updated_at = formatDate(user.updated_at);
         const token = generateJwt(user.id, user.email, user.role);
-        return res.json({ token, user });
+        setTimeout(() => {
+            return res.json({ token, user });
+        }, 3000);
+        // return res.json({ token, user });
     }
 }
 
