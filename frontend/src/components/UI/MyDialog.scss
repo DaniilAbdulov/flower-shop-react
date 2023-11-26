@@ -21,3 +21,10 @@
         max-width: 900px;
     }
 }
+@media (min-width: 767px) {
+    .dialog {
+        &__content {
+            min-width: 500px;
+        }
+    }
+}
