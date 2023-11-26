@@ -1,6 +1,10 @@
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { selectCartTotalCount } from "../../redux/slices/cartSlice";
+import {
+    clearCart,
+    clearCartTotal,
+    selectCartTotalCount,
+} from "../../redux/slices/cartSlice";
 import { useDispatch, useSelector } from "react-redux";
 import {
     logOutUser,
@@ -13,6 +17,7 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import "./Menu.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightFromBracket } from "@fortawesome/free-solid-svg-icons";
+import { clearOrders } from "../../redux/slices/ordersSlice";
 
 function Menu() {
     const cartTotalCount = useSelector(selectCartTotalCount);
@@ -40,6 +45,9 @@ function Menu() {
     const dispatch = useDispatch();
     function logOutUserHandler() {
         dispatch(logOutUser());
+        dispatch(clearCart());
+        dispatch(clearCartTotal());
+        dispatch(clearOrders());
     }
 
     useEffect(() => {

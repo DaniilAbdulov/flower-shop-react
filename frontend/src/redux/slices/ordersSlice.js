@@ -97,6 +97,9 @@ const ordersSlice = createSlice({
         clearOrderCreated: (state) => {
             state.orderCreated = false;
         },
+        clearOrders: (state) => {
+            state.clearOrders = [];
+        },
     },
     extraReducers: (builder) => {
         const handleApiCall = (state, action) => {
@@ -180,6 +183,6 @@ export const selectOrdersInfoLoading = (state) =>
 export const selectCreateOrderLoading = (state) =>
     state.orders.fetchingCreateOrder;
 export const selectOrderCreated = (state) => state.orders.orderCreated;
-export const { clearOrderCreated } = ordersSlice.actions;
+export const { clearOrderCreated, clearOrders } = ordersSlice.actions;
 
 export default ordersSlice.reducer;
