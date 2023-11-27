@@ -5,7 +5,7 @@ import {
     fetchAdvicedProducts,
     fetchSingleProduct,
     selectIsAdvice,
-    selectIsFavorites,
+    // selectIsFavorites,
     selectSingleProduct,
     selectSingleProductLoading,
 } from "../../redux/slices/productsSlice";
@@ -27,8 +27,7 @@ function ProductPage() {
     const advicedProducts = useSelector(selectIsAdvice);
     const product = useSelector(selectSingleProduct);
     const singleProductLoading = useSelector(selectSingleProductLoading);
-    const favoriteProducts = useSelector(selectIsFavorites);
-    console.log(`Продукт грузиться ${singleProductLoading}`);
+    // const favoriteProducts = useSelector(selectIsFavorites);
     useEffect(() => {
         dispatch(fetchSingleProduct({ productId, userId }));
         dispatch(fetchAdvicedProducts(userId));
@@ -36,8 +35,8 @@ function ProductPage() {
         dispatch,
         userId,
         productId,
-        advicedProducts.length,
-        favoriteProducts.length,
+        // advicedProducts.length,
+        // favoriteProducts.length,
     ]);
     return (
         <div className="fc product-page" style={{ marginBottom: "0px" }}>

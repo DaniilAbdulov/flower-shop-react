@@ -5,14 +5,14 @@ import Like from "../UI/Like";
 import { useEffect, useState } from "react";
 function TrendItem({ value }) {
     const { id, img, isfavorite, title } = value;
-    const [imgIsLoading, setImgIsLoading] = useState(false);
+    // const [imgIsLoading, setImgIsLoading] = useState(false);
     const [hasError, setHasError] = useState(false);
     useEffect(() => {
         const image = new Image();
 
-        image.onload = () => {
-            setImgIsLoading(true);
-        };
+        // image.onload = () => {
+        //     setImgIsLoading(true);
+        // };
 
         image.onerror = () => {
             setHasError(true);

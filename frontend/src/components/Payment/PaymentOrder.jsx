@@ -46,7 +46,12 @@ function PaymentOrder({ setNewStage }) {
                     <>
                         <div className="po__images">
                             {cartData.map((item) => {
-                                return <PaymentOrderItem item={item} />;
+                                return (
+                                    <PaymentOrderItem
+                                        item={item}
+                                        key={item.id}
+                                    />
+                                );
                             })}
                         </div>
                         <div className="po__methods">
