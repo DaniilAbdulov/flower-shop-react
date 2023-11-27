@@ -8,6 +8,7 @@ import {
 } from "../../redux/slices/cartSlice";
 import Loader from "../UI/Loader";
 import { createOrder } from "../../redux/slices/ordersSlice";
+import PaymentOrderItem from "./PaymentOrderItem";
 
 function PaymentOrder({ setNewStage }) {
     const cartData = useSelector(selectCartData);
@@ -45,15 +46,7 @@ function PaymentOrder({ setNewStage }) {
                     <>
                         <div className="po__images">
                             {cartData.map((item) => {
-                                return (
-                                    <div
-                                        className="order__image-container"
-                                        key={item.id}
-                                    >
-                                        <img src={item.img} alt="" />
-                                        <p>x{item.count}</p>
-                                    </div>
-                                );
+                                return <PaymentOrderItem item={item} />;
                             })}
                         </div>
                         <div className="po__methods">

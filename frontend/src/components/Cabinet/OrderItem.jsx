@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import "./OrderItem.scss";
+import OrderItemPhotosAndCount from "./OrderItemPhotosAndCount";
 function OrderItem({ order }) {
     const { date_order, order_id, products, status } = order;
     return (
@@ -31,13 +32,10 @@ function OrderItem({ order }) {
                     </div>
                     <div className="order__image-wrapper">
                         {products.map((product) => (
-                            <div
-                                className="order__image-container"
+                            <OrderItemPhotosAndCount
+                                product={product}
                                 key={product.id}
-                            >
-                                <img src={product.img} alt="Изображение" />
-                                <p>x{product.count}</p>
-                            </div>
+                            />
                         ))}
                     </div>
                 </div>

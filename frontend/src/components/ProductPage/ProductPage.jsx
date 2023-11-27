@@ -7,6 +7,7 @@ import {
     selectIsAdvice,
     selectIsFavorites,
     selectSingleProduct,
+    selectSingleProductLoading,
 } from "../../redux/slices/productsSlice";
 import "./ProductPage.scss";
 import ProductPageItem from "./ProductPageItem";
@@ -25,12 +26,11 @@ function ProductPage() {
     const userId = useSelector(selectUserId);
     const advicedProducts = useSelector(selectIsAdvice);
     const product = useSelector(selectSingleProduct);
+    const singleProductLoading = useSelector(selectSingleProductLoading);
     const favoriteProducts = useSelector(selectIsFavorites);
+    console.log(`Продукт грузиться ${singleProductLoading}`);
     useEffect(() => {
         dispatch(fetchSingleProduct({ productId, userId }));
-        // if (advicedProducts.length === 0) {
-        //     dispatch(fetchAdvicedProducts());
-        // }
         dispatch(fetchAdvicedProducts(userId));
     }, [
         dispatch,
@@ -49,16 +49,14 @@ function ProductPage() {
                             background: product ? "white" : "transparent",
                         }}
                     >
-                        {product.img ? (
-                            <>
-                                <ProductPageItem product={product} />
-                            </>
-                        ) : (
+                        {singleProductLoading ? (
                             <div className="ppbody-loading">
                                 <div className="loader">
                                     <Loader />
                                 </div>
                             </div>
+                        ) : (
+                            <ProductPageItem product={product} />
                         )}
                     </div>
                 </div>

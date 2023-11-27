@@ -14,6 +14,7 @@ const initialState = {
     advicedLoading: false,
     favoriteLoading: false,
     allProductsLoading: false,
+    singleProductLoading: false,
 };
 
 export const fetchAllProducts = createAsyncThunk(
@@ -102,6 +103,9 @@ const productsSlice = createSlice({
                 case "getAllProducts":
                     state.allProductsLoading = true;
                     break;
+                case "getSingleProduct":
+                    state.singleProductLoading = true;
+                    break;
                 default:
                     break;
             }
@@ -132,6 +136,7 @@ const productsSlice = createSlice({
                 case "getSingleProduct":
                     state.singleProduct = action.payload.data[0];
                     state.fetchFromThisId = action.payload.fetchFromThisId;
+                    state.singleProductLoading = false;
                     break;
                 case "getFavoriteProducts":
                     state.isFavorite = action.payload.data;
@@ -145,6 +150,7 @@ const productsSlice = createSlice({
         const handleApiError = (state) => {
             state.advicedLoading = false;
             state.favoriteLoading = false;
+            state.singleProductLoading = false;
         };
 
         builder
@@ -174,5 +180,7 @@ export const selectAllProductsLength = (state) =>
     state.products.allProductsLength;
 export const selectIsAdvice = (state) => state.products.isAdvice;
 export const selectSingleProduct = (state) => state.products.singleProduct;
+export const selectSingleProductLoading = (state) =>
+    state.products.singleProductLoading;
 export const selectFetchFromThisId = (state) => state.products.fetchFromThisId;
 export default productsSlice.reducer;

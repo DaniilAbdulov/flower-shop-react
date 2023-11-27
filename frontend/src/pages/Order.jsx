@@ -10,6 +10,7 @@ import {
 } from "../redux/slices/ordersSlice";
 import { useEffect } from "react";
 import { selectUser } from "../redux/slices/userSlice";
+import OrderItemPhotosAndCount from "../components/Cabinet/OrderItemPhotosAndCount";
 function Order() {
     const user = useSelector(selectUser);
     const params = useParams();
@@ -79,16 +80,10 @@ function Order() {
                             {orderProducts ? (
                                 <>
                                     {orderProducts.map((product) => (
-                                        <div
-                                            className="order__image-container"
+                                        <OrderItemPhotosAndCount
+                                            product={product}
                                             key={product.id}
-                                        >
-                                            <img
-                                                src={product.img}
-                                                alt="Изображение"
-                                            />
-                                            <p>x{product.count}</p>
-                                        </div>
+                                        />
                                     ))}
                                 </>
                             ) : (
@@ -129,21 +124,3 @@ function Order() {
     );
 }
 export default Order;
-/*
-Передаваемый оюъект должен иметь следуюшую структуру:
-order
-{
-    id, число
-    date_order, таймстамп
-    product_img, массив из ссылок на фото
-    status, Получен-Оплачен-Отменен-Создан
-    user:{
-        firstName,
-        lastName,
-        email,
-    }
-    total_price: int
-}
-
-
-*/
