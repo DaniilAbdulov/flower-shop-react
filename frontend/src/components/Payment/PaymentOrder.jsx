@@ -82,7 +82,7 @@ function PaymentOrder({ setNewStage }) {
                             onClick={() => createOrderHandler()}
                         >
                             <span>Оплатить</span>
-                            <span>{cartTotal.sum} Р</span>
+                            <span>{cartTotal.sum}</span>
                         </div>
                     </>
                 ) : (

@@ -28,6 +28,33 @@ class CartController {
             });
         }
     }
+    async createNewCartDataFromOrder(req, res, next) {
+        try {
+            const orderId = parseInt(req.body.params.orderId);
+            const userId = req.user.id;
+            const candidat = await pool.query(
+                "SELECT EXISTS(SELECT * FROM carts_users WHERE users_id = $1 and product_id = $2) AS result;",
+                [userId, productId]
+            );
+
+            if (candidat.rows[0].result) {
+                throw new Error("Товар уже в вашей корзине");
+            }
+            const addProduct = await pool.query(
+                "insert into carts_users (users_id,product_id,count) values ($1,$2,1)",
+                [userId, productId]
+            );
+            if (addProduct.rowCount !== 1) {
+                throw new Error("Ошибка добавления товара в корзину");
+            }
+            return res.status(200).json({ message: "added" });
+        } catch (error) {
+            const message = error.message;
+            return res.status(500).json({
+                message,
+            });
+        }
+    }
     async getCartData(req, res, next) {
         const userId = req.user.id;
         try {

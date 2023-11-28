@@ -11,6 +11,7 @@ import {
 import { useEffect } from "react";
 import { selectUser } from "../redux/slices/userSlice";
 import OrderItemPhotosAndCount from "../components/Cabinet/OrderItemPhotosAndCount";
+import { createNewCartDataFromOrder } from "../redux/slices/cartSlice";
 function Order() {
     const user = useSelector(selectUser);
     const params = useParams();
@@ -35,7 +36,11 @@ function Order() {
     }
     const buttonValue = getButton();
     function handlePayButton() {
+        console.log(buttonValue);
         alert(`Настрой логику перехода на страницу оплаты`);
+        if (buttonValue === "Повторить заказ") {
+            dispatch(createNewCartDataFromOrder(orderId));
+        }
     }
     const dispatch = useDispatch();
     function handleCancelButton() {

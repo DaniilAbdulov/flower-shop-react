@@ -1,20 +1,19 @@
-import { useDispatch, useSelector } from "react-redux";
-import Loader from "../UI/Loader";
-import { selectUser } from "../../redux/slices/userSlice";
-import no_photo from "../../asserts/no_photo.webp";
 import { useEffect, useState } from "react";
-import { selectIsFavorites } from "../../redux/slices/productsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUser } from "../../redux/slices/userSlice";
 import {
     getOrdersInfo,
     selectOrdersInfo,
     selectOrdersInfoLoading,
 } from "../../redux/slices/ordersSlice";
+import Loader from "../UI/Loader";
+import no_photo from "../../asserts/no_photo.webp";
 
 function UserInfo() {
     const [imgIsLoading, setImgIsLoading] = useState(false);
     const user = useSelector(selectUser);
     const ordersInfo = useSelector(selectOrdersInfo);
-    const favoriteProducts = useSelector(selectIsFavorites);
+
     const loadingOrdersInfo = useSelector(selectOrdersInfoLoading);
     const { first_name, last_name, user_img, created_at, email } = user;
     const image = new Image();
@@ -62,14 +61,6 @@ function UserInfo() {
                                         : "0"}
                                 </span>
                             </div>
-                            {favoriteProducts.length > 0 && (
-                                <>
-                                    <div className="us__item">
-                                        <p>В избранном</p>
-                                        <span>{favoriteProducts.length}</span>
-                                    </div>
-                                </>
-                            )}
                             <div className="us__item">
                                 <p>Заказов</p>
                                 <span>

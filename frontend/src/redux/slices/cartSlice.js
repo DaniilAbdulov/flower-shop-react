@@ -85,6 +85,30 @@ export const setCountOfItem = createAsyncThunk(
     }
 );
 
+export const createNewCartDataFromOrder = createAsyncThunk(
+    "cart/createNewCartDataFromOrder",
+    async (orderId, thunkAPI) => {
+        try {
+            const res = await axios.post(
+                `${API_URL}/cart/createNewCartDataFromOrder`,
+                {
+                    params: {
+                        orderId,
+                    },
+                }
+            );
+            if (res.data.message === "created") {
+                thunkAPI.dispatch(getCartData());
+            }
+            thunkAPI.dispatch(setSuccess("Товары добавлен в корзину !"));
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.response.data.message));
+            throw error;
+        }
+    }
+);
+
 const cartSlice = createSlice({
     name: "cart",
     initialState: initialState,
@@ -134,7 +158,10 @@ const cartSlice = createSlice({
             .addCase(deleteCartItem.rejected, handleApiError)
             .addCase(setCountOfItem.pending, handleApiCall)
             .addCase(setCountOfItem.fulfilled, handleApiSuccess)
-            .addCase(setCountOfItem.rejected, handleApiError);
+            .addCase(setCountOfItem.rejected, handleApiError)
+            .addCase(createNewCartDataFromOrder.pending, handleApiCall)
+            .addCase(createNewCartDataFromOrder.fulfilled, handleApiSuccess)
+            .addCase(createNewCartDataFromOrder.rejected, handleApiError);
     },
 });
 export const selectCartData = (state) => state.cart.cart;

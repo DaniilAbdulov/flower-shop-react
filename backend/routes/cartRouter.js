@@ -8,6 +8,11 @@ router.post(
     authMiddleware,
     cartController.addProductToCart
 );
+router.post(
+    "/createNewCartDataFromOrder",
+    authMiddleware,
+    cartController.createNewCartDataFromOrder
+);
 router.get("/getCartData", authMiddleware, cartController.getCartData);
 router.delete("/deleteCartItem", authMiddleware, cartController.deleteCartItem);
 router.put("/setCountOfItem", authMiddleware, cartController.setCountOfItem);
