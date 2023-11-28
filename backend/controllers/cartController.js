@@ -18,7 +18,7 @@ class CartController {
                 [userId, productId]
             );
             if (addProduct.rowCount !== 1) {
-                throw new Error("Ошибка добавления товара в избранное");
+                throw new Error("Ошибка добавления товара в корзину");
             }
             return res.status(200).json({ message: "added" });
         } catch (error) {
