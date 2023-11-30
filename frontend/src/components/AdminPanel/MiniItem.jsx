@@ -1,9 +1,9 @@
+import { useState } from "react";
 import { faTrash, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import "./MiniItem.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import MyDialog from "../UI/MyDialog";
 import ChangeProduct from "./ChangeProduct";
-import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteProduct } from "../../redux/slices/adminPanelSlice";
 import PhotoLoadingHandler from "../UI/PhotoLoadingHandler";
@@ -19,37 +19,13 @@ function MiniItem(props) {
             return;
         }
     }
-    const [imgIsLoading, setImgIsLoading] = useState(false);
-    const [hasError, setHasError] = useState(false);
-    useEffect(() => {
-        const image = new Image();
 
-        image.onload = () => {
-            setImgIsLoading(true);
-        };
-
-        image.onerror = () => {
-            setHasError(true);
-            console.log("Произошла ошибка при загрузке изображения.");
-        };
-
-        image.src = img;
-
-        return () => {
-            image.onload = null;
-            image.onerror = null;
-        };
-    }, [img]);
     return (
         <>
             <div className="mini-item">
                 <div className="mini-item__row">
                     <div className="mini-item__img">
-                        <PhotoLoadingHandler
-                            img={img}
-                            imgIsLoading={imgIsLoading}
-                            hasError={hasError}
-                        />
+                        <PhotoLoadingHandler img={img} />
                     </div>
                     <div className="mini-item__body">
                         <div className="mini-item__title">{title}</div>

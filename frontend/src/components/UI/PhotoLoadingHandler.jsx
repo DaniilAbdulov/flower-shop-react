@@ -1,6 +1,8 @@
 import no_photo from "../../asserts/no_photo.webp";
+import useImageLoader from "../../hooks/useImageLoader";
 import Loader from "./Loader";
-function PhotoLoadingHandler({ img, imgIsLoading, hasError }) {
+function PhotoLoadingHandler({ img }) {
+    const { imgIsLoading, hasError } = useImageLoader(img);
     return (
         <>
             {imgIsLoading ? (
