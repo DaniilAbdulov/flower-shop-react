@@ -100,7 +100,7 @@ export const createNewCartDataFromOrder = createAsyncThunk(
             if (res.data.message === "created") {
                 thunkAPI.dispatch(getCartData());
             }
-            thunkAPI.dispatch(setSuccess("Товары добавлен в корзину !"));
+            thunkAPI.dispatch(setSuccess("Товары добавлены в корзину !"));
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.response.data.message));

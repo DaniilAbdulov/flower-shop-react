@@ -1,4 +1,6 @@
 import pool from "../db.js";
+import { addProducts } from "../functions/addProducts.js";
+import { returnProductsInDB } from "../functions/returnProductsInDB.js";
 import { transformData } from "../functions/transformData.js";
 import { transformPrice } from "../functions/transformPrice.js";
 class OrdersController {
@@ -125,7 +127,8 @@ class OrdersController {
                 "SELECT COUNT(*) FROM orders WHERE id = $1 AND users_id = $2 AND status_order_id != 4;",
                 [orderId, userId]
             );
-            if (!doesUserHaveThisOrder.rows.count === "1") {
+            //Нужно настроить логику возврата товаров
+            if (!doesUserHaveThisOrder.rows.count === 1) {
                 res.status(400).json({
                     message: "Order`s status is not `cancel`",
                 });
@@ -140,11 +143,20 @@ class OrdersController {
                             "Something went wrong with change status operation",
                     });
                 } else {
+                    const productsToReturn = await pool.query(
+                        "SELECT op.product_id, op.count FROM orders AS o JOIN orders_products AS op ON o.id = op.order_id WHERE o.id = $1 AND o.users_id = $2",
+                        [orderId, userId]
+                    );
+                    if (!productsToReturn.rowCount) {
+                        throw new Error("Ошибка возврата товаров в БД");
+                    }
+                    await returnProductsInDB(productsToReturn.rows);
                     res.status(200).json({ message: "Status changed" });
                 }
             }
         } catch (error) {
             const message = error.message;
+            console.log(message);
             return res.status(500).json({
                 message,
             });

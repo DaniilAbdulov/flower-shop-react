@@ -10,7 +10,7 @@ import Loader from "../UI/Loader";
 import { createOrder } from "../../redux/slices/ordersSlice";
 import PaymentOrderItem from "./PaymentOrderItem";
 
-function PaymentOrder({ setNewStage }) {
+function PaymentOrder() {
     const cartData = useSelector(selectCartData);
     const cartTotal = useSelector(selectCartTotal);
     const fetchCartData = useSelector(selectCartLoading);

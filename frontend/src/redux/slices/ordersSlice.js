@@ -156,6 +156,10 @@ const ordersSlice = createSlice({
 
         const handleApiError = (state) => {
             state.fetchingGetOrdersData = false;
+            state.fetchingGetOneOrderData = false;
+            state.fetchingGetOrdersInfo = false;
+            state.fetchingCreateOrder = false;
+            state.orderCreated = false;
         };
 
         builder
