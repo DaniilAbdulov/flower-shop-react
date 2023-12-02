@@ -8,5 +8,6 @@ router.get("/getOneOrder", authMiddleware, ordersController.getOneOrder);
 router.get("/getOrdersInfo", authMiddleware, ordersController.getOrdersInfo);
 router.post("/createOrder", authMiddleware, ordersController.createOrder);
 router.put("/cancelOrder", authMiddleware, ordersController.cancelOrder);
+router.put("/payOrder", authMiddleware, ordersController.payOrder);
 
 export default router;

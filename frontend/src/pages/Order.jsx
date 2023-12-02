@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     cancelOrder,
     getOneOrder,
+    payOrder,
     selectOneOrder,
     selectOneOrderLoading,
 } from "../redux/slices/ordersSlice";
@@ -36,10 +37,11 @@ function Order() {
     }
     const buttonValue = getButton();
     function handlePayButton() {
-        console.log(buttonValue);
-        alert(`Настрой логику перехода на страницу оплаты`);
         if (buttonValue === "Повторить заказ") {
             dispatch(createNewCartDataFromOrder(orderId));
+        }
+        if (buttonValue === "Оплатить") {
+            dispatch(payOrder(orderId));
         }
     }
     const dispatch = useDispatch();

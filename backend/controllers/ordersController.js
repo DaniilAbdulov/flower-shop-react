@@ -156,7 +156,28 @@ class OrdersController {
             }
         } catch (error) {
             const message = error.message;
-            console.log(message);
+            return res.status(500).json({
+                message,
+            });
+        }
+    }
+    async payOrder(req, res, next) {
+        const userId = req.user.id;
+        const orderId = req.body.params.orderId;
+        try {
+            const changeStatusOfOrder = await pool.query(
+                "update orders set status_order_id = 3 where id = $1 and users_id = $2;",
+                [orderId, userId]
+            );
+            if (!changeStatusOfOrder.rowCount) {
+                res.status(400).json({
+                    message:
+                        "Something went wrong with change status operation",
+                });
+            }
+            res.status(200).json({ message: "Status changed" });
+        } catch (error) {
+            const message = error.message;
             return res.status(500).json({
                 message,
             });

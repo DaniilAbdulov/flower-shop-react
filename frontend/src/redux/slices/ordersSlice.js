@@ -12,6 +12,7 @@ const initialState = {
     fetchingGetOneOrderData: false,
     fetchingGetOrdersInfo: false,
     fetchingCreateOrder: false,
+    fetchingPayOrder: false,
     orderCreated: false,
 };
 
@@ -91,6 +92,25 @@ export const cancelOrder = createAsyncThunk(
         }
     }
 );
+export const payOrder = createAsyncThunk(
+    "orders/payOrder",
+    async (orderId, thunkAPI) => {
+        try {
+            const res = await axios.put(`${API_URL}/orders/payOrder`, {
+                params: {
+                    orderId,
+                },
+            });
+            if (res.data.message === "Status changed") {
+                thunkAPI.dispatch(getOneOrder(orderId));
+            }
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.response.data.message));
+            throw error;
+        }
+    }
+);
 
 const ordersSlice = createSlice({
     name: "orders",
@@ -115,10 +135,12 @@ const ordersSlice = createSlice({
                     break;
                 case "createOrder":
                     state.fetchingCreateOrder = true;
-
                     break;
                 case "getOneOrder":
                     state.fetchingGetOneOrderData = true;
+                    break;
+                case "payOrder":
+                    state.fetchingPayOrder = true;
                     break;
                 default:
                     break;
@@ -149,6 +171,9 @@ const ordersSlice = createSlice({
                     state.oneOrder = action.payload.data[0];
                     state.fetchingGetOneOrderData = false;
                     break;
+                case "payOrder":
+                    state.fetchingPayOrder = false;
+                    break;
                 default:
                     break;
             }
@@ -159,6 +184,7 @@ const ordersSlice = createSlice({
             state.fetchingGetOneOrderData = false;
             state.fetchingGetOrdersInfo = false;
             state.fetchingCreateOrder = false;
+            state.fetchingPayOrder = false;
             state.orderCreated = false;
         };
 
@@ -174,7 +200,10 @@ const ordersSlice = createSlice({
             .addCase(createOrder.rejected, handleApiError)
             .addCase(getOneOrder.pending, handleApiCall)
             .addCase(getOneOrder.fulfilled, handleApiSuccess)
-            .addCase(getOneOrder.rejected, handleApiError);
+            .addCase(getOneOrder.rejected, handleApiError)
+            .addCase(payOrder.pending, handleApiCall)
+            .addCase(payOrder.fulfilled, handleApiSuccess)
+            .addCase(payOrder.rejected, handleApiError);
     },
 });
 export const selectOrdersData = (state) => state.orders.orders;
