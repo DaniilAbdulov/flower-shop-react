@@ -50,7 +50,7 @@ function Order() {
     }
     useEffect(() => {
         dispatch(getOneOrder(orderId));
-    }, [dispatch, orderId]);
+    }, [dispatch, orderId, user]);
     return (
         <div className="payment">
             <div className="order">

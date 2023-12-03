@@ -8,12 +8,12 @@ const initialState = {
     orders: [],
     ordersInfo: {},
     oneOrder: {},
+    newOrderId: 0,
     fetchingGetOrdersData: false,
     fetchingGetOneOrderData: false,
     fetchingGetOrdersInfo: false,
     fetchingCreateOrder: false,
     fetchingPayOrder: false,
-    orderCreated: false,
 };
 
 export const getOrdersInfo = createAsyncThunk(
@@ -103,6 +103,7 @@ export const payOrder = createAsyncThunk(
             });
             if (res.data.message === "Status changed") {
                 thunkAPI.dispatch(getOneOrder(orderId));
+                thunkAPI.dispatch(setSuccess("Заказ оплачен!"));
             }
             return res.data;
         } catch (error) {
@@ -117,7 +118,7 @@ const ordersSlice = createSlice({
     initialState: initialState,
     reducers: {
         clearOrderCreated: (state) => {
-            state.orderCreated = false;
+            state.newOrderId = 0;
         },
         clearOrders: (state) => {
             state.clearOrders = [];
@@ -126,6 +127,7 @@ const ordersSlice = createSlice({
     extraReducers: (builder) => {
         const handleApiCall = (state, action) => {
             const typeOfFetchingData = action.type.split("/")[1];
+
             switch (typeOfFetchingData) {
                 case "getOrders":
                     state.fetchingGetOrdersData = true;
@@ -165,7 +167,7 @@ const ordersSlice = createSlice({
                     break;
                 case "createOrder":
                     state.fetchingCreateOrder = false;
-                    state.orderCreated = true;
+                    state.newOrderId = action.payload.newOrderId;
                     break;
                 case "getOneOrder":
                     state.oneOrder = action.payload.data[0];
@@ -185,7 +187,7 @@ const ordersSlice = createSlice({
             state.fetchingGetOrdersInfo = false;
             state.fetchingCreateOrder = false;
             state.fetchingPayOrder = false;
-            state.orderCreated = false;
+            state.newOrderId = 0;
         };
 
         builder
@@ -207,6 +209,7 @@ const ordersSlice = createSlice({
     },
 });
 export const selectOrdersData = (state) => state.orders.orders;
+export const selectNewOrderId = (state) => state.orders.newOrderId;
 export const selectOneOrder = (state) => state.orders.oneOrder;
 export const selectOrdersInfo = (state) => state.orders.ordersInfo;
 export const selectOrdersLoading = (state) =>
@@ -217,7 +220,6 @@ export const selectOrdersInfoLoading = (state) =>
     state.orders.fetchingGetOrdersInfo;
 export const selectCreateOrderLoading = (state) =>
     state.orders.fetchingCreateOrder;
-export const selectOrderCreated = (state) => state.orders.orderCreated;
 export const { clearOrderCreated, clearOrders } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

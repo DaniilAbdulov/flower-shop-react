@@ -76,7 +76,7 @@ class OrdersController {
         const time = new Date();
         const orders = req.body.params.orders;
 
-        let idOfOrder = 0;
+        let newOrderId = 0;
         try {
             const createOrder = await pool.query(
                 "insert into orders (users_id,date_order,status_order_id) values ($1,$2,$3)",
@@ -87,12 +87,12 @@ class OrdersController {
                     "select id from orders where date_order = $1",
                     [time]
                 );
-                idOfOrder = idOfAddedOrder.rows[0].id;
+                newOrderId = idOfAddedOrder.rows[0].id;
             }
             for (let i = 0; i < orders.length; i++) {
                 await pool.query(
                     "insert into orders_products (order_id,product_id,count) values ($1,$2,$3)",
-                    [idOfOrder, orders[i].productId, orders[i].count]
+                    [newOrderId, orders[i].productId, orders[i].count]
                 );
                 await pool.query(
                     "UPDATE product SET available = available - $1 WHERE id = $2",
@@ -104,7 +104,9 @@ class OrdersController {
                 );
             }
             setTimeout(() => {
-                return res.status(200).json({ message: "order created" });
+                return res
+                    .status(200)
+                    .json({ newOrderId, message: "order created" });
             }, 2000);
             // return res.status(200).json({ message: "order created" });
         } catch (error) {

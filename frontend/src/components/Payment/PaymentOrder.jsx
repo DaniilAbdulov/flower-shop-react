@@ -14,6 +14,7 @@ function PaymentOrder() {
     const cartData = useSelector(selectCartData);
     const cartTotal = useSelector(selectCartTotal);
     const fetchCartData = useSelector(selectCartLoading);
+
     const [payMethods] = useState([
         { id: 0, name: "Карта" },
         { id: 1, name: "СБП" },
@@ -27,7 +28,6 @@ function PaymentOrder() {
     useEffect(() => {
         dispatch(getCartData());
     }, [dispatch]);
-
     function createOrderHandler() {
         const orders = [];
         for (let i = 0; i < cartData.length; i++) {
@@ -39,6 +39,7 @@ function PaymentOrder() {
         }
         dispatch(createOrder(orders));
     }
+
     return (
         <div className="payment__order po">
             <div className="po__wrapper">
@@ -78,7 +79,6 @@ function PaymentOrder() {
                         </div>
                         <div
                             className="po__button"
-                            // onClick={() => setNewStage("createOrder")}
                             onClick={() => createOrderHandler()}
                         >
                             <span>Оплатить</span>

@@ -5,7 +5,7 @@ import Like from "../UI/Like";
 import PhotoLoadingHandler from "../UI/PhotoLoadingHandler";
 
 function ProductPageItem({ product }) {
-    const { id, img, title, description, sold, price, available, isfavorite } =
+    const { id, img, title, description, price, available, isfavorite } =
         product;
     const isAuth = useSelector(selectIsAuth);
     const dispatch = useDispatch();
@@ -25,9 +25,6 @@ function ProductPageItem({ product }) {
                 <h2>{title}</h2>
                 <h3>{description}</h3>
                 <div className="ppbody__info">
-                    <p>
-                        Продано: <span>{sold}</span>
-                    </p>
                     <p>
                         Осталось в наличи: <span>{available}</span>
                     </p>

@@ -28,12 +28,6 @@ function Home() {
             }
         }
     }, [userId, fethingId, allProductsLength, dispatch]);
-    // useEffect(() => {
-    //     if (userId === "Пользователь был в сети, но разлогинился") {
-    //         return;
-    //     }
-    //     dispatch(fetchAllProducts(userId));
-    // }, [userId, dispatch]);
     return (
         <>
             <General />

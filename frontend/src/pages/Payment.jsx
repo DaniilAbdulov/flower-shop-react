@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     selectCreateOrderLoading,
-    selectOrderCreated,
+    selectNewOrderId,
 } from "../redux/slices/ordersSlice";
 import PaymentOrder from "../components/Payment/PaymentOrder";
 import "./Payment.scss";
@@ -13,17 +13,17 @@ import { clearCart, clearCartTotal } from "../redux/slices/cartSlice";
 function Payment() {
     const [stage, setStage] = useState("review");
     const createOrderLoading = useSelector(selectCreateOrderLoading);
-    const orderCreated = useSelector(selectOrderCreated);
+    const newOrderId = useSelector(selectNewOrderId);
     const dispatch = useDispatch();
     function changeStage(value) {
         setStage(value);
     }
     useEffect(() => {
-        if (orderCreated) {
+        if (newOrderId) {
             dispatch(clearCart());
             dispatch(clearCartTotal());
         }
-    }, [dispatch, orderCreated]);
+    }, [dispatch, newOrderId]);
     return (
         <div>
             <div className="wrapper">
@@ -33,7 +33,7 @@ function Payment() {
                             createOrderLoading ? "payment__wrapper-pending" : ""
                         } `}
                     >
-                        {!createOrderLoading && !orderCreated && (
+                        {!createOrderLoading && !newOrderId && (
                             <PaymentOrder setNewStage={changeStage} />
                         )}
 
@@ -44,7 +44,7 @@ function Payment() {
                             </>
                         )}
                         {!createOrderLoading &&
-                            orderCreated &&
+                            newOrderId &&
                             stage !== "paySuccess" && (
                                 <FinalPay setNewStage={changeStage} />
                             )}
