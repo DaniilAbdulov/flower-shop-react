@@ -25,6 +25,7 @@
     &__title {
         word-wrap: break-word;
         color: #ffffff;
+
         font-weight: 700;
         font-size: 20px;
         padding: 10px;
@@ -32,6 +33,16 @@
         margin-bottom: 10px;
         &::first-letter {
             text-transform: uppercase;
+        }
+        p {
+            background: linear-gradient(
+                90deg,
+                rgba(6, 8, 35, 1) 0%,
+                rgba(6, 24, 35, 1) 35%,
+                rgba(128, 128, 128, 0) 100%
+            );
+            border-radius: 5px;
+            padding: 5px 2px;
         }
     }
 }

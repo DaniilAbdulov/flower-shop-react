@@ -1,34 +1,14 @@
 import { NavLink } from "react-router-dom";
 import no_photo from "../../asserts/no_photo.webp";
 import "./TrendItem.scss";
-import Like from "../UI/Like";
-import { useEffect, useState } from "react";
+import useImageLoader from "../../hooks/useImageLoader";
 function TrendItem({ value }) {
-    const { id, img, isfavorite, title } = value;
-    // const [imgIsLoading, setImgIsLoading] = useState(false);
-    const [hasError, setHasError] = useState(false);
-    useEffect(() => {
-        const image = new Image();
-
-        // image.onload = () => {
-        //     setImgIsLoading(true);
-        // };
-
-        image.onerror = () => {
-            setHasError(true);
-            console.log("Произошла ошибка при загрузке изображения.");
-        };
-
-        image.src = img;
-
-        return () => {
-            image.onload = null;
-            image.onerror = null;
-        };
-    }, [img]);
+    const { id, img } = value;
+    const { hasError } = useImageLoader(img);
     return (
         <div>
-            <div
+            <NavLink
+                to={`product/${id}`}
                 className="trend"
                 style={{
                     backgroundImage: `url("${hasError ? no_photo : img}")`,
@@ -36,15 +16,7 @@ function TrendItem({ value }) {
                     backgroundRepeat: "no-repeat",
                     backgroundSize: "cover",
                 }}
-            >
-                <div className="trend__like">
-                    <Like like={isfavorite} id={id} />
-                </div>
-
-                <NavLink to={`product/${id}`} className="trend__title">
-                    {title}
-                </NavLink>
-            </div>
+            ></NavLink>
         </div>
     );
 }

@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
     getCartData,
     selectCartData,
@@ -11,10 +12,11 @@ import { createOrder } from "../../redux/slices/ordersSlice";
 import PaymentOrderItem from "./PaymentOrderItem";
 
 function PaymentOrder() {
+    const dispatch = useDispatch();
     const cartData = useSelector(selectCartData);
     const cartTotal = useSelector(selectCartTotal);
     const fetchCartData = useSelector(selectCartLoading);
-
+    const navigate = useNavigate();
     const [payMethods] = useState([
         { id: 0, name: "Карта" },
         { id: 1, name: "СБП" },
@@ -24,10 +26,12 @@ function PaymentOrder() {
     const handleMethodClick = (id) => {
         setActiveMethod(id);
     };
-    const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getCartData());
-    }, [dispatch]);
+        let cartDataIsTrue = Boolean(cartData.length) || fetchCartData;
+        if (!cartDataIsTrue) {
+            navigate("/");
+        }
+    }, [cartData, fetchCartData, navigate]);
     function createOrderHandler() {
         const orders = [];
         for (let i = 0; i < cartData.length; i++) {
@@ -39,7 +43,9 @@ function PaymentOrder() {
         }
         dispatch(createOrder(orders));
     }
-
+    useEffect(() => {
+        dispatch(getCartData());
+    }, [dispatch]);
     return (
         <div className="payment__order po">
             <div className="po__wrapper">

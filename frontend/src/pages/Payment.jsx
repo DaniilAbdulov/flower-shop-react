@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     selectCreateOrderLoading,
     selectNewOrderId,
+    selectOrderPaid,
 } from "../redux/slices/ordersSlice";
 import PaymentOrder from "../components/Payment/PaymentOrder";
 import "./Payment.scss";
@@ -11,13 +12,10 @@ import PaySuccess from "../components/Payment/PaySuccess";
 import Loader from "../components/UI/Loader";
 import { clearCart, clearCartTotal } from "../redux/slices/cartSlice";
 function Payment() {
-    const [stage, setStage] = useState("review");
     const createOrderLoading = useSelector(selectCreateOrderLoading);
     const newOrderId = useSelector(selectNewOrderId);
+    const orderPaid = useSelector(selectOrderPaid);
     const dispatch = useDispatch();
-    function changeStage(value) {
-        setStage(value);
-    }
     useEffect(() => {
         if (newOrderId) {
             dispatch(clearCart());
@@ -33,22 +31,15 @@ function Payment() {
                             createOrderLoading ? "payment__wrapper-pending" : ""
                         } `}
                     >
-                        {!createOrderLoading && !newOrderId && (
-                            <PaymentOrder setNewStage={changeStage} />
-                        )}
-
+                        {!createOrderLoading && !newOrderId && <PaymentOrder />}
                         {createOrderLoading && (
                             <>
                                 <h2>Создаем заказ</h2>
                                 <Loader />
                             </>
                         )}
-                        {!createOrderLoading &&
-                            newOrderId &&
-                            stage !== "paySuccess" && (
-                                <FinalPay setNewStage={changeStage} />
-                            )}
-                        {stage === "paySuccess" && <PaySuccess />}
+                        {newOrderId && !orderPaid && <FinalPay />}
+                        {orderPaid && <PaySuccess />}
                     </div>
                 </div>
             </div>

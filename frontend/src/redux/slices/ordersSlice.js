@@ -9,6 +9,7 @@ const initialState = {
     ordersInfo: {},
     oneOrder: {},
     newOrderId: 0,
+    orderPaid: false,
     fetchingGetOrdersData: false,
     fetchingGetOneOrderData: false,
     fetchingGetOrdersInfo: false,
@@ -119,6 +120,7 @@ const ordersSlice = createSlice({
     reducers: {
         clearOrderCreated: (state) => {
             state.newOrderId = 0;
+            state.orderPaid = false;
         },
         clearOrders: (state) => {
             state.clearOrders = [];
@@ -143,6 +145,7 @@ const ordersSlice = createSlice({
                     break;
                 case "payOrder":
                     state.fetchingPayOrder = true;
+                    state.orderPaid = true;
                     break;
                 default:
                     break;
@@ -210,6 +213,7 @@ const ordersSlice = createSlice({
 });
 export const selectOrdersData = (state) => state.orders.orders;
 export const selectNewOrderId = (state) => state.orders.newOrderId;
+export const selectOrderPaid = (state) => state.orders.orderPaid;
 export const selectOneOrder = (state) => state.orders.oneOrder;
 export const selectOrdersInfo = (state) => state.orders.ordersInfo;
 export const selectOrdersLoading = (state) =>

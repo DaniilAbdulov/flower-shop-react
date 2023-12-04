@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { payOrder, selectNewOrderId } from "../../redux/slices/ordersSlice";
-function FinalPay({ setNewStage }) {
+function FinalPay() {
     const newOrderId = useSelector(selectNewOrderId);
     const dispatch = useDispatch();
     return (
@@ -30,7 +30,6 @@ function FinalPay({ setNewStage }) {
                 <div
                     className="final-pay__button po__button"
                     onClick={() => {
-                        setNewStage("paySuccess");
                         dispatch(payOrder(newOrderId));
                     }}
                 >
