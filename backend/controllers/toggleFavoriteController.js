@@ -1,7 +1,7 @@
 import pool from "../db.js";
 
 class toggleFavoriteController {
-    async addToFavorites(req, res, next) {
+    async addToFavorites(req, res) {
         try {
             const productId = parseInt(req.body.params.productId);
             const userId = req.user.id;
@@ -28,14 +28,13 @@ class toggleFavoriteController {
                 .status(200)
                 .json({ message: "Товар добавлен в избранное" });
         } catch (error) {
-            console.log(error);
             return res
                 .status(500)
                 .json({ message: "Ошибка добавления товара в избранное" });
         }
     }
 
-    async deleteFromFavorites(req, res, next) {
+    async deleteFromFavorites(req, res) {
         try {
             const productId = parseInt(req.query.productId);
             const userId = req.user.id;
@@ -68,7 +67,6 @@ class toggleFavoriteController {
                 .status(200)
                 .json({ message: "deleteFromFavorites path is work" });
         } catch (error) {
-            console.log(error);
             return res
                 .status(500)
                 .json({ message: "Ошибка удаления товара из избранного" });

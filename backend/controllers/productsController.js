@@ -2,7 +2,7 @@ import pool from "../db.js";
 import { transformPrice } from "../functions/transformPrice.js";
 
 class ProductsController {
-    async getAllProducts(req, res, next) {
+    async getAllProducts(req, res) {
         let fetchFromThisId = 0;
         try {
             fetchFromThisId = parseInt(req.query.userId);
@@ -43,13 +43,12 @@ class ProductsController {
                 // return res.status(200).json({ data, fetchFromThisId });
             }
         } catch (error) {
-            console.log(error);
             return res
                 .status(500)
                 .json({ message: "Ошибка получения всех продуктов" });
         }
     }
-    async getAdvicedProducts(req, res, next) {
+    async getAdvicedProducts(req, res) {
         let fetchFromThisId = 0;
         try {
             fetchFromThisId = parseInt(req.query.userId);
@@ -81,13 +80,12 @@ class ProductsController {
                 // return res.status(200).json({ data, fetchFromThisId });
             }
         } catch (error) {
-            console.log(error);
             return res
                 .status(500)
                 .json({ message: "Ошибка получения трендов" });
         }
     }
-    async getFavoriteProducts(req, res, next) {
+    async getFavoriteProducts(req, res) {
         const userId = req.user.id;
         try {
             const favorites = await pool.query(
@@ -107,14 +105,13 @@ class ProductsController {
                 // return res.status(200).json({ data });
             }
         } catch (error) {
-            console.log(error);
             return res.status(500).json({
                 message:
                     "Ошибка при выполнении операции в базе данных для избранных товаров",
             });
         }
     }
-    async getSingleProduct(req, res, next) {
+    async getSingleProduct(req, res) {
         const productId = req.query.productId;
         let fetchFromThisId = 0;
         try {
@@ -148,7 +145,6 @@ class ProductsController {
                 // return res.status(200).json({ data, fetchFromThisId });
             }
         } catch (error) {
-            console.log(error);
             return res.status(500).json({
                 message:
                     "Ошибка при выполнении операции в базе данных для одного продукта",

@@ -9,7 +9,7 @@ const generateJwt = (id, email, role) => {
 };
 
 class UserController {
-    async registration(req, res, next) {
+    async registration(req, res) {
         const { id, firstName, lastName, nickName, email, password } = req.body;
         if (!email || !password) {
             return res
@@ -62,11 +62,10 @@ class UserController {
                 // return res.json({ token, user });
             }
         } catch (error) {
-            console.log(error);
             return res.status(500).json({ message: "Internal Server Error" });
         }
     }
-    async login(req, res, next) {
+    async login(req, res) {
         try {
             const { nickName, password } = req.body;
             const findUser = await pool.query(
@@ -91,12 +90,11 @@ class UserController {
             }, 1000);
             // return res.json({ token, user });
         } catch (error) {
-            console.log(error);
             res.status(500).json({ message: "Внутренняя ошибка сервера" });
             return;
         }
     }
-    async check(req, res, next) {
+    async check(req, res) {
         const findUser = await pool.query("SELECT * FROM users WHERE id = $1", [
             req.user.id,
         ]);

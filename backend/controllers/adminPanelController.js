@@ -3,7 +3,7 @@ import { getCategoryId } from "../functions/getCategoryId.js";
 import { transformPrice } from "../functions/transformPrice.js";
 import { transformData } from "../functions/transformData.js";
 class AdminPanelController {
-    async createProduct(req, res, next) {
+    async createProduct(req, res) {
         const {
             title,
             description,
@@ -55,11 +55,10 @@ class AdminPanelController {
             }
             return res.status(200).json({ message: "Product created" });
         } catch (error) {
-            console.log(error);
             return res.status(500).json({ message: "Ошибка создания товара" });
         }
     }
-    async deleteProduct(req, res, next) {
+    async deleteProduct(req, res) {
         const productId = req.query.productId;
         try {
             const deleteProduct = await pool.query(
@@ -74,11 +73,10 @@ class AdminPanelController {
             }, 1000);
             // res.status(200).json({ message: "Deleted success" });
         } catch (error) {
-            console.log(error);
             return res.status(500).json({ message: "Ошибка удаления товара" });
         }
     }
-    async deleteCategory(req, res, next) {
+    async deleteCategory(req, res) {
         const category = req.query.category;
         try {
             const tryToDeleteCategory = await pool.query(
@@ -97,7 +95,7 @@ class AdminPanelController {
                 .json({ message: "Ошибка удаления категории" });
         }
     }
-    async changeProduct(req, res, next) {
+    async changeProduct(req, res) {
         const {
             id,
             title,
@@ -198,11 +196,10 @@ class AdminPanelController {
                 }, 1000);
             }
         } catch (error) {
-            console.log(error);
             return res.status(500).json({ message: "Ошибка изменения товара" });
         }
     }
-    async getStatic(req, res, next) {
+    async getStatic(req, res) {
         try {
             const getStatic = await pool.query(
                 "SELECT COUNT(o.id) AS count,(SELECT COUNT(id) FROM users)AS users_count , SUM(op.count * p.price) AS total FROM orders AS o JOIN orders_products AS op ON o.id = op.order_id JOIN product AS p ON op.product_id = p.id WHERE o.status_order_id NOT IN (1, 4)"
@@ -223,7 +220,7 @@ class AdminPanelController {
                 .json({ message: "Ошибка получения статистики" });
         }
     }
-    async getPaidOrders(req, res, next) {
+    async getPaidOrders(req, res) {
         try {
             const paidOrders = await pool.query(
                 "SELECT CAST(O.DATE_ORDER AS VARCHAR) AS DATE_ORDER, OP.ORDER_ID, STRING_AGG(CAST(OP.COUNT AS VARCHAR), ',') AS COUNT, STRING_AGG(CAST(OP.PRODUCT_ID AS VARCHAR), ',') AS PRODUCT_ID, STRING_AGG(P.IMG, ',') AS IMG, SUM(OP.COUNT * P.PRICE) AS TOTAL, S.STATUS FROM ORDERS AS O JOIN ORDERS_PRODUCTS AS OP ON O.ID = OP.ORDER_ID JOIN PRODUCT AS P ON P.ID = OP.PRODUCT_ID JOIN STATUS_ORDERS AS S ON O.STATUS_ORDER_ID = S.ID WHERE STATUS = 'Оплачен' GROUP BY O.USERS_ID, O.DATE_ORDER, OP.ORDER_ID, S.STATUS ORDER BY O.DATE_ORDER DESC"
@@ -241,7 +238,7 @@ class AdminPanelController {
                 .json({ message: "Ошибка получения оплаченых заказов" });
         }
     }
-    async createCategory(req, res, next) {
+    async createCategory(req, res) {
         const newCategory = req.body.params.newCategory;
         try {
             const categories = await pool.query("select name from category");
@@ -265,7 +262,6 @@ class AdminPanelController {
                 }
             }
         } catch (error) {
-            console.log(error);
             return res
                 .status(500)
                 .json({ message: "Ошибка Создания новой категории" });

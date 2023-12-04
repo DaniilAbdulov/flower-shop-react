@@ -4,7 +4,7 @@ import { returnProductsInDB } from "../functions/returnProductsInDB.js";
 import { transformData } from "../functions/transformData.js";
 import { transformPrice } from "../functions/transformPrice.js";
 class OrdersController {
-    async getOrders(req, res, next) {
+    async getOrders(req, res) {
         const userId = req.user.id;
         try {
             const orders = await pool.query(
@@ -26,7 +26,7 @@ class OrdersController {
             });
         }
     }
-    async getOneOrder(req, res, next) {
+    async getOneOrder(req, res) {
         const orderId = req.query.orderId;
         try {
             const order = await pool.query(
@@ -48,7 +48,7 @@ class OrdersController {
             });
         }
     }
-    async getOrdersInfo(req, res, next) {
+    async getOrdersInfo(req, res) {
         const userId = req.user.id;
         try {
             const ordersInfo = await pool.query(
@@ -69,7 +69,7 @@ class OrdersController {
             });
         }
     }
-    async createOrder(req, res, next) {
+    async createOrder(req, res) {
         const userId = req.user.id;
         const time = new Date();
         const orders = req.body.params.orders;
@@ -119,7 +119,7 @@ class OrdersController {
             });
         }
     }
-    async cancelOrder(req, res, next) {
+    async cancelOrder(req, res) {
         const userId = req.user.id;
         const orderId = req.body.params.orderId;
         try {
@@ -160,7 +160,7 @@ class OrdersController {
             });
         }
     }
-    async issuedOrder(req, res, next) {
+    async issuedOrder(req, res) {
         const orderId = req.body.params.orderId;
         try {
             const changeStatusOfOrder = await pool.query(
@@ -182,7 +182,7 @@ class OrdersController {
             });
         }
     }
-    async payOrder(req, res, next) {
+    async payOrder(req, res) {
         const orderId = req.body.params.orderId;
         try {
             const changeStatusOfOrder = await pool.query(

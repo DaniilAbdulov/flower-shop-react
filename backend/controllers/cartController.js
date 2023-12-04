@@ -2,7 +2,7 @@ import pool from "../db.js";
 import { addProducts } from "../functions/addProducts.js";
 import { transformPrice } from "../functions/transformPrice.js";
 class CartController {
-    async addProductToCart(req, res, next) {
+    async addProductToCart(req, res) {
         try {
             const productId = parseInt(req.body.params.productId);
             const userId = req.user.id;
@@ -29,7 +29,7 @@ class CartController {
             });
         }
     }
-    async createNewCartDataFromOrder(req, res, next) {
+    async createNewCartDataFromOrder(req, res) {
         try {
             const orderId = parseInt(req.body.params.orderId);
             const userId = req.user.id;
@@ -67,7 +67,7 @@ class CartController {
             });
         }
     }
-    async getCartData(req, res, next) {
+    async getCartData(req, res) {
         const userId = req.user.id;
         try {
             const userCart = await pool.query(
@@ -98,7 +98,7 @@ class CartController {
             });
         }
     }
-    async setCountOfItem(req, res, next) {
+    async setCountOfItem(req, res) {
         const userId = req.user.id;
         const productId = req.body.params.id;
         const count = req.body.params.newCount;
@@ -117,7 +117,7 @@ class CartController {
             return res.status(400).json({ err });
         }
     }
-    async deleteCartItem(req, res, next) {
+    async deleteCartItem(req, res) {
         const userId = req.user.id;
         const productId = parseInt(req.query.productId);
         try {
