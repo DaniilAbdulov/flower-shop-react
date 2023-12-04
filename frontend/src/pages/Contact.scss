@@ -6,7 +6,6 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    // max-width: 800px;
     &__row {
         display: flex;
         align-items: center;
@@ -30,7 +29,6 @@
     }
     &__social {
         font-size: 40px;
-
         ul {
             display: flex;
             align-items: center;
@@ -43,21 +41,14 @@
             }
         }
     }
-    &__form {
-        // max-width: 300px;
-    }
 }
 @media (max-width: 572px) {
     .contact {
         &__row {
             display: flex;
-
             gap: 15px;
             flex-direction: column;
             align-items: stretch;
-        }
-        &__column {
-            flex: 0 1 50%;
         }
         &__text {
             font-size: 27px;
