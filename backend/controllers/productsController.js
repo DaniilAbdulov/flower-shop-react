@@ -30,7 +30,7 @@ class ProductsController {
             if (data) {
                 setTimeout(() => {
                     return res.status(200).json({ data, fetchFromThisId });
-                }, 2000);
+                }, 1000);
                 // return res.status(200).json({ data, fetchFromThisId });
             }
         } catch (error) {
@@ -68,7 +68,7 @@ class ProductsController {
             if (data) {
                 setTimeout(() => {
                     return res.status(200).json({ data, fetchFromThisId });
-                }, 2000);
+                }, 1000);
                 // return res.status(200).json({ data, fetchFromThisId });
             }
         } catch (error) {
@@ -94,7 +94,7 @@ class ProductsController {
                 });
                 setTimeout(() => {
                     return res.status(200).json({ data });
-                }, 2000);
+                }, 1000);
                 // return res.status(200).json({ data });
             }
         } catch (error) {
@@ -135,7 +135,7 @@ class ProductsController {
             if (data) {
                 setTimeout(() => {
                     return res.status(200).json({ data, fetchFromThisId });
-                }, 2000);
+                }, 1000);
                 // return res.status(200).json({ data, fetchFromThisId });
             }
         } catch (error) {

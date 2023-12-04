@@ -89,7 +89,7 @@ class CartController {
             cartTotal[0].sum = transformPrice(cartTotal[0].sum);
             setTimeout(() => {
                 return res.status(200).json({ data, cartTotal });
-            }, 2000);
+            }, 1000);
             // return res.status(200).json({ data, cartTotal });
         } catch (error) {
             const message = error.message;

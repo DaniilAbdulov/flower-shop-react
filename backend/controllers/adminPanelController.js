@@ -70,7 +70,7 @@ class AdminPanelController {
             }
             setTimeout(() => {
                 res.status(200).json({ message: "Deleted success" });
-            }, 2000);
+            }, 1000);
             // res.status(200).json({ message: "Deleted success" });
         } catch (error) {
             console.log(error);
@@ -175,7 +175,7 @@ class AdminPanelController {
                 }
                 setTimeout(() => {
                     res.status(200).json({ message: "Changes success" });
-                }, 2000);
+                }, 1000);
             }
         } catch (error) {
             console.log(error);
@@ -192,7 +192,7 @@ class AdminPanelController {
                 data.total = transformPrice(data.total);
                 setTimeout(() => {
                     res.status(200).json({ data });
-                }, 2000);
+                }, 1000);
                 // res.status(200).json({ data });
             } else {
                 throw new Error("Ошибка в запросе к БД");

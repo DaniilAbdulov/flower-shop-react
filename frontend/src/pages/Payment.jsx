@@ -38,7 +38,7 @@ function Payment() {
                                 <Loader />
                             </>
                         )}
-                        {newOrderId && !orderPaid && <FinalPay />}
+                        {newOrderId && !orderPaid ? <FinalPay /> : null}
                         {orderPaid && <PaySuccess />}
                     </div>
                 </div>

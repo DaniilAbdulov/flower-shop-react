@@ -58,7 +58,7 @@ class UserController {
                 user.updated_at = formatDate(user.updated_at);
                 setTimeout(() => {
                     return res.json({ token, user });
-                }, 3000);
+                }, 1000);
                 // return res.json({ token, user });
             }
         } catch (error) {
@@ -88,7 +88,7 @@ class UserController {
             const token = generateJwt(user.id, user.email, user.role);
             setTimeout(() => {
                 return res.json({ token, user });
-            }, 3000);
+            }, 1000);
             // return res.json({ token, user });
         } catch (error) {
             console.log(error);
@@ -109,7 +109,7 @@ class UserController {
         const token = generateJwt(user.id, user.email, user.role);
         setTimeout(() => {
             return res.json({ token, user });
-        }, 3000);
+        }, 1000);
         // return res.json({ token, user });
     }
 }

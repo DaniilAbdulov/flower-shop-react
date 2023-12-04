@@ -107,7 +107,7 @@ class OrdersController {
                 return res
                     .status(200)
                     .json({ newOrderId, message: "order created" });
-            }, 2000);
+            }, 1000);
             // return res.status(200).json({ message: "order created" });
         } catch (error) {
             const message = error.message;
