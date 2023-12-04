@@ -78,6 +78,25 @@ class AdminPanelController {
             return res.status(500).json({ message: "Ошибка удаления товара" });
         }
     }
+    async deleteCategory(req, res, next) {
+        const category = req.query.category;
+        try {
+            const tryToDeleteCategory = await pool.query(
+                "DELETE FROM CATEGORY WHERE NAME = $1",
+                [category]
+            );
+            if (
+                tryToDeleteCategory.command === "DELETE" &&
+                tryToDeleteCategory.rowCount === 1
+            ) {
+                res.status(200).json({ message: "Deleted success" });
+            }
+        } catch (error) {
+            return res
+                .status(500)
+                .json({ message: "Ошибка удаления категории" });
+        }
+    }
     async changeProduct(req, res, next) {
         const {
             id,
@@ -220,6 +239,36 @@ class AdminPanelController {
             return res
                 .status(500)
                 .json({ message: "Ошибка получения оплаченых заказов" });
+        }
+    }
+    async createCategory(req, res, next) {
+        const newCategory = req.body.params.newCategory;
+        try {
+            const categories = await pool.query("select name from category");
+            if (categories.rows.length) {
+                const weHaveThisCategory = categories.rows
+                    .map((cat) => cat.name.toLowerCase())
+                    .includes(newCategory.toLowerCase());
+                if (weHaveThisCategory) {
+                    throw new Error("Данная категория уже существует");
+                } else {
+                    const tryToAddCategory = await pool.query(
+                        "insert into category (name) values($1)",
+                        [newCategory]
+                    );
+                    if (
+                        tryToAddCategory.command === "INSERT" &&
+                        tryToAddCategory.rowCount === 1
+                    ) {
+                        res.status(200).json({ message: "Category created" });
+                    }
+                }
+            }
+        } catch (error) {
+            console.log(error);
+            return res
+                .status(500)
+                .json({ message: "Ошибка Создания новой категории" });
         }
     }
 }

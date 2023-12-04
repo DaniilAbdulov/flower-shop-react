@@ -27,9 +27,18 @@ class ProductsController {
                     price: transformPrice(item.price),
                 };
             });
-            if (data) {
+            const fetchCategories = await pool.query(
+                "select id, name as label from category"
+            );
+            let categories = [];
+            if (fetchCategories.rows.length > 0) {
+                categories = fetchCategories.rows;
+            }
+            if (data && categories.length) {
                 setTimeout(() => {
-                    return res.status(200).json({ data, fetchFromThisId });
+                    return res
+                        .status(200)
+                        .json({ data, fetchFromThisId, categories });
                 }, 1000);
                 // return res.status(200).json({ data, fetchFromThisId });
             }

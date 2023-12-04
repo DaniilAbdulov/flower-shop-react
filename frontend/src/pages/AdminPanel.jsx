@@ -18,11 +18,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import UserOrders from "../components/Cabinet/UserOrders";
 import PaidOrdersList from "../components/AdminPanel/PaidOrdersList";
+import DeleteCategory from "../components/AdminPanel/DeleteCategory";
 
 function AdminPanel() {
     const [showOrders, setShowOrders] = useState(false);
     const [showAddProduct, setShowAddProduct] = useState(false);
-    const [showAddCategory, setShowAddCategory] = useState(false);
+    const [showFormOfChangeCategory, setShowFormOfChangeCategory] =
+        useState(false);
     const [showStatistic, setShowStatistic] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const productLoading = useSelector(selectAllProductsLoading);
@@ -52,8 +54,8 @@ function AdminPanel() {
                     <button onClick={() => setShowAddProduct(true)}>
                         Добавить товар
                     </button>
-                    <button onClick={() => setShowAddCategory(true)}>
-                        Добавить категорию
+                    <button onClick={() => setShowFormOfChangeCategory(true)}>
+                        Добавить/удалить категорию
                     </button>
                     <button onClick={() => setShowStatistic(true)}>
                         Посмотреть статистику
@@ -85,10 +87,13 @@ function AdminPanel() {
                         />
                     </MyDialog>
                     <MyDialog
-                        visible={showAddCategory}
-                        setVisible={setShowAddCategory}
+                        visible={showFormOfChangeCategory}
+                        setVisible={setShowFormOfChangeCategory}
                     >
-                        <AddCategory setVisible={setShowAddCategory} />
+                        <AddCategory setVisible={setShowFormOfChangeCategory} />
+                        <DeleteCategory
+                            setVisible={setShowFormOfChangeCategory}
+                        />
                     </MyDialog>
                     <MyDialog
                         visible={showStatistic}

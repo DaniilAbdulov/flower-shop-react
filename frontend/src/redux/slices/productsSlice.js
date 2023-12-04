@@ -2,13 +2,14 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setError } from "./errorSlice";
 import { API_URL } from "../../config";
-
+import setNamesOfButtons from "../../functions/setNamesOfButtons.js";
 const initialState = {
     allProducts: [],
     singleProduct: {},
     isTrends: [],
     isAdvice: [],
     isFavorite: [],
+    categories: [],
     fetchFromThisId: null,
     allProductsLength: 0,
     advicedLoading: false,
@@ -26,6 +27,7 @@ export const fetchAllProducts = createAsyncThunk(
                     userId,
                 },
             });
+            // thunkAPI.dispatch(productsSlice.actions.setCategories());
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.response.data.message));
@@ -87,7 +89,11 @@ export const fetchFavoriteProducts = createAsyncThunk(
 const productsSlice = createSlice({
     name: "products",
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        // setCategories: (state) => {
+        //     state.categories = setNamesOfButtons(state.allProducts);
+        // },
+    },
     extraReducers: (builder) => {
         const handleApiCall = (state, action) => {
             state.singleProduct = {};
@@ -127,6 +133,7 @@ const productsSlice = createSlice({
                     state.fetchFromThisId = action.payload.fetchFromThisId;
                     state.allProductsLength = action.payload.data.length;
                     state.allProductsLoading = false;
+                    state.categories = action.payload.categories;
                     break;
                 case "getAdvicedProducts":
                     state.isAdvice = action.payload.data;
@@ -173,6 +180,7 @@ export const selectAdvicedLoading = (state) => state.products.advicedLoading;
 export const selectFavoriteLoading = (state) => state.products.favoriteLoading;
 export const selectIsTrends = (state) => state.products.isTrends;
 export const selectIsFavorites = (state) => state.products.isFavorite;
+export const selectCategories = (state) => state.products.categories;
 export const selectAllProducts = (state) => state.products.allProducts;
 export const selectAllProductsLoading = (state) =>
     state.products.allProductsLoading;

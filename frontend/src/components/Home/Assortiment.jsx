@@ -1,26 +1,31 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { selectAllProducts } from "../../redux/slices/productsSlice";
+import {
+    selectAllProducts,
+    selectCategories,
+} from "../../redux/slices/productsSlice";
 import ProductsList from "../Products/ProductsList";
 import BorderedFrame from "../UI/BorderedFrame";
 import "./Assortiment.scss";
 import Loader from "../UI/Loader";
-import setNamesOfButtons from "../../functions/setNamesOfButtons";
+
 function Assortiment() {
-    const [activeButton, setActiveButton] = useState(0);
+    const [activeButton, setActiveButton] = useState("none");
     const allProducts = useSelector(selectAllProducts);
-    const buttons = setNamesOfButtons(allProducts);
-
-    const handleButtonClick = (id) => {
-        setActiveButton(id);
+    const categories = useSelector(selectCategories);
+    const handleButtonClick = (label) => {
+        setActiveButton(label);
     };
-
-    function filteredArray(allProducts) {
-        return allProducts.filter((item) => {
-            return item.category === buttons[activeButton].label;
-        });
-    }
-    let newArr = filteredArray(allProducts);
+    const arr = allProducts.length
+        ? categories.length
+            ? allProducts.filter((item) => item.category === activeButton)
+            : []
+        : [];
+    useEffect(() => {
+        if (categories.length) {
+            setActiveButton(categories[0].label);
+        }
+    }, [categories]);
     return (
         <>
             <div className="wrapper" style={{ marginTop: "40px" }}>
@@ -32,24 +37,28 @@ function Assortiment() {
                     {allProducts.length > 0 ? (
                         <>
                             <div className="asrt__buttons">
-                                {buttons.map((button) => (
-                                    <button
-                                        key={button.id}
-                                        className={`asrt__btn ${
-                                            activeButton === button.id
-                                                ? "asrt__btn-active"
-                                                : ""
-                                        }`}
-                                        onClick={() =>
-                                            handleButtonClick(button.id)
-                                        }
-                                    >
-                                        {button.label}
-                                    </button>
-                                ))}
+                                {categories && categories.length > 0
+                                    ? categories.map((button) => (
+                                          <button
+                                              key={button.id}
+                                              className={`asrt__btn ${
+                                                  activeButton === button.label
+                                                      ? "asrt__btn-active"
+                                                      : ""
+                                              }`}
+                                              onClick={() =>
+                                                  handleButtonClick(
+                                                      button.label
+                                                  )
+                                              }
+                                          >
+                                              {button.label}
+                                          </button>
+                                      ))
+                                    : null}
                             </div>
                             <div className="asrt__cards">
-                                <ProductsList items={newArr} />
+                                <ProductsList items={arr} />
                             </div>
                         </>
                     ) : (

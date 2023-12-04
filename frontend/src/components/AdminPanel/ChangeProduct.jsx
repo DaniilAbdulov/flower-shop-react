@@ -2,7 +2,10 @@ import { useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { changeProduct } from "../../redux/slices/adminPanelSlice";
-import { selectAllProducts } from "../../redux/slices/productsSlice";
+import {
+    selectAllProducts,
+    selectCategories,
+} from "../../redux/slices/productsSlice";
 function ChangeProduct({ setVisible, product }) {
     const allProducts = useSelector(selectAllProducts);
     const id = product.data.id;
@@ -16,16 +19,17 @@ function ChangeProduct({ setVisible, product }) {
     const [isAdvice, setIsAdvice] = useState(product.data.isadvice);
     const [img, setImg] = useState(product.data.img);
     const [categories, setCategories] = useState([]);
+    const cats = useSelector(selectCategories);
     const [category, setCategory] = useState(product.data.category);
     useEffect(() => {
-        showMeData(allProducts);
+        showMeData(cats);
     }, []);
 
     function showMeData(data) {
         const mySet = new Set();
         mySet.add("Выберите категорию");
         data.map((item) => {
-            mySet.add(item.category);
+            mySet.add(item.label);
             return null;
         });
         setCategories(Array.from(mySet));

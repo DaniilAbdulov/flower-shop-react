@@ -1,10 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { createProduct } from "../../redux/slices/adminPanelSlice";
-import { selectAllProducts } from "../../redux/slices/productsSlice";
+import { selectCategories } from "../../redux/slices/productsSlice";
 function FormOfProduct({ setVisible, buttonName }) {
-    const allProducts = useSelector(selectAllProducts);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
@@ -12,22 +11,10 @@ function FormOfProduct({ setVisible, buttonName }) {
     const [isTrend, setIsTrend] = useState(false);
     const [isAdvice, setIsAdvice] = useState(false);
     const [img, setImg] = useState("");
-    const [categories, setCategories] = useState([]);
     const [category, setCategory] = useState("");
+    const categories = useSelector(selectCategories);
     const dispatch = useDispatch();
-    useEffect(() => {
-        showMeData(allProducts);
-    }, []);
 
-    function showMeData(data) {
-        const mySet = new Set();
-        mySet.add("Выберите категорию");
-        data.map((item) => {
-            mySet.add(item.category);
-            return null;
-        });
-        setCategories(Array.from(mySet));
-    }
     function handleSubmit(e) {
         e.preventDefault();
         if (category === "Выберите категорию") {
@@ -121,8 +108,8 @@ function FormOfProduct({ setVisible, buttonName }) {
                         onChange={(e) => setCategory(e.target.value)}
                     >
                         {categories.map((item) => (
-                            <option value={item} key={item}>
-                                {item}
+                            <option value={item.label} key={item.id}>
+                                {item.label}
                             </option>
                         ))}
                     </select>

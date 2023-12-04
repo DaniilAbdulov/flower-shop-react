@@ -3,8 +3,7 @@ import axios from "axios";
 import { setError } from "./errorSlice";
 import { API_URL } from "../../config";
 import { fetchAllProducts } from "./productsSlice";
-import { faL } from "@fortawesome/free-solid-svg-icons";
-// import { getAllProducts } from "./productsSlice";
+import { setSuccess } from "./successSlice";
 const initialState = {
     shopStatic: {},
     paidOrders: [],
@@ -15,6 +14,26 @@ const initialState = {
     getPaidOrdersLoading: false,
 };
 
+export const createCategory = createAsyncThunk(
+    "admin/createCategory",
+    async (newCategory, thunkAPI) => {
+        try {
+            const res = await axios.post(`${API_URL}/admin/createCategory`, {
+                params: {
+                    newCategory,
+                },
+            });
+            if (res.data.message === "Category created") {
+                thunkAPI.dispatch(fetchAllProducts());
+                thunkAPI.dispatch(setSuccess("Добавлена новая категория"));
+            }
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.response.data.message));
+            throw error;
+        }
+    }
+);
 export const createProduct = createAsyncThunk(
     "admin/createProduct",
     async (newProduct, thunkAPI) => {
@@ -26,6 +45,7 @@ export const createProduct = createAsyncThunk(
             });
             if (res.data.message === "Product created") {
                 thunkAPI.dispatch(fetchAllProducts());
+                thunkAPI.dispatch(setSuccess("Новый товар создан"));
             }
             return res.data;
         } catch (error) {
@@ -45,6 +65,27 @@ export const deleteProduct = createAsyncThunk(
             });
             if (res.data.message === "Deleted success") {
                 thunkAPI.dispatch(fetchAllProducts());
+                thunkAPI.dispatch(setSuccess("Товар удален"));
+            }
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.response.data.message));
+            throw error;
+        }
+    }
+);
+export const deleteCategory = createAsyncThunk(
+    "admin/deleteCategory",
+    async (category, thunkAPI) => {
+        try {
+            const res = await axios.delete(`${API_URL}/admin/deleteCategory`, {
+                params: {
+                    category,
+                },
+            });
+            if (res.data.message === "Deleted success") {
+                thunkAPI.dispatch(fetchAllProducts());
+                thunkAPI.dispatch(setSuccess("Категория удалена"));
             }
             return res.data;
         } catch (error) {
@@ -64,6 +105,7 @@ export const changeProduct = createAsyncThunk(
             });
             if (res.data.message === "Changes success") {
                 thunkAPI.dispatch(fetchAllProducts());
+                thunkAPI.dispatch(setSuccess("Товар изменен"));
             }
             return res.data;
         } catch (error) {
