@@ -1,6 +1,7 @@
 import pool from "../db.js";
 import { getCategoryId } from "../functions/getCategoryId.js";
 import { transformPrice } from "../functions/transformPrice.js";
+import { transformData } from "../functions/transformData.js";
 class AdminPanelController {
     async createProduct(req, res, next) {
         const {
@@ -198,10 +199,27 @@ class AdminPanelController {
                 throw new Error("Ошибка в запросе к БД");
             }
         } catch (error) {
-            console.log(error);
             return res
                 .status(500)
                 .json({ message: "Ошибка получения статистики" });
+        }
+    }
+    async getPaidOrders(req, res, next) {
+        try {
+            const paidOrders = await pool.query(
+                "SELECT CAST(O.DATE_ORDER AS VARCHAR) AS DATE_ORDER, OP.ORDER_ID, STRING_AGG(CAST(OP.COUNT AS VARCHAR), ',') AS COUNT, STRING_AGG(CAST(OP.PRODUCT_ID AS VARCHAR), ',') AS PRODUCT_ID, STRING_AGG(P.IMG, ',') AS IMG, SUM(OP.COUNT * P.PRICE) AS TOTAL, S.STATUS FROM ORDERS AS O JOIN ORDERS_PRODUCTS AS OP ON O.ID = OP.ORDER_ID JOIN PRODUCT AS P ON P.ID = OP.PRODUCT_ID JOIN STATUS_ORDERS AS S ON O.STATUS_ORDER_ID = S.ID WHERE STATUS = 'Оплачен' GROUP BY O.USERS_ID, O.DATE_ORDER, OP.ORDER_ID, S.STATUS ORDER BY O.DATE_ORDER DESC"
+            );
+            let data = "";
+            if (paidOrders.rows) {
+                data = transformData(paidOrders.rows);
+            }
+            setTimeout(() => {
+                return res.status(200).json({ data });
+            }, 1000);
+        } catch (error) {
+            return res
+                .status(500)
+                .json({ message: "Ошибка получения оплаченых заказов" });
         }
     }
 }

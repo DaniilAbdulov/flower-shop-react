@@ -3,13 +3,16 @@ import axios from "axios";
 import { setError } from "./errorSlice";
 import { API_URL } from "../../config";
 import { fetchAllProducts } from "./productsSlice";
+import { faL } from "@fortawesome/free-solid-svg-icons";
 // import { getAllProducts } from "./productsSlice";
 const initialState = {
     shopStatic: {},
+    paidOrders: [],
     createProductLoading: false,
     deleteProductLoading: false,
     changeProductLoading: false,
     getStaticLoading: false,
+    getPaidOrdersLoading: false,
 };
 
 export const createProduct = createAsyncThunk(
@@ -69,6 +72,18 @@ export const changeProduct = createAsyncThunk(
         }
     }
 );
+export const getPaidOrders = createAsyncThunk(
+    "admin/getPaidOrders",
+    async (thunkAPI) => {
+        try {
+            const res = await axios.get(`${API_URL}/admin/getPaidOrders`);
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.response.data.message));
+            throw error;
+        }
+    }
+);
 export const getStatic = createAsyncThunk(
     "admin/getStatic",
     async (thunkAPI) => {
@@ -102,6 +117,9 @@ const adminPanelSlice = createSlice({
                 case "getStatic":
                     state.getStaticLoading = true;
                     break;
+                case "getPaidOrders":
+                    state.getPaidOrdersLoading = true;
+                    break;
                 default:
                     break;
             }
@@ -127,6 +145,10 @@ const adminPanelSlice = createSlice({
                     state.getStaticLoading = false;
                     state.shopStatic = action.payload.data;
                     break;
+                case "getPaidOrders":
+                    state.getPaidOrdersLoading = false;
+                    state.paidOrders = action.payload.data;
+                    break;
                 default:
                     break;
             }
@@ -148,6 +170,9 @@ const adminPanelSlice = createSlice({
                 case "getStatic":
                     state.getStaticLoading = false;
                     break;
+                case "getPaidOrders":
+                    state.getPaidOrdersLoading = false;
+                    break;
                 default:
                     break;
             }
@@ -165,7 +190,10 @@ const adminPanelSlice = createSlice({
             .addCase(changeProduct.rejected, handleApiError)
             .addCase(getStatic.pending, handleApiCall)
             .addCase(getStatic.fulfilled, handleApiSuccess)
-            .addCase(getStatic.rejected, handleApiError);
+            .addCase(getStatic.rejected, handleApiError)
+            .addCase(getPaidOrders.pending, handleApiCall)
+            .addCase(getPaidOrders.fulfilled, handleApiSuccess)
+            .addCase(getPaidOrders.rejected, handleApiError);
     },
 });
 export const selectShopStatic = (state) => state.admin.shopStatic;
@@ -176,5 +204,8 @@ export const selectDeleteProductLoading = (state) =>
 export const selectChangeProductLoading = (state) =>
     state.admin.changeProductLoading;
 export const selectGetStaticLoading = (state) => state.admin.getStaticLoading;
+export const selectGetPaidOrdersLoading = (state) =>
+    state.admin.getPaidOrdersLoading;
+export const selectPaidOrders = (state) => state.admin.paidOrders;
 
 export default adminPanelSlice.reducer;

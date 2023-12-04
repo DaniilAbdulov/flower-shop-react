@@ -6,15 +6,21 @@ import { useEffect, useState } from "react";
 import MyDialog from "../components/UI/MyDialog";
 import AddCategory from "../components/AdminPanel/AddCategory";
 import Statistic from "../components/AdminPanel/Statistic";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
+    getPaidOrders,
     selectChangeProductLoading,
     selectCreateProductLoading,
     selectDeleteProductLoading,
 } from "../redux/slices/adminPanelSlice";
 import { selectAllProductsLoading } from "../redux/slices/productsSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
+import UserOrders from "../components/Cabinet/UserOrders";
+import PaidOrdersList from "../components/AdminPanel/PaidOrdersList";
 
 function AdminPanel() {
+    const [showOrders, setShowOrders] = useState(false);
     const [showAddProduct, setShowAddProduct] = useState(false);
     const [showAddCategory, setShowAddCategory] = useState(false);
     const [showStatistic, setShowStatistic] = useState(false);
@@ -23,6 +29,10 @@ function AdminPanel() {
     const deleteLoading = useSelector(selectDeleteProductLoading);
     const createLoading = useSelector(selectCreateProductLoading);
     const changeLoading = useSelector(selectChangeProductLoading);
+    const dispatch = useDispatch();
+    function fetchOrdersHandler() {
+        dispatch(getPaidOrders());
+    }
     useEffect(() => {
         setIsLoading(
             productLoading || deleteLoading || createLoading || changeLoading
@@ -49,6 +59,21 @@ function AdminPanel() {
                         Посмотреть статистику
                     </button>
                 </div>
+                <div
+                    className="cabinet__showmeOrders"
+                    onClick={() => {
+                        setShowOrders(true);
+                        fetchOrdersHandler();
+                    }}
+                >
+                    <button>
+                        <FontAwesomeIcon icon={faBagShopping} />
+                    </button>
+                    <h2>Показать оплаченные заказы</h2>
+                </div>
+                <MyDialog visible={showOrders} setVisible={setShowOrders}>
+                    <PaidOrdersList />
+                </MyDialog>
                 <div className="panel__item">
                     <MyDialog
                         visible={showAddProduct}

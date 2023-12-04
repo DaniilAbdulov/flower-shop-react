@@ -5,16 +5,18 @@ import { useDispatch, useSelector } from "react-redux";
 import {
     cancelOrder,
     getOneOrder,
+    issuedOrder,
     payOrder,
     selectOneOrder,
     selectOneOrderLoading,
 } from "../redux/slices/ordersSlice";
 import { useEffect } from "react";
-import { selectUser } from "../redux/slices/userSlice";
+import { selectIsAdmin, selectUser } from "../redux/slices/userSlice";
 import OrderItemPhotosAndCount from "../components/Cabinet/OrderItemPhotosAndCount";
 import { createNewCartDataFromOrder } from "../redux/slices/cartSlice";
 function Order() {
     const user = useSelector(selectUser);
+    const isAdmin = useSelector(selectIsAdmin);
     const params = useParams();
     const orderId = parseInt(params.id);
     const order = useSelector(selectOneOrder);
@@ -45,8 +47,11 @@ function Order() {
         }
     }
     const dispatch = useDispatch();
-    function handleCancelButton() {
+    function cancelationButtonHandler() {
         dispatch(cancelOrder(orderId));
+    }
+    function issuedButtonHandler() {
+        dispatch(issuedOrder(orderId));
     }
     useEffect(() => {
         dispatch(getOneOrder(orderId));
@@ -93,17 +98,15 @@ function Order() {
                                         />
                                     ))}
                                 </>
-                            ) : (
-                                <>{""}</>
-                            )}
+                            ) : null}
                         </div>
                         <div className="order__user">
                             <h2>Получатель:</h2>
                             <p>
-                                <span>{user.first_name}</span>{" "}
-                                <span>{user.last_name}</span>
+                                <span>{order.first_name}</span>{" "}
+                                <span>{order.last_name}</span>
                             </p>
-                            <p>{user.email}</p>
+                            <p>{order.email}</p>
                         </div>
                         <div className="order__total-price order__user">
                             <h2>Сумма: {order.total}</h2>
@@ -117,13 +120,25 @@ function Order() {
                         {cancelationValues && (
                             <>
                                 <button
-                                    onClick={handleCancelButton}
+                                    onClick={cancelationButtonHandler}
                                     className="order__button-cancel"
                                 >
                                     Отменить заказ
                                 </button>
                             </>
                         )}
+                        {!cancelationValues &&
+                            isAdmin &&
+                            order.status === "Оплачен" && (
+                                <>
+                                    <button
+                                        onClick={issuedButtonHandler}
+                                        className="order__button"
+                                    >
+                                        Заказ выдан
+                                    </button>
+                                </>
+                            )}
                     </div>
                 )}
             </div>

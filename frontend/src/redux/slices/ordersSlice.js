@@ -74,6 +74,25 @@ export const createOrder = createAsyncThunk(
         }
     }
 );
+export const issuedOrder = createAsyncThunk(
+    "orders/issuedOrder",
+    async (orderId, thunkAPI) => {
+        try {
+            const res = await axios.put(`${API_URL}/orders/issuedOrder`, {
+                params: {
+                    orderId,
+                },
+            });
+            if (res.data.message === "Status changed") {
+                thunkAPI.dispatch(getOneOrder(orderId));
+            }
+            return res.data;
+        } catch (error) {
+            thunkAPI.dispatch(setError(error.response.data.message));
+            throw error;
+        }
+    }
+);
 export const cancelOrder = createAsyncThunk(
     "orders/cancelOrder",
     async (orderId, thunkAPI) => {
@@ -208,7 +227,10 @@ const ordersSlice = createSlice({
             .addCase(getOneOrder.rejected, handleApiError)
             .addCase(payOrder.pending, handleApiCall)
             .addCase(payOrder.fulfilled, handleApiSuccess)
-            .addCase(payOrder.rejected, handleApiError);
+            .addCase(payOrder.rejected, handleApiError)
+            .addCase(issuedOrder.pending, handleApiCall)
+            .addCase(issuedOrder.fulfilled, handleApiSuccess)
+            .addCase(issuedOrder.rejected, handleApiError);
     },
 });
 export const selectOrdersData = (state) => state.orders.orders;

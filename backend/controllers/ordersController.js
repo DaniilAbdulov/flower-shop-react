@@ -27,13 +27,11 @@ class OrdersController {
         }
     }
     async getOneOrder(req, res, next) {
-        const userId = req.user.id;
         const orderId = req.query.orderId;
-
         try {
             const order = await pool.query(
-                "SELECT CAST(O.DATE_ORDER AS VARCHAR) AS DATE_ORDER, OP.ORDER_ID, STRING_AGG(CAST(OP.COUNT AS VARCHAR), ',') AS COUNT, STRING_AGG(CAST(OP.PRODUCT_ID AS VARCHAR), ',') AS PRODUCT_ID, STRING_AGG(P.IMG, ',') AS IMG, SUM(OP.COUNT * P.PRICE) AS TOTAL, S.STATUS FROM ORDERS AS O JOIN ORDERS_PRODUCTS AS OP ON O.ID = OP.ORDER_ID JOIN PRODUCT AS P ON P.ID = OP.PRODUCT_ID JOIN STATUS_ORDERS AS S ON O.STATUS_ORDER_ID = S.ID WHERE O.USERS_ID = $1 AND ORDER_ID = $2 GROUP BY O.USERS_ID, O.DATE_ORDER, OP.ORDER_ID, S.STATUS ORDER BY OP.ORDER_ID",
-                [userId, orderId]
+                "SELECT U.FIRST_NAME, U.LAST_NAME, U.EMAIL, CAST(O.DATE_ORDER AS VARCHAR) AS DATE_ORDER, OP.ORDER_ID, STRING_AGG(CAST(OP.COUNT AS VARCHAR), ',') AS COUNT, STRING_AGG(CAST(OP.PRODUCT_ID AS VARCHAR), ',') AS PRODUCT_ID, STRING_AGG(P.IMG, ',') AS IMG, SUM(OP.COUNT * P.PRICE) AS TOTAL, S.STATUS FROM ORDERS AS O JOIN ORDERS_PRODUCTS AS OP ON O.ID = OP.ORDER_ID JOIN PRODUCT AS P ON P.ID = OP.PRODUCT_ID JOIN STATUS_ORDERS AS S ON O.STATUS_ORDER_ID = S.ID JOIN USERS AS U ON O.USERS_ID = U.ID WHERE ORDER_ID = $1 GROUP BY U.ID, O.DATE_ORDER, OP.ORDER_ID, S.STATUS ORDER BY OP.ORDER_ID",
+                [orderId]
             );
             let data = "";
             if (order.rows) {
@@ -129,7 +127,6 @@ class OrdersController {
                 "SELECT COUNT(*) FROM orders WHERE id = $1 AND users_id = $2 AND status_order_id != 4;",
                 [orderId, userId]
             );
-            //Нужно настроить логику возврата товаров
             if (!doesUserHaveThisOrder.rows.count === 1) {
                 res.status(400).json({
                     message: "Order`s status is not `cancel`",
@@ -163,13 +160,34 @@ class OrdersController {
             });
         }
     }
-    async payOrder(req, res, next) {
-        const userId = req.user.id;
+    async issuedOrder(req, res, next) {
         const orderId = req.body.params.orderId;
         try {
             const changeStatusOfOrder = await pool.query(
-                "update orders set status_order_id = 3 where id = $1 and users_id = $2;",
-                [orderId, userId]
+                "update orders set status_order_id = 2 where id = $1",
+                [orderId]
+            );
+            if (!changeStatusOfOrder.rowCount) {
+                res.status(400).json({
+                    message:
+                        "Something went wrong with change status operation",
+                });
+            } else {
+                res.status(200).json({ message: "Status changed" });
+            }
+        } catch (error) {
+            const message = error.message;
+            return res.status(500).json({
+                message,
+            });
+        }
+    }
+    async payOrder(req, res, next) {
+        const orderId = req.body.params.orderId;
+        try {
+            const changeStatusOfOrder = await pool.query(
+                "update orders set status_order_id = 3 where id = $1",
+                [orderId]
             );
             if (!changeStatusOfOrder.rowCount) {
                 res.status(400).json({
