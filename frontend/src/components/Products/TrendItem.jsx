@@ -2,8 +2,7 @@ import { NavLink } from "react-router-dom";
 import no_photo from "../../asserts/no_photo.webp";
 import "./TrendItem.scss";
 import useImageLoader from "../../hooks/useImageLoader";
-function TrendItem({ value }) {
-    const { id, img } = value;
+function TrendItem({ id, img }) {
     const { hasError } = useImageLoader(img);
     return (
         <div>

@@ -10,21 +10,25 @@ import BorderedFrame from "../UI/BorderedFrame";
 import TrendItem from "../Products/TrendItem";
 
 import Loader from "../UI/Loader";
+import { useMemo } from "react";
 function Trends() {
     const trends = useSelector(selectIsTrends);
+    const trendItems = useMemo(() => {
+        return trends.map((item) => item);
+    }, [trends]);
     return (
         <>
             <div className="wrapper">
                 <div
                     className="trends"
                     style={{
-                        alignItems: trends.length > 0 ? "" : "center",
+                        alignItems: trendItems.length > 0 ? "" : "center",
                     }}
                 >
                     <div className="trends__label">
                         <BorderedFrame value="Тренды" />
                     </div>
-                    {trends.length > 0 ? (
+                    {trendItems.length > 0 ? (
                         <div className="trends__swiper">
                             <Swiper
                                 breakpoints={{
@@ -47,10 +51,13 @@ function Trends() {
                                 modules={[FreeMode, Autoplay]}
                                 className="mySwiper"
                             >
-                                {trends.map((item) => {
+                                {trendItems.map((item) => {
                                     return (
                                         <SwiperSlide key={item.id}>
-                                            <TrendItem value={item} />
+                                            <TrendItem
+                                                id={item.id}
+                                                img={item.img}
+                                            />
                                         </SwiperSlide>
                                     );
                                 })}
