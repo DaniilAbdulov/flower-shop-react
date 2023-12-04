@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as heart } from "@fortawesome/free-regular-svg-icons";
 import { selectIsAuth, selectUserId } from "../../redux/slices/userSlice";
 import {
     addToFavorites,
     deleteFromFavorites,
 } from "../../redux/slices/toggleFavoriteSLice";
 function Like({ like, id }) {
+    console.log(heart);
     const [isFavorite, setIsFavorite] = useState(like);
     const userId = useSelector(selectUserId);
     const productId = id;
@@ -38,8 +40,8 @@ function Like({ like, id }) {
                     ) : (
                         <>
                             <FontAwesomeIcon
-                                icon={faHeart}
-                                style={{ color: "#FFFFFF" }}
+                                icon={heart}
+                                style={{ color: "#000000" }}
                             />
                         </>
                     )}
