@@ -37,7 +37,7 @@ function Registration(props) {
             <form onSubmit={handleSubmitRegistration}>
                 <h2>Заполните небольшую форму регистрации</h2>
                 <div className="form__item">
-                    <label for="firstName">Имя:</label>
+                    <label htmlFor="firstName">Имя:</label>
                     <input
                         type="text"
                         id="firstName"
@@ -47,7 +47,7 @@ function Registration(props) {
                     />
                 </div>
                 <div className="form__item">
-                    <label for="lastName">Фамилия:</label>
+                    <label htmlFor="lastName">Фамилия:</label>
                     <input
                         type="text"
                         id="lastName"
@@ -57,7 +57,7 @@ function Registration(props) {
                     />
                 </div>
                 <div className="form__item">
-                    <label for="nickName">Имя пользователя:</label>
+                    <label htmlFor="nickName">Имя пользователя:</label>
                     <input
                         type="text"
                         id="nickName"
@@ -67,7 +67,7 @@ function Registration(props) {
                     />
                 </div>
                 <div className="form__item">
-                    <label for="email">Email:</label>
+                    <label htmlFor="email">Email:</label>
                     <input
                         type="email"
                         id="email"
@@ -77,7 +77,7 @@ function Registration(props) {
                     />
                 </div>
                 <div className="form__item">
-                    <label for="password">Пароль:</label>
+                    <label htmlFor="password">Пароль:</label>
                     <input
                         type="password"
                         id="password"
@@ -87,7 +87,7 @@ function Registration(props) {
                     />
                 </div>
                 <div className="form__item">
-                    <label for="password-again">Повторите пароль:</label>
+                    <label htmlFor="password-again">Повторите пароль:</label>
                     <input
                         type="password"
                         id="password-again"

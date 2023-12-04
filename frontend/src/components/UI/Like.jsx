@@ -9,7 +9,6 @@ import {
     deleteFromFavorites,
 } from "../../redux/slices/toggleFavoriteSLice";
 function Like({ like, id }) {
-    console.log(heart);
     const [isFavorite, setIsFavorite] = useState(like);
     const userId = useSelector(selectUserId);
     const productId = id;

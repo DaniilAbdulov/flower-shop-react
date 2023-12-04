@@ -2,12 +2,8 @@ import { useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { changeProduct } from "../../redux/slices/adminPanelSlice";
-import {
-    selectAllProducts,
-    selectCategories,
-} from "../../redux/slices/productsSlice";
+import { selectCategories } from "../../redux/slices/productsSlice";
 function ChangeProduct({ setVisible, product }) {
-    const allProducts = useSelector(selectAllProducts);
     const id = product.data.id;
     const [title, setTitle] = useState(product.data.title);
     const [description, setDescription] = useState(product.data.description);
@@ -23,7 +19,7 @@ function ChangeProduct({ setVisible, product }) {
     const [category, setCategory] = useState(product.data.category);
     useEffect(() => {
         showMeData(cats);
-    }, []);
+    }, [cats]);
 
     function showMeData(data) {
         const mySet = new Set();
@@ -51,7 +47,6 @@ function ChangeProduct({ setVisible, product }) {
                 img,
                 category,
             };
-            console.log(changedProduct);
             dispatch(changeProduct(changedProduct));
             setVisible(false);
             setTitle("");
@@ -67,7 +62,7 @@ function ChangeProduct({ setVisible, product }) {
         <>
             <div className="form__add">
                 <form onSubmit={handleSubmit}>
-                    <label for="title">Название товара:</label>
+                    <label htmlFor="title">Название товара:</label>
                     <input
                         type="text"
                         id="title"
@@ -75,7 +70,7 @@ function ChangeProduct({ setVisible, product }) {
                         onChange={(e) => setTitle(e.target.value)}
                         required
                     />
-                    <label for="description">Описание:</label>
+                    <label htmlFor="description">Описание:</label>
                     <textarea
                         type="text"
                         id="description"
@@ -83,7 +78,7 @@ function ChangeProduct({ setVisible, product }) {
                         onChange={(e) => setDescription(e.target.value)}
                         required
                     />
-                    <label for="price">Цена:</label>
+                    <label htmlFor="price">Цена:</label>
                     <input
                         type="number"
                         id="price"
@@ -91,7 +86,7 @@ function ChangeProduct({ setVisible, product }) {
                         onChange={(e) => setPrice(e.target.value)}
                         required
                     />
-                    <label for="available">В наличии:</label>
+                    <label htmlFor="available">В наличии:</label>
                     <input
                         type="number"
                         id="available"
@@ -100,7 +95,7 @@ function ChangeProduct({ setVisible, product }) {
                         required
                     />
                     <div className="add-checkbox">
-                        <label for="trend">Тренд ?</label>
+                        <label htmlFor="trend">Тренд ?</label>
                         <input
                             type="checkbox"
                             checked={isTrend}
@@ -108,14 +103,14 @@ function ChangeProduct({ setVisible, product }) {
                         />
                     </div>
                     <div className="add-checkbox">
-                        <label for="advice">Советовать к покупке ?</label>
+                        <label htmlFor="advice">Советовать к покупке ?</label>
                         <input
                             type="checkbox"
                             checked={isAdvice}
                             onChange={(e) => setIsAdvice(e.target.checked)}
                         />
                     </div>
-                    <label for="img">Сслыка на изображение:</label>
+                    <label htmlFor="img">Сслыка на изображение:</label>
                     <input
                         type="text"
                         id="img"

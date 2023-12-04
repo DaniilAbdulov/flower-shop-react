@@ -45,7 +45,7 @@ function FormOfProduct({ setVisible, buttonName }) {
         <>
             <div className="form__add">
                 <form onSubmit={handleSubmit}>
-                    <label for="title">Название товара:</label>
+                    <label htmlFor="title">Название товара:</label>
                     <input
                         type="text"
                         id="title"
@@ -53,7 +53,7 @@ function FormOfProduct({ setVisible, buttonName }) {
                         onChange={(e) => setTitle(e.target.value)}
                         required
                     />
-                    <label for="description">Описание:</label>
+                    <label htmlFor="description">Описание:</label>
                     <textarea
                         type="text"
                         id="description"
@@ -61,7 +61,7 @@ function FormOfProduct({ setVisible, buttonName }) {
                         onChange={(e) => setDescription(e.target.value)}
                         required
                     />
-                    <label for="price">Цена:</label>
+                    <label htmlFor="price">Цена:</label>
                     <input
                         type="number"
                         id="price"
@@ -69,7 +69,7 @@ function FormOfProduct({ setVisible, buttonName }) {
                         onChange={(e) => setPrice(e.target.value)}
                         required
                     />
-                    <label for="available">В наличии:</label>
+                    <label htmlFor="available">В наличии:</label>
                     <input
                         type="number"
                         id="available"
@@ -78,7 +78,7 @@ function FormOfProduct({ setVisible, buttonName }) {
                         required
                     />
                     <div className="add-checkbox">
-                        <label for="trend">Тренд ?</label>
+                        <label htmlFor="trend">Тренд ?</label>
                         <input
                             type="checkbox"
                             checked={isTrend}
@@ -86,14 +86,14 @@ function FormOfProduct({ setVisible, buttonName }) {
                         />
                     </div>
                     <div className="add-checkbox">
-                        <label for="advice">Советовать к покупке ?</label>
+                        <label htmlFor="advice">Советовать к покупке ?</label>
                         <input
                             type="checkbox"
                             checked={isAdvice}
                             onChange={(e) => setIsAdvice(e.target.checked)}
                         />
                     </div>
-                    <label for="img">Сслыка на изображение:</label>
+                    <label htmlFor="img">Сслыка на изображение:</label>
                     <input
                         type="text"
                         id="img"

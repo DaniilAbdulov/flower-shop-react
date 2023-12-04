@@ -3,9 +3,6 @@
     padding: 5px 10px;
     margin-bottom: 10px;
     border-radius: 15px;
-
-    &__wrapper {
-    }
     &__content {
         display: flex;
     }
@@ -13,8 +10,10 @@
         flex: 0 1 50%;
         margin-right: 10px;
         margin-bottom: 10px;
+        max-height: 250px;
         img {
             border-radius: 10px;
+            height: 100%;
             width: 100%;
             object-fit: cover;
         }
@@ -76,6 +75,10 @@
         }
         &__image {
             margin-right: 0px;
+            max-height: none;
+            img {
+                height: 0%;
+            }
         }
         &__body {
             min-width: 100%;

@@ -22,7 +22,7 @@ function Login(props) {
             <form onSubmit={handleSubmitLogin}>
                 <h2>Заполните форму авторизации</h2>
                 <div className="form__item">
-                    <label for="nickName">Имя пользователя:</label>
+                    <label htmlFor="nickName">Имя пользователя:</label>
                     <input
                         type="text"
                         id="nickName"
@@ -32,7 +32,7 @@ function Login(props) {
                     />
                 </div>
                 <div className="form__item">
-                    <label for="password">Пароль:</label>
+                    <label htmlFor="password">Пароль:</label>
                     <input
                         type="password"
                         id="password"

@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import { setError } from "./errorSlice";
 import { API_URL } from "../../config";
-import setNamesOfButtons from "../../functions/setNamesOfButtons.js";
 const initialState = {
     allProducts: [],
     singleProduct: {},
@@ -27,7 +26,6 @@ export const fetchAllProducts = createAsyncThunk(
                     userId,
                 },
             });
-            // thunkAPI.dispatch(productsSlice.actions.setCategories());
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.response.data.message));
@@ -89,16 +87,11 @@ export const fetchFavoriteProducts = createAsyncThunk(
 const productsSlice = createSlice({
     name: "products",
     initialState: initialState,
-    reducers: {
-        // setCategories: (state) => {
-        //     state.categories = setNamesOfButtons(state.allProducts);
-        // },
-    },
+    reducers: {},
     extraReducers: (builder) => {
         const handleApiCall = (state, action) => {
             state.singleProduct = {};
             const typeOfFetchingData = action.type.split("/")[1];
-            console.log(typeOfFetchingData);
             switch (typeOfFetchingData) {
                 case "getAdvicedProducts":
                     state.advicedLoading = true;
@@ -123,7 +116,6 @@ const productsSlice = createSlice({
             }
             const typeOfFetchingData = action.type.split("/")[1];
             console.log(typeOfFetchingData);
-
             switch (typeOfFetchingData) {
                 case "getAllProducts":
                     state.allProducts = action.payload.data;

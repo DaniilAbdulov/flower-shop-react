@@ -21,6 +21,9 @@ function FinalPay() {
                     className="final-pay__text"
                     style={{ marginBottom: "15px", textAlign: "center" }}
                 >
+                    <h2 style={{ marginBottom: "20px" }}>
+                        <strong>Заказ №{newOrderId}</strong>
+                    </h2>
                     Здесь происходит введение платежной информации. Запрос на
                     оплату в банк и т.д. Данная логика будет настроена при
                     реальном использовани магазина. Далее вы либо окончательтно

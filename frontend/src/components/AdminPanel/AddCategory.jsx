@@ -18,7 +18,7 @@ function AddCategory({ setVisible }) {
     return (
         <>
             <form onSubmit={handlerSubmit}>
-                <label for="category">Новая категория:</label>
+                <label htmlFor="category">Новая категория:</label>
                 <input
                     type="text"
                     id="category"

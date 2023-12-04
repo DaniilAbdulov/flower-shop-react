@@ -27,7 +27,7 @@ const initializeAxiosHeaders = (token) => {
 
 export const fetchCurrentUser = createAsyncThunk(
     "user/currentUser",
-    async (url, thunkAPI) => {
+    async () => {
         const token = localStorage.getItem("bgtrackerjwt");
         initializeAxiosHeaders(token);
         if (token) {
@@ -35,7 +35,7 @@ export const fetchCurrentUser = createAsyncThunk(
                 const res = await axios.get(`${API_URL}/user/auth`);
                 return res.data;
             } catch (error) {
-                thunkAPI.dispatch(setError(error.response.data.message));
+                // thunkAPI.dispatch(setError(error.response.data.message));
                 throw error;
             }
         }
