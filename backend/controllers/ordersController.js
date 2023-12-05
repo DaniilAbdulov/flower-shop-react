@@ -27,7 +27,10 @@ class OrdersController {
         }
     }
     async getOneOrder(req, res) {
-        const orderId = req.query.orderId;
+        const orderId = parseInt(req.query.orderId);
+        if (!orderId) {
+            throw new Error("Некорректные данные");
+        }
         try {
             const order = await pool.query(
                 "SELECT U.FIRST_NAME, U.LAST_NAME, U.EMAIL, CAST(O.DATE_ORDER AS VARCHAR) AS DATE_ORDER, OP.ORDER_ID, STRING_AGG(CAST(OP.COUNT AS VARCHAR), ',') AS COUNT, STRING_AGG(CAST(OP.PRODUCT_ID AS VARCHAR), ',') AS PRODUCT_ID, STRING_AGG(P.IMG, ',') AS IMG, SUM(OP.COUNT * P.PRICE) AS TOTAL, S.STATUS FROM ORDERS AS O JOIN ORDERS_PRODUCTS AS OP ON O.ID = OP.ORDER_ID JOIN PRODUCT AS P ON P.ID = OP.PRODUCT_ID JOIN STATUS_ORDERS AS S ON O.STATUS_ORDER_ID = S.ID JOIN USERS AS U ON O.USERS_ID = U.ID WHERE ORDER_ID = $1 GROUP BY U.ID, O.DATE_ORDER, OP.ORDER_ID, S.STATUS ORDER BY OP.ORDER_ID",
@@ -120,7 +123,10 @@ class OrdersController {
     }
     async cancelOrder(req, res) {
         const userId = req.user.id;
-        const orderId = req.body.params.orderId;
+        const orderId = parseInt(req.body.params.orderId);
+        if (!userId || !orderId) {
+            throw new Error("Некорректные данные");
+        }
         try {
             const doesUserHaveThisOrder = await pool.query(
                 "SELECT COUNT(*) FROM orders WHERE id = $1 AND users_id = $2 AND status_order_id != 4;",
@@ -160,7 +166,10 @@ class OrdersController {
         }
     }
     async issuedOrder(req, res) {
-        const orderId = req.body.params.orderId;
+        const orderId = parseInt(req.body.params.orderId);
+        if (!orderId) {
+            throw new Error("Некорректные данные");
+        }
         try {
             const changeStatusOfOrder = await pool.query(
                 "update orders set status_order_id = 2 where id = $1",
@@ -182,7 +191,10 @@ class OrdersController {
         }
     }
     async payOrder(req, res) {
-        const orderId = req.body.params.orderId;
+        const orderId = parseInt(req.body.params.orderId);
+        if (!orderId) {
+            throw new Error("Некорректные данные");
+        }
         try {
             const changeStatusOfOrder = await pool.query(
                 "update orders set status_order_id = 3 where id = $1",
