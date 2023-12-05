@@ -1,14 +1,25 @@
 import pool from "../db.js";
 import { transformPrice } from "../functions/transformPrice.js";
 
+function parseUserId(userId) {
+    let fetchFromThisId = 0;
+    try {
+        fetchFromThisId = parseInt(userId);
+    } catch (error) {
+        fetchFromThisId = null;
+    }
+    return fetchFromThisId;
+}
 class ProductsController {
     async getAllProducts(req, res) {
-        let fetchFromThisId = 0;
-        try {
-            fetchFromThisId = parseInt(req.query.userId);
-        } catch (error) {
-            fetchFromThisId = null;
-        }
+        // let fetchFromThisId = parseUserId(req.query.userId);
+        // let fetchFromThisId = 0;
+        // try {
+        //     fetchFromThisId = parseInt(req.query.userId);
+        // } catch (error) {
+        //     fetchFromThisId = null;
+        // }
+        const fetchFromThisId = parseUserId(req.query.userId);
         try {
             let allProducts = {};
             if (fetchFromThisId) {
@@ -49,12 +60,13 @@ class ProductsController {
         }
     }
     async getAdvicedProducts(req, res) {
-        let fetchFromThisId = 0;
-        try {
-            fetchFromThisId = parseInt(req.query.userId);
-        } catch (error) {
-            fetchFromThisId = null;
-        }
+        // let fetchFromThisId = 0;
+        // try {
+        //     fetchFromThisId = parseInt(req.query.userId);
+        // } catch (error) {
+        //     fetchFromThisId = null;
+        // }
+        const fetchFromThisId = parseUserId(req.query.userId);
         try {
             let advicedProducts = [];
             if (fetchFromThisId) {
@@ -87,6 +99,7 @@ class ProductsController {
     }
     async getFavoriteProducts(req, res) {
         const userId = req.user.id;
+        console.log(userId);
         try {
             const favorites = await pool.query(
                 "SELECT p.id, p.title, p.price, p.img, TRUE as isfavorite FROM favorites AS f JOIN product AS p ON f.product_id = p.id WHERE f.users_id = $1",
@@ -113,12 +126,13 @@ class ProductsController {
     }
     async getSingleProduct(req, res) {
         const productId = req.query.productId;
-        let fetchFromThisId = 0;
-        try {
-            fetchFromThisId = parseInt(req.query.userId);
-        } catch (error) {
-            fetchFromThisId = null;
-        }
+        // let fetchFromThisId = 0;
+        // try {
+        //     fetchFromThisId = parseInt(req.query.userId);
+        // } catch (error) {
+        //     fetchFromThisId = null;
+        // }
+        const fetchFromThisId = parseUserId(req.query.userId);
         let singleProduct = {};
         try {
             if (fetchFromThisId) {
