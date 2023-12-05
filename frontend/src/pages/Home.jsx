@@ -1,10 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import {
-    fetchAllProducts,
-    selectAllProductsLength,
-    selectFetchFromThisId,
-} from "../redux/slices/productsSlice";
+import { fetchAllProducts } from "../redux/slices/productsSlice";
 import Assortiment from "../components/Home/Assortiment";
 import Advantages from "../components/Home/Advantages";
 import General from "../components/Home/General";
@@ -15,19 +11,12 @@ import { getCartData } from "../redux/slices/cartSlice";
 function Home() {
     const dispatch = useDispatch();
     const userId = useSelector(selectUserId);
-    const fethingId = useSelector(selectFetchFromThisId);
-    const allProductsLength = useSelector(selectAllProductsLength);
     useEffect(() => {
-        if (userId === "Пользователь был в сети, но разлогинился") {
-            return;
+        dispatch(fetchAllProducts());
+        if (userId) {
+            dispatch(getCartData());
         }
-        if (userId !== fethingId || !allProductsLength) {
-            dispatch(fetchAllProducts(userId));
-            if (userId) {
-                dispatch(getCartData());
-            }
-        }
-    }, [userId, fethingId, allProductsLength, dispatch]);
+    }, [userId, dispatch]);
     return (
         <>
             <General />

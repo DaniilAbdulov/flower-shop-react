@@ -14,7 +14,7 @@ interface AdvicedProduct {
 
 class ProductsController {
     async getAllProducts(req: Request, res: Response) {
-        const fetchFromThisId = parseUserId(req.query.userId);
+        const fetchFromThisId = parseUserId(req.userId);
         try {
             let allProducts: any = {};
             if (fetchFromThisId) {
@@ -42,9 +42,7 @@ class ProductsController {
             }
             if (data && categories.length) {
                 setTimeout(() => {
-                    return res
-                        .status(200)
-                        .json({ data, fetchFromThisId, categories });
+                    return res.status(200).json({ data, categories });
                 }, 1000);
             }
         } catch (error) {
@@ -54,7 +52,7 @@ class ProductsController {
         }
     }
     async getAdvicedProducts(req: Request, res: Response) {
-        const fetchFromThisId = parseUserId(req.query.userId);
+        const fetchFromThisId = parseUserId(req.userId);
         try {
             let advicedProducts: any = {};
             if (fetchFromThisId) {
@@ -75,7 +73,7 @@ class ProductsController {
             });
             if (data) {
                 setTimeout(() => {
-                    return res.status(200).json({ data, fetchFromThisId });
+                    return res.status(200).json({ data });
                 }, 1000);
             }
         } catch (error) {
@@ -114,7 +112,7 @@ class ProductsController {
     }
     async getSingleProduct(req: Request, res: Response) {
         const productId = req.query.productId;
-        const fetchFromThisId = parseUserId(req.query.userId);
+        const fetchFromThisId = parseUserId(req.userId);
         let singleProduct: any = {};
         try {
             if (fetchFromThisId) {
@@ -136,7 +134,7 @@ class ProductsController {
             });
             if (data) {
                 setTimeout(() => {
-                    return res.status(200).json({ data, fetchFromThisId });
+                    return res.status(200).json({ data });
                 }, 1000);
             }
         } catch (error) {

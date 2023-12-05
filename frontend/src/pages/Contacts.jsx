@@ -20,7 +20,6 @@ function Contacts() {
             phone,
             message,
         };
-        console.log(newMessage);
         setName("");
         setPhone("");
         setMessage("");

@@ -35,7 +35,6 @@ export const fetchCurrentUser = createAsyncThunk(
                 const res = await axios.get(`${API_URL}/user/auth`);
                 return res.data;
             } catch (error) {
-                // thunkAPI.dispatch(setError(error.response.data.message));
                 throw error;
             }
         }
@@ -78,7 +77,7 @@ const userSlice = createSlice({
         logOutUser: (state) => {
             state.user = {};
             state.isAdmin = false;
-            state.userId = "Пользователь был в сети, но разлогинился";
+            state.userId = 0;
             state.isUser = false;
             state.isAuth = false;
             state.userFirstLastName = "";
@@ -141,8 +140,3 @@ export const selectFirstSymbols = (state) => state.user.userFirstLastName;
 export const selectIsLoading = (state) => state.user.isLoading;
 
 export default userSlice.reducer;
-
-// const isAdmin = useSelector(selectIsAdmin);
-// const isUser = useSelector(selectIsUser);
-// const isAuth = useSelector(selectIsAuth);
-// const user = useSelector(selectUser);
