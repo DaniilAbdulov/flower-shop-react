@@ -1,13 +1,13 @@
 import express from "express";
 const router = express.Router();
 import userRouter from "./userRouter";
-// import productsRouter from "./productsRouter.js";
+import productsRouter from "./productsRouter";
 // import toggleFavoriteRouter from "./toggleFavoriteRouter.js";
 // import cartRouter from "./cartRouter.js";
 // import ordersRouter from "./ordersRouter.js";
 // import adminPanelRouter from "./adminPanelRouter.js";
 router.use("/user", userRouter);
-// router.use("/product", productsRouter);
+router.use("/product", productsRouter);
 // router.use("/favorite", toggleFavoriteRouter);
 // router.use("/cart", cartRouter);
 // router.use("/orders", ordersRouter);
