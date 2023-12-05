@@ -90,7 +90,3 @@ function UserInfo() {
     );
 }
 export default UserInfo;
-//select count(id),sum(total_price) from orders where users_id = 9 group by users_id
-//Получение кол-ва заказов и суммы заказов
-//select count(product_id) from favorites where users_id = 9 group by users_id
-//товаров в избранном

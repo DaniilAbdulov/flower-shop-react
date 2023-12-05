@@ -9,7 +9,6 @@ const initialState = {
     isAdvice: [],
     isFavorite: [],
     categories: [],
-    fetchFromThisId: 0,
     allProductsLength: 0,
     advicedLoading: false,
     favoriteLoading: false,
@@ -19,13 +18,9 @@ const initialState = {
 
 export const fetchAllProducts = createAsyncThunk(
     "products/getAllProducts",
-    async (userId, thunkAPI) => {
+    async (thunkAPI) => {
         try {
-            const res = await axios.get(`${API_URL}/product/getAllProducts`, {
-                params: {
-                    userId,
-                },
-            });
+            const res = await axios.get(`${API_URL}/product/getAllProducts`);
             return res.data;
         } catch (error) {
             thunkAPI.dispatch(setError(error.response.data.message));
@@ -36,15 +31,10 @@ export const fetchAllProducts = createAsyncThunk(
 
 export const fetchAdvicedProducts = createAsyncThunk(
     "products/getAdvicedProducts",
-    async (userId, thunkAPI) => {
+    async (thunkAPI) => {
         try {
             const res = await axios.get(
-                `${API_URL}/product/getAdvicedProducts`,
-                {
-                    params: {
-                        userId,
-                    },
-                }
+                `${API_URL}/product/getAdvicedProducts`
             );
             return res.data;
         } catch (error) {
@@ -56,10 +46,10 @@ export const fetchAdvicedProducts = createAsyncThunk(
 
 export const fetchSingleProduct = createAsyncThunk(
     "products/getSingleProduct",
-    async ({ productId, userId }, thunkAPI, state) => {
+    async (productId, thunkAPI) => {
         try {
             const res = await axios.get(`${API_URL}/product/getSingleProduct`, {
-                params: { productId, userId },
+                params: { productId },
             });
             return res.data;
         } catch (error) {
@@ -122,19 +112,16 @@ const productsSlice = createSlice({
                     state.isTrends = action.payload.data.filter((item) => {
                         return item.istrend;
                     });
-                    state.fetchFromThisId = action.payload.fetchFromThisId;
                     state.allProductsLength = action.payload.data.length;
                     state.allProductsLoading = false;
                     state.categories = action.payload.categories;
                     break;
                 case "getAdvicedProducts":
                     state.isAdvice = action.payload.data;
-                    state.fetchFromThisId = action.payload.fetchFromThisId;
                     state.advicedLoading = false;
                     break;
                 case "getSingleProduct":
                     state.singleProduct = action.payload.data[0];
-                    state.fetchFromThisId = action.payload.fetchFromThisId;
                     state.singleProductLoading = false;
                     break;
                 case "getFavoriteProducts":
@@ -182,5 +169,4 @@ export const selectIsAdvice = (state) => state.products.isAdvice;
 export const selectSingleProduct = (state) => state.products.singleProduct;
 export const selectSingleProductLoading = (state) =>
     state.products.singleProductLoading;
-export const selectFetchFromThisId = (state) => state.products.fetchFromThisId;
 export default productsSlice.reducer;
