@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "outDir": "dist",
+        "esModuleInterop": true
+    },
+    "include": ["src/**/*.ts", "db.ts", "index.ts"],
+    "exclude": ["node_modules"]
+}
