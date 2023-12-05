@@ -1,6 +1,7 @@
 import { transformPrice } from "./transformPrice";
 import { formatDate } from "./formatDate";
 export function transformData(data: any) {
+    console.log(data);
     const newArr = data.map((item: any) => {
         item.date_order = formatDate(item.date_order);
         item.total = transformPrice(item.total);
