@@ -4,6 +4,9 @@ import { transformPrice } from "../functions/transformPrice.js";
 import { transformData } from "../functions/transformData.js";
 class AdminPanelController {
     async createProduct(req, res) {
+        if (!req.body.params.newProduct) {
+            throw new Error("Ошибка получения запроса");
+        }
         const {
             title,
             description,
@@ -14,52 +17,54 @@ class AdminPanelController {
             img,
             category,
         } = req.body.params.newProduct;
+        console.log(category);
         try {
-            if (req.body.params.newProduct) {
-                //Получаем id категории
-                const getCategories = await pool.query(
-                    "SELECT * FROM CATEGORY"
-                );
-                const categoryId = getCategoryId(getCategories, category);
-                //добавляем новый товар в таблицу
-                const addInProductTable = await pool.query(
-                    "INSERT INTO PRODUCT (title,description,price,available,img,category_id) values($1,$2,$3,$4,$5,$6)",
-                    [title, description, price, available, img, categoryId]
-                );
-                if (!addInProductTable.rowCount) {
-                    return res
-                        .status(500)
-                        .json({ message: "Товар не был добавлен в БД" });
+            //Получаем id категории
+            const getCategories = await pool.query("SELECT * FROM CATEGORY");
+            const categoryId = getCategoryId(getCategories, category);
+            //добавляем новый товар в таблицу
+            const addInProductTable = await pool.query(
+                "INSERT INTO PRODUCT (title,description,price,available,img,category_id) values($1,$2,$3,$4,$5,$6)",
+                [title, description, price, available, img, categoryId]
+            );
+            if (!addInProductTable.rowCount) {
+                return res
+                    .status(500)
+                    .json({ message: "Товар не был добавлен в БД" });
+            }
+            //получаем id нового товара
+            const product_id = await pool.query(
+                "SELECT id from product where title = $1 AND description=$2 AND PRICE = $3",
+                [title, description, price]
+            );
+            //проверяем,были ли переданы значения isTrend isAdvice
+            if (product_id.rows[0].id) {
+                const id = product_id.rows[0].id;
+                if (isTrend) {
+                    await pool.query(
+                        "INSERT INTO TRENDS (PRODUCT_ID) values($1)",
+                        [id]
+                    );
                 }
-                //получаем id нового товара
-                const product_id = await pool.query(
-                    "SELECT id from product where title = $1 AND description=$2 AND PRICE = $3",
-                    [title, description, price]
-                );
-                //проверяем,были ли переданы значения isTrend isAdvice
-                if (product_id.rows[0].id) {
-                    const id = product_id.rows[0].id;
-                    if (isTrend) {
-                        await pool.query(
-                            "INSERT INTO TRENDS (PRODUCT_ID) values($1)",
-                            [id]
-                        );
-                    }
-                    if (isAdvice) {
-                        await pool.query(
-                            "INSERT INTO ADVICE (PRODUCT_ID) values($1)",
-                            [id]
-                        );
-                    }
+                if (isAdvice) {
+                    await pool.query(
+                        "INSERT INTO ADVICE (PRODUCT_ID) values($1)",
+                        [id]
+                    );
                 }
             }
+
             return res.status(200).json({ message: "Product created" });
         } catch (error) {
+            console.log(error);
             return res.status(500).json({ message: "Ошибка создания товара" });
         }
     }
     async deleteProduct(req, res) {
-        const productId = req.query.productId;
+        const productId = parseInt(req.query.productId);
+        if (!productId || typeof productId !== "number") {
+            throw new Error("Некорректные данные");
+        }
         try {
             const deleteProduct = await pool.query(
                 "DELETE FROM PRODUCT WHERE ID = $1",
@@ -78,6 +83,9 @@ class AdminPanelController {
     }
     async deleteCategory(req, res) {
         const category = req.query.category;
+        if (!category || typeof category !== "string") {
+            throw new Error("Некорректные данные");
+        }
         try {
             const tryToDeleteCategory = await pool.query(
                 "DELETE FROM CATEGORY WHERE NAME = $1",
@@ -93,6 +101,38 @@ class AdminPanelController {
             return res
                 .status(500)
                 .json({ message: "Ошибка удаления категории" });
+        }
+    }
+    async createCategory(req, res) {
+        const newCategory = req.body.params.newCategory;
+        if (!newCategory || typeof newCategory !== "string") {
+            throw new Error("Некорректные данные");
+        }
+        try {
+            const categories = await pool.query("select name from category");
+            if (categories.rows.length) {
+                const weHaveThisCategory = categories.rows
+                    .map((cat) => cat.name.toLowerCase())
+                    .includes(newCategory.toLowerCase());
+                if (weHaveThisCategory) {
+                    throw new Error("Данная категория уже существует");
+                } else {
+                    const tryToAddCategory = await pool.query(
+                        "insert into category (name) values($1)",
+                        [newCategory]
+                    );
+                    if (
+                        tryToAddCategory.command === "INSERT" &&
+                        tryToAddCategory.rowCount === 1
+                    ) {
+                        res.status(200).json({ message: "Category created" });
+                    }
+                }
+            }
+        } catch (error) {
+            return res
+                .status(500)
+                .json({ message: "Ошибка Создания новой категории" });
         }
     }
     async changeProduct(req, res) {
@@ -236,35 +276,6 @@ class AdminPanelController {
             return res
                 .status(500)
                 .json({ message: "Ошибка получения оплаченых заказов" });
-        }
-    }
-    async createCategory(req, res) {
-        const newCategory = req.body.params.newCategory;
-        try {
-            const categories = await pool.query("select name from category");
-            if (categories.rows.length) {
-                const weHaveThisCategory = categories.rows
-                    .map((cat) => cat.name.toLowerCase())
-                    .includes(newCategory.toLowerCase());
-                if (weHaveThisCategory) {
-                    throw new Error("Данная категория уже существует");
-                } else {
-                    const tryToAddCategory = await pool.query(
-                        "insert into category (name) values($1)",
-                        [newCategory]
-                    );
-                    if (
-                        tryToAddCategory.command === "INSERT" &&
-                        tryToAddCategory.rowCount === 1
-                    ) {
-                        res.status(200).json({ message: "Category created" });
-                    }
-                }
-            }
-        } catch (error) {
-            return res
-                .status(500)
-                .json({ message: "Ошибка Создания новой категории" });
         }
     }
 }

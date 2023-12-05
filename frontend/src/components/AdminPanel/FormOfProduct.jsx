@@ -11,10 +11,9 @@ function FormOfProduct({ setVisible, buttonName }) {
     const [isTrend, setIsTrend] = useState(false);
     const [isAdvice, setIsAdvice] = useState(false);
     const [img, setImg] = useState("");
-    const [category, setCategory] = useState("");
     const categories = useSelector(selectCategories);
+    const [category, setCategory] = useState(categories[0].label);
     const dispatch = useDispatch();
-
     function handleSubmit(e) {
         e.preventDefault();
         if (category === "Выберите категорию") {

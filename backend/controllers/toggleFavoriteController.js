@@ -54,7 +54,7 @@ class toggleFavoriteController {
             }
             return res
                 .status(200)
-                .json({ message: "deleteFromFavorites path is work" });
+                .json({ message: "Товар удален из избранного" });
         } catch (error) {
             return res
                 .status(500)

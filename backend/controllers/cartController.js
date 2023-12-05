@@ -6,6 +6,9 @@ class CartController {
         try {
             const productId = parseInt(req.body.params.productId);
             const userId = req.user.id;
+            if (!userId || !productId) {
+                throw new Error("Некоректные данные");
+            }
             const candidat = await pool.query(
                 "SELECT EXISTS(SELECT * FROM carts_users WHERE users_id = $1 and product_id = $2) AS result;",
                 [userId, productId]
@@ -33,6 +36,9 @@ class CartController {
         try {
             const orderId = parseInt(req.body.params.orderId);
             const userId = req.user.id;
+            if (!userId || !orderId) {
+                throw new Error("Некоректные данные");
+            }
             const haveThisProductsInCart = await pool.query(
                 "SELECT 1 as yes FROM orders_products AS op join carts_users as c on op.product_id = c.product_id where c.users_id = $1 and op.order_id = $2",
                 [userId, orderId]
@@ -69,6 +75,9 @@ class CartController {
     }
     async getCartData(req, res) {
         const userId = req.user.id;
+        if (!userId) {
+            throw new Error("Некоректные данные");
+        }
         try {
             const userCart = await pool.query(
                 "SELECT P.ID,P.TITLE,P.DESCRIPTION,P.PRICE,P.AVAILABLE,P.IMG,C.COUNT FROM PRODUCT AS P JOIN CARTS_USERS AS C ON P.ID = C.PRODUCT_ID WHERE C.USERS_ID = $1 ORDER BY P.TITLE",
@@ -102,6 +111,9 @@ class CartController {
         const userId = req.user.id;
         const productId = req.body.params.id;
         const count = req.body.params.newCount;
+        if (!userId || !productId || !count) {
+            throw new Error("Некоректные данные");
+        }
         try {
             const setCountOfItem = await pool.query(
                 "UPDATE carts_users SET count = $1 WHERE users_id = $2 AND product_id = $3",
@@ -120,6 +132,9 @@ class CartController {
     async deleteCartItem(req, res) {
         const userId = req.user.id;
         const productId = parseInt(req.query.productId);
+        if (!userId || !productId) {
+            throw new Error("Некоректные данные");
+        }
         try {
             const deleteProduct = await pool.query(
                 "DELETE FROM CARTS_USERS WHERE USERS_ID = $1 AND PRODUCT_ID = $2",

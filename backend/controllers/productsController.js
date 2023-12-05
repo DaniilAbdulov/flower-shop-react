@@ -1,24 +1,9 @@
 import pool from "../db.js";
 import { transformPrice } from "../functions/transformPrice.js";
+import { parseUserId } from "../functions/parseUserId.js";
 
-function parseUserId(userId) {
-    let fetchFromThisId = 0;
-    try {
-        fetchFromThisId = parseInt(userId);
-    } catch (error) {
-        fetchFromThisId = null;
-    }
-    return fetchFromThisId;
-}
 class ProductsController {
     async getAllProducts(req, res) {
-        // let fetchFromThisId = parseUserId(req.query.userId);
-        // let fetchFromThisId = 0;
-        // try {
-        //     fetchFromThisId = parseInt(req.query.userId);
-        // } catch (error) {
-        //     fetchFromThisId = null;
-        // }
         const fetchFromThisId = parseUserId(req.query.userId);
         try {
             let allProducts = {};
@@ -60,12 +45,6 @@ class ProductsController {
         }
     }
     async getAdvicedProducts(req, res) {
-        // let fetchFromThisId = 0;
-        // try {
-        //     fetchFromThisId = parseInt(req.query.userId);
-        // } catch (error) {
-        //     fetchFromThisId = null;
-        // }
         const fetchFromThisId = parseUserId(req.query.userId);
         try {
             let advicedProducts = [];
@@ -126,12 +105,6 @@ class ProductsController {
     }
     async getSingleProduct(req, res) {
         const productId = req.query.productId;
-        // let fetchFromThisId = 0;
-        // try {
-        //     fetchFromThisId = parseInt(req.query.userId);
-        // } catch (error) {
-        //     fetchFromThisId = null;
-        // }
         const fetchFromThisId = parseUserId(req.query.userId);
         let singleProduct = {};
         try {

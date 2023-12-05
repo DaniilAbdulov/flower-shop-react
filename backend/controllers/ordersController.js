@@ -73,7 +73,6 @@ class OrdersController {
         const userId = req.user.id;
         const time = new Date();
         const orders = req.body.params.orders;
-
         let newOrderId = 0;
         try {
             const createOrder = await pool.query(
