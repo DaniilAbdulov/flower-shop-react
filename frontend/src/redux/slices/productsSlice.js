@@ -9,7 +9,7 @@ const initialState = {
     isAdvice: [],
     isFavorite: [],
     categories: [],
-    fetchFromThisId: null,
+    fetchFromThisId: 0,
     allProductsLength: 0,
     advicedLoading: false,
     favoriteLoading: false,

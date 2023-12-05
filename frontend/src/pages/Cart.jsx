@@ -8,7 +8,6 @@ import Loader from "../components/UI/Loader";
 import UnAuth from "../components/UI/UnAuth";
 import {
     fetchAdvicedProducts,
-    // selectFetchFromThisId,
     selectIsAdvice,
 } from "../redux/slices/productsSlice";
 import { useEffect } from "react";
@@ -17,7 +16,6 @@ import { getCartData, selectCartLoading } from "../redux/slices/cartSlice";
 function Cart() {
     const isAuth = useSelector(selectIsAuth);
     const advicedProducts = useSelector(selectIsAdvice);
-    // const fethingId = useSelector(selectFetchFromThisId);
     const userId = useSelector(selectUserId);
     const fetchCartData = useSelector(selectCartLoading);
 

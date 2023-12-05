@@ -15,7 +15,6 @@ interface AdvicedProduct {
 class ProductsController {
     async getAllProducts(req: Request, res: Response) {
         const fetchFromThisId = parseUserId(req.query.userId);
-        console.log(fetchFromThisId);
         try {
             let allProducts: any = {};
             if (fetchFromThisId) {
@@ -47,7 +46,6 @@ class ProductsController {
                         .status(200)
                         .json({ data, fetchFromThisId, categories });
                 }, 1000);
-                // return res.status(200).json({ data, fetchFromThisId });
             }
         } catch (error) {
             return res
@@ -79,7 +77,6 @@ class ProductsController {
                 setTimeout(() => {
                     return res.status(200).json({ data, fetchFromThisId });
                 }, 1000);
-                // return res.status(200).json({ data, fetchFromThisId });
             }
         } catch (error) {
             return res
@@ -107,7 +104,6 @@ class ProductsController {
                 setTimeout(() => {
                     return res.status(200).json({ data });
                 }, 1000);
-                // return res.status(200).json({ data });
             }
         } catch (error) {
             return res.status(500).json({
@@ -142,7 +138,6 @@ class ProductsController {
                 setTimeout(() => {
                     return res.status(200).json({ data, fetchFromThisId });
                 }, 1000);
-                // return res.status(200).json({ data, fetchFromThisId });
             }
         } catch (error) {
             return res.status(500).json({

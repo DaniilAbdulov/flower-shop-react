@@ -5,7 +5,7 @@ import { API_URL } from "../../config";
 import { setSuccess } from "./successSlice";
 const initialState = {
     user: {},
-    userId: null,
+    userId: 0,
     isLoading: false,
     isAdmin: false,
     isUser: false,
