@@ -15,6 +15,7 @@ interface AdvicedProduct {
 class ProductsController {
     async getAllProducts(req: Request, res: Response) {
         const fetchFromThisId = parseUserId(req.query.userId);
+        console.log(fetchFromThisId);
         try {
             let allProducts: any = {};
             if (fetchFromThisId) {
