@@ -1,6 +1,9 @@
 import { pool } from "../db";
-
-export const returnProductsInDB = async (arr: any) => {
+interface ProductToReturn {
+    product_id: number;
+    count: number;
+}
+export const returnProductsInDB = async (arr: ProductToReturn[]) => {
     for (const order of arr) {
         await pool.query(
             "UPDATE product SET available = available + $1 WHERE id = $2",

@@ -21,7 +21,7 @@ class AdminPanelController {
         try {
             //Получаем id категории
             const getCategories = await pool.query("SELECT * FROM CATEGORY");
-            const categoryId = getCategoryId(getCategories, category, res);
+            const categoryId = getCategoryId(getCategories.rows, category, res);
             //добавляем новый товар в таблицу
             const addInProductTable = await pool.query(
                 "INSERT INTO PRODUCT (title,description,price,available,img,category_id) values($1,$2,$3,$4,$5,$6)",
@@ -152,7 +152,11 @@ class AdminPanelController {
                 const getCategories = await pool.query(
                     "SELECT * FROM CATEGORY"
                 );
-                const category_id = getCategoryId(getCategories, category, res);
+                const category_id = getCategoryId(
+                    getCategories.rows,
+                    category,
+                    res
+                );
                 const oldProduct = await pool.query(
                     "SELECT * FROM PRODUCT WHERE ID = $1",
                     [id]
