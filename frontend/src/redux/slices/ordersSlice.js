@@ -176,7 +176,7 @@ const ordersSlice = createSlice({
                 return initialState;
             }
             const typeOfFetchingData = action.type.split("/")[1];
-            console.log(typeOfFetchingData);
+            // console.log(typeOfFetchingData);
             switch (typeOfFetchingData) {
                 case "getOrders":
                     state.orders = action.payload.data;

@@ -172,7 +172,7 @@ const adminPanelSlice = createSlice({
                 return initialState;
             }
             const typeOfFetchingData = action.type.split("/")[1];
-            console.log(typeOfFetchingData);
+            // console.log(typeOfFetchingData);
             switch (typeOfFetchingData) {
                 case "createProduct":
                     state.createProductLoading = false;

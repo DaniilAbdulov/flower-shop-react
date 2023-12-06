@@ -56,7 +56,7 @@ const toggleFavoriteSlice = createSlice({
                 return initialState;
             }
             const typeOfFetchingData = action.type.split("/")[1];
-            console.log(typeOfFetchingData);
+            // console.log(typeOfFetchingData);
             switch (typeOfFetchingData) {
                 case "addToFavorites":
                     break;

@@ -16,7 +16,7 @@ function DeleteCategory({ setVisible }) {
         }
     }
     return (
-        <>
+        <form style={{ marginTop: "20px" }}>
             <select
                 name="category"
                 id="category"
@@ -30,7 +30,7 @@ function DeleteCategory({ setVisible }) {
                 ))}
             </select>
             <button onClick={handlerSubmit}>Удалить</button>
-        </>
+        </form>
     );
 }
 export default DeleteCategory;

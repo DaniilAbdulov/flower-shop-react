@@ -105,7 +105,7 @@ const productsSlice = createSlice({
                 return initialState;
             }
             const typeOfFetchingData = action.type.split("/")[1];
-            console.log(typeOfFetchingData);
+            // console.log(typeOfFetchingData);
             switch (typeOfFetchingData) {
                 case "getAllProducts":
                     state.allProducts = action.payload.data;
