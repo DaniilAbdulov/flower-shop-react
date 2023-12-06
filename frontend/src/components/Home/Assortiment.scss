@@ -9,6 +9,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-wrap: wrap;
         gap: 10px;
         background-color: #050726;
         border-radius: 15px;
@@ -49,8 +50,6 @@
         &__btn {
             font-size: 14px;
             padding: 5px 10px;
-        }
-        &__cards {
         }
     }
 }
