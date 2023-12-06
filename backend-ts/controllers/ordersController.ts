@@ -16,10 +16,7 @@ class OrdersController {
             if (orders.rows) {
                 data = transformData(orders.rows);
             }
-            setTimeout(() => {
-                return res.status(200).json({ data });
-            }, 1000);
-            // return res.status(200).json({ data, cartTotal });
+            return res.status(200).json({ data });
         } catch (error) {
             const message = error.message;
             return res.status(500).json({
@@ -41,10 +38,7 @@ class OrdersController {
             if (order.rows) {
                 data = transformData(order.rows);
             }
-            setTimeout(() => {
-                return res.status(200).json({ data });
-            }, 1000);
-            // return res.status(200).json({ data, cartTotal });
+            return res.status(200).json({ data });
         } catch (error) {
             const message = error.message;
             return res.status(500).json({
@@ -104,12 +98,9 @@ class OrdersController {
                     [userId]
                 );
             }
-            setTimeout(() => {
-                return res
-                    .status(200)
-                    .json({ newOrderId, message: "order created" });
-            }, 1000);
-            // return res.status(200).json({ message: "order created" });
+            return res
+                .status(200)
+                .json({ newOrderId, message: "order created" });
         } catch (error) {
             const message = error.message;
             if (message.includes("available")) {

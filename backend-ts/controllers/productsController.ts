@@ -41,9 +41,7 @@ class ProductsController {
                 categories = fetchCategories.rows;
             }
             if (data && categories.length) {
-                setTimeout(() => {
-                    return res.status(200).json({ data, categories });
-                }, 1000);
+                return res.status(200).json({ data, categories });
             }
         } catch (error) {
             return res
@@ -72,9 +70,7 @@ class ProductsController {
                 };
             });
             if (data) {
-                setTimeout(() => {
-                    return res.status(200).json({ data });
-                }, 1000);
+                return res.status(200).json({ data });
             }
         } catch (error) {
             return res
@@ -99,9 +95,7 @@ class ProductsController {
                         price: transformPrice(item.price),
                     };
                 });
-                setTimeout(() => {
-                    return res.status(200).json({ data });
-                }, 1000);
+                return res.status(200).json({ data });
             }
         } catch (error) {
             return res.status(500).json({
@@ -133,9 +127,7 @@ class ProductsController {
                 };
             });
             if (data) {
-                setTimeout(() => {
-                    return res.status(200).json({ data });
-                }, 1000);
+                return res.status(200).json({ data });
             }
         } catch (error) {
             return res.status(500).json({

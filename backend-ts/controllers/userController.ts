@@ -57,10 +57,7 @@ class UserController {
                 const token: string = generateJwt(user.id, email, "USER");
                 user.created_at = formatDate(user.created_at);
                 user.updated_at = formatDate(user.updated_at);
-                setTimeout(() => {
-                    return res.json({ token, user });
-                }, 1000);
-                // return res.json({ token, user });
+                return res.json({ token, user });
             }
         } catch (error) {
             return res.status(500).json({ message: "Internal Server Error" });
@@ -69,34 +66,35 @@ class UserController {
     async login(req: Request, res: Response) {
         try {
             const { nickName, password } = req.body;
+            if (typeof nickName !== "string" && typeof password !== "string") {
+                throw new Error("Некорректные никнейм и пароль");
+            }
             const findUser = await pool.query(
                 "SELECT * FROM users WHERE nickname = $1",
                 [nickName]
             );
-            if (!findUser.rowCount) {
+            if (findUser.rowCount === 0) {
                 res.status(404).json({ message: "Нет такого пользователя" });
                 return;
             }
             const user = findUser.rows[0];
             user.created_at = formatDate(user.created_at);
             user.updated_at = formatDate(user.updated_at);
-            let comparePassword = bcrypt.compareSync(password, user.password);
-            if (!comparePassword) {
+            if (!bcrypt.compareSync(password, user.password)) {
                 res.status(404).json({ message: "Неверный пароль" });
                 return;
             }
             const token: string = generateJwt(user.id, user.email, user.role);
-            setTimeout(() => {
-                return res.json({ token, user });
-            }, 1000);
+            return res.json({ token, user });
         } catch (error) {
             res.status(500).json({ message: "Внутренняя ошибка сервера" });
             return;
         }
     }
     async check(req: Request, res: Response) {
+        const userId = req.userId;
         const findUser = await pool.query("SELECT * FROM users WHERE id = $1", [
-            req.userId,
+            userId,
         ]);
         if (!findUser.rowCount) {
             return res.status(404).json({ message: "Проблема с токеном" });
@@ -105,9 +103,7 @@ class UserController {
         user.created_at = formatDate(user.created_at);
         user.updated_at = formatDate(user.updated_at);
         const token: string = generateJwt(user.id, user.email, user.role);
-        setTimeout(() => {
-            return res.json({ token, user });
-        }, 1000);
+        return res.json({ token, user });
     }
 }
 

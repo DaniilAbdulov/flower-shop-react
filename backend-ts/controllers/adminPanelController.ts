@@ -72,10 +72,7 @@ class AdminPanelController {
             if (deleteProduct.command !== "DELETE") {
                 throw new Error("Not deleted");
             }
-            setTimeout(() => {
-                res.status(200).json({ message: "Deleted success" });
-            }, 1000);
-            // res.status(200).json({ message: "Deleted success" });
+            res.status(200).json({ message: "Deleted success" });
         } catch (error) {
             return res.status(500).json({ message: "Ошибка удаления товара" });
         }
@@ -234,9 +231,7 @@ class AdminPanelController {
                         );
                     }
                 }
-                setTimeout(() => {
-                    res.status(200).json({ message: "Changes success" });
-                }, 1000);
+                res.status(200).json({ message: "Changes success" });
             }
         } catch (error) {
             return res.status(500).json({ message: "Ошибка изменения товара" });
@@ -250,10 +245,7 @@ class AdminPanelController {
             const data = getStatic.rows[0];
             if (data) {
                 data.total = transformPrice(data.total);
-                setTimeout(() => {
-                    res.status(200).json({ data });
-                }, 1000);
-                // res.status(200).json({ data });
+                res.status(200).json({ data });
             } else {
                 throw new Error("Ошибка в запросе к БД");
             }
@@ -272,9 +264,7 @@ class AdminPanelController {
                 throw new Error("Ошибка получения оплаченных заказов");
             }
             const data = transformData(paidOrders.rows);
-            setTimeout(() => {
-                return res.status(200).json({ data });
-            }, 1000);
+            return res.status(200).json({ data });
         } catch (error) {
             return res
                 .status(500)

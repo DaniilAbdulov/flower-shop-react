@@ -93,12 +93,8 @@ class CartController {
                 };
             });
             const cartTotal = userCartTotal.rows;
-
             cartTotal[0].sum = transformPrice(cartTotal[0].sum);
-            setTimeout(() => {
-                return res.status(200).json({ data, cartTotal });
-            }, 1000);
-            // return res.status(200).json({ data, cartTotal });
+            return res.status(200).json({ data, cartTotal });
         } catch (error) {
             const message = error.message;
             return res.status(500).json({
