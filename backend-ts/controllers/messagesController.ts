@@ -21,11 +21,9 @@ class MessagesController {
                     tryToCreateMessage.command === "INSERT" &&
                     tryToCreateMessage.rowCount === 1
                 ) {
-                    setTimeout(() => {
-                        return res
-                            .status(200)
-                            .json({ message: "Сообщение отправлено" });
-                    }, 2000);
+                    return res
+                        .status(200)
+                        .json({ message: "Сообщение отправлено" });
                 } else {
                     throw new Error("Ошибка отправки сообщения");
                 }
@@ -47,9 +45,7 @@ class MessagesController {
                 for (let i = 0; i < data.length; i++) {
                     data[i].date_time = formatDate(data[i].date_time);
                 }
-                setTimeout(() => {
-                    return res.status(200).json({ data });
-                }, 2000);
+                return res.status(200).json({ data });
             } else {
                 throw new Error("Ошибка получения сообщений");
             }

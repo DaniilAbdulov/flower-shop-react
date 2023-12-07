@@ -1,5 +1,4 @@
 export function formatDate(d: string): string {
-    console.log(d);
     const date = new Date(d);
     const result = date.toLocaleDateString("ru-RU", {
         year: "numeric",
