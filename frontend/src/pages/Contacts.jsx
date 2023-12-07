@@ -1,3 +1,4 @@
+import { useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import {
@@ -8,11 +9,13 @@ import {
     faViber,
 } from "@fortawesome/free-brands-svg-icons";
 import "./Contact.scss";
+import { createMessage } from "../redux/slices/messagesSlice";
 
 function Contacts() {
     const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
+    const [phone, setPhone] = useState(0);
     const [message, setMessage] = useState("");
+    const dispatch = useDispatch();
     function handleSubmitMessage(e) {
         e.preventDefault();
         const newMessage = {
@@ -20,6 +23,8 @@ function Contacts() {
             phone,
             message,
         };
+
+        dispatch(createMessage(newMessage));
         setName("");
         setPhone("");
         setMessage("");
@@ -122,11 +127,11 @@ function Contacts() {
                                         Номер телефона:
                                     </label>
                                     <input
-                                        type="phone"
+                                        type="tel"
                                         id="phone"
-                                        value={phone}
+                                        value={phone ? phone : ""}
                                         onChange={(e) =>
-                                            setPhone(e.target.value)
+                                            setPhone(parseInt(e.target.value))
                                         }
                                         required
                                     />

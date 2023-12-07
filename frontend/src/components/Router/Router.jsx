@@ -12,6 +12,7 @@ import Order from "../../pages/Order";
 import { useSelector } from "react-redux";
 import { selectIsAdmin, selectIsAuth } from "../../redux/slices/userSlice";
 import Page404 from "../UI/Page404";
+import Messages from "../../pages/Messages";
 function Router() {
     const isAdmin = useSelector(selectIsAdmin);
     const isAuth = useSelector(selectIsAuth);
@@ -34,6 +35,7 @@ function Router() {
                     <>
                         <Route path="payment" element={<Payment />} />
                         <Route path="orders/:id" element={<Order />} />
+                        <Route path="messages" element={<Messages />} />
                     </>
                 )}
                 <Route path="*" element={<Page404 />} />

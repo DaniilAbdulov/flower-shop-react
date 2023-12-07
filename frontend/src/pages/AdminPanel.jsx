@@ -19,6 +19,7 @@ import { faBagShopping } from "@fortawesome/free-solid-svg-icons";
 import UserOrders from "../components/Cabinet/UserOrders";
 import PaidOrdersList from "../components/AdminPanel/PaidOrdersList";
 import DeleteCategory from "../components/AdminPanel/DeleteCategory";
+import { NavLink } from "react-router-dom";
 
 function AdminPanel() {
     const [showOrders, setShowOrders] = useState(false);
@@ -59,6 +60,11 @@ function AdminPanel() {
                     </button>
                     <button onClick={() => setShowStatistic(true)}>
                         Посмотреть статистику
+                    </button>
+                    <button>
+                        <NavLink to="/messages" style={{ color: "black" }}>
+                            Сообщения пользователей
+                        </NavLink>
                     </button>
                 </div>
                 <div
